@@ -809,8 +809,9 @@ void CKSJDemoVCDlg::DrawSystemTime(HDC  hDC, int nWidth, int nHeight)
 	HFONT hf;
 	hf = CreateFont(nHeight/20, 0, 0, 0, FW_BLACK, FALSE, FALSE, FALSE,
 		GB2312_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FIXED_PITCH | FF_MODERN, "ËÎÌו");
-	::SelectObject(hDC, hf);
+	HFONT hfOld = (HFONT)::SelectObject(hDC, hf);
 	TextOut(hDC, nWidth / 20, nHeight / 14, strTime, strTime.GetLength());
+	::SelectObject(hDC, hfOld);
 	::DeleteObject(hf);
 }
 
