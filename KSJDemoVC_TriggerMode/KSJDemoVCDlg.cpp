@@ -74,6 +74,8 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_RESET_DEVICE, &CKSJDemoVCDlg::OnBnClickedButtonResetDevice)
 	ON_BN_CLICKED(IDC_BUTTON_SEND_PKT_END, &CKSJDemoVCDlg::OnBnClickedButtonSendPktEnd)
 	ON_BN_CLICKED(IDC_BUTTON_RECONNECT, &CKSJDemoVCDlg::OnBnClickedButtonReconnect)
+	ON_BN_CLICKED(IDC_CHECK_INVERT, &CKSJDemoVCDlg::OnBnClickedCheckInvert)
+	ON_BN_CLICKED(IDC_CHECK_FLASH_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckFlashEnable)
 END_MESSAGE_MAP()
 
 void CKSJDemoVCDlg::OnPaint()
@@ -217,6 +219,7 @@ BOOL CKSJDemoVCDlg::OnInitDialog()
 	UpdateInterface();
 	UpdateInterfaceTriggerMode();
 	UpdateInterfaceFunction();
+	UpdateInterfaceFlash();
 
 	m_bInitial = TRUE;
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -932,7 +935,6 @@ void CKSJDemoVCDlg::OnBnClickedButtonEmptyFrameBuffer()
 	ShowErrorInfo(nRet);
 }
 
-
 void CKSJDemoVCDlg::OnCbnSelchangeComboTimeout()
 {
 	if (m_nDeviceCurSel == -1)    return;
@@ -945,7 +947,6 @@ void CKSJDemoVCDlg::OnCbnSelchangeComboTimeout()
 
 }
 
-
 void CKSJDemoVCDlg::OnBnClickedCheckRecover()
 {
 	if (m_nDeviceCurSel == -1)    return;
@@ -955,14 +956,12 @@ void CKSJDemoVCDlg::OnBnClickedCheckRecover()
 	KSJ_CaptureSetRecover(m_nDeviceCurSel, bRecover == BST_CHECKED ? TRUE : FALSE);
 }
 
-
 void CKSJDemoVCDlg::OnBnClickedButtonResetDevice()
 {
 	if (m_nDeviceCurSel == -1)    return;
 	int nRet = KSJ_ResetDevice(m_nDeviceCurSel);
 	ShowErrorInfo(nRet);
 }
-
 
 void CKSJDemoVCDlg::OnBnClickedButtonSendPktEnd()
 {
@@ -971,10 +970,41 @@ void CKSJDemoVCDlg::OnBnClickedButtonSendPktEnd()
 	ShowErrorInfo(nRet);
 }
 
-
 void CKSJDemoVCDlg::OnBnClickedButtonReconnect()
 {
 	if (m_nDeviceCurSel == -1)    return;
 	int nRet = KSJ_ReconnectDevice(m_nDeviceCurSel);
+	ShowErrorInfo(nRet);
+}
+
+void CKSJDemoVCDlg::UpdateInterfaceFlash()
+{
+	if (m_nDeviceCurSel == -1)    return;
+	bool bEnable;
+	bool bInvert;
+	int nMode;
+	KSJ_FlashControlGet(m_nDeviceCurSel, &bEnable, &bInvert, &nMode);
+
+	((CButton*)GetDlgItem(IDC_CHECK_FLASH_ENABLE))->SetCheck(bEnable);
+	((CButton*)GetDlgItem(IDC_CHECK_INVERT))->SetCheck(bInvert);
+}
+
+void CKSJDemoVCDlg::OnBnClickedCheckInvert()
+{
+	SetFlash();
+}
+
+
+void CKSJDemoVCDlg::OnBnClickedCheckFlashEnable()
+{
+	SetFlash();
+}
+
+void CKSJDemoVCDlg::SetFlash()
+{
+	BOOL bEnable = ((CButton*)GetDlgItem(IDC_CHECK_FLASH_ENABLE))->GetCheck();
+	BOOL bInvert = ((CButton*)GetDlgItem(IDC_CHECK_INVERT))->GetCheck();
+
+	int nRet = KSJ_FlashControlSet(m_nDeviceCurSel, bEnable == BST_CHECKED ? TRUE : FALSE, bInvert == BST_CHECKED ? TRUE : FALSE, 0);
 	ShowErrorInfo(nRet);
 }

@@ -111,4 +111,9 @@ public:
 	afx_msg void OnBnClickedButtonResetDevice();
 	afx_msg void OnBnClickedButtonSendPktEnd();
 	afx_msg void OnBnClickedButtonReconnect();
+	afx_msg void OnBnClickedCheckInvert();
+	afx_msg void OnBnClickedCheckFlashEnable();
+
+	void UpdateInterfaceFlash();
+	void SetFlash();
 };
