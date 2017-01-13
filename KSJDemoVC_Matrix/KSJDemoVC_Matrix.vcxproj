@@ -77,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
+    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|x64'">
@@ -87,7 +87,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
+    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|x64'">
     <LinkIncremental>false</LinkIncremental>
