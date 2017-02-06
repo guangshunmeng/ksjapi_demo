@@ -342,6 +342,7 @@ void CKSJDemoVCDlg::OnCbnSelchangeComboDeviceList()
 	m_nDeviceCurSel = pComboBox->GetCurSel();
 
 	UpdateInterface();
+	UpdateInterfaceFlash();
 	UpdateInterfaceTriggerMode();
 	UpdateInterfaceFunction();
 }
