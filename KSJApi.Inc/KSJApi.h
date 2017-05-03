@@ -27,6 +27,7 @@
 #include "KSJApiImage.H"
 #include "KSJApiCustom.h"
 #include "KSJApiAwaiba.h"
+#include "KSJApiUserZone.H"
 
 
 #include "KSJObsolete.h"

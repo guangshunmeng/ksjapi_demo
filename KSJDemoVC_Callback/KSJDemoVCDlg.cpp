@@ -728,7 +728,7 @@ VOID WINAPI PREVIEWCALLBACK(unsigned char *pImageData, int nWidth, int nHeight, 
 
 void CKSJDemoVCDlg::PreviewCallback(unsigned char *pImageData, int nWidth, int nHeight, int nBitCount)
 {
-	DrawCrossLine(1275,1023, 10, pImageData, nWidth, nHeight, nBitCount);
+	DrawCrossLine( 1275, 1023, 10, pImageData, nWidth, nHeight, nBitCount);
 }
 
 void CKSJDemoVCDlg::PreviewCallbackEx(HDC  hDC, int nWidth, int nHeight, int nBitCount)
