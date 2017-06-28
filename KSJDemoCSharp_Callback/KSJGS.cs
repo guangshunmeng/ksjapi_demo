@@ -120,6 +120,20 @@ namespace KSJ_GS
 	        ("Jelly3 MU3S231C(SGYYO)"),
 	        ("Jelly3 MU3S231M(SGYYO)"),
 
+            ("Jelly3 MU3S500C(SGYYO)"),
+	        ("Jelly3 MU3S500M(SGYYO)"),
+
+	        ("Jelly3 MU3S1200C(SRYYO)"),
+	        ("Jelly3 MU3S1200M(SRYYO)"),
+
+	        ("Jelly4 MU3L2K7C(AGYYO)"),
+	        ("Jelly4 MU3L2K7M(AGYYO)"),
+	        ("Jelly4 MU3L4K3C(AGYYO)"),
+	        ("Jelly4 MU3L4K3M(AGYYO)"),
+
+	        ("MU3HS2000C(SRYYO)"),
+	        ("MU3HS2000M(SRYYO)"),
+
 	        ("UNKOWN TYPE"),
 	        ("UNKOWN TYPE"),
 	        ("UNKOWN TYPE"),
