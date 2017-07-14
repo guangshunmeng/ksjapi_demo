@@ -108,9 +108,6 @@ public:
 	afx_msg void OnBnClickedButtonEmptyFrameBuffer();
 	afx_msg void OnCbnSelchangeComboTimeout();
 	afx_msg void OnBnClickedCheckRecover();
-	afx_msg void OnBnClickedButtonResetDevice();
-	afx_msg void OnBnClickedButtonSendPktEnd();
-	afx_msg void OnBnClickedButtonReconnect();
 	afx_msg void OnBnClickedCheckInvert();
 	afx_msg void OnBnClickedCheckFlashEnable();
 

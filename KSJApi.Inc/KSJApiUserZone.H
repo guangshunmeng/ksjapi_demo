@@ -28,6 +28,9 @@ KSJ_API  int __stdcall KSJ_RdEEPROM( int nChannel, unsigned short uRomAdress, un
 KSJ_API  int __stdcall KSJ_WrEEPROMEx( int nChannel, unsigned long ulRomAdress, unsigned char btValue   );
 KSJ_API  int __stdcall KSJ_RdEEPROMEx( int nChannel, unsigned long ulRomAdress, unsigned char *pbtValue );
 
+KSJ_API  int __stdcall KSJ_WrEEPROMExEx(int nChannel, unsigned long ulRomAdress, unsigned char *pData, int nBytes);
+KSJ_API  int __stdcall KSJ_RdEEPROMExEx(int nChannel, unsigned long ulRomAdress, int nBytes, unsigned char *pData);
+
 
 #ifdef __cplusplus
 }

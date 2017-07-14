@@ -48,8 +48,6 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_WrSensorRegX(int nChannel, unsigned short wRegAdress, unsigned short wValue);
 	KSJ_API  int __stdcall KSJ_RdSensorRegX(int nChannel, unsigned short wRegAdress, unsigned short *pwValue);
 	KSJ_API  int __stdcall KSJ_FrameRestart(int nChannel); 	// 当曝光改变后无法立刻生效时，需调用此函数。
-	KSJ_API  int __stdcall KSJ_RdEEPROMExEx(int nChannel, unsigned long ulRomAdress, int nBytes, unsigned char *pData);
-	KSJ_API  int __stdcall KSJ_WrEEPROMExEx(int nChannel, unsigned long ulRomAdress, unsigned char *pData, int nBytes);
 	KSJ_API  int __stdcall KSJ_WrFpgaReg(int nChannel, unsigned char btRegAdress, unsigned short wValue);
 	KSJ_API  int __stdcall KSJ_RdFpgaReg(int nChannel, unsigned char btRegAdress, unsigned short *pwValue);
 	KSJ_API  int __stdcall KSJ_ResetFpga(int nChannel, bool bReset);

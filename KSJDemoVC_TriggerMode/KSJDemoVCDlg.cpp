@@ -71,9 +71,6 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_EMPTY_FRAME_BUFFER, &CKSJDemoVCDlg::OnBnClickedButtonEmptyFrameBuffer)
 	ON_CBN_SELCHANGE(IDC_COMBO_TIMEOUT, &CKSJDemoVCDlg::OnCbnSelchangeComboTimeout)
 	ON_BN_CLICKED(IDC_CHECK_RECOVER, &CKSJDemoVCDlg::OnBnClickedCheckRecover)
-	ON_BN_CLICKED(IDC_BUTTON_RESET_DEVICE, &CKSJDemoVCDlg::OnBnClickedButtonResetDevice)
-	ON_BN_CLICKED(IDC_BUTTON_SEND_PKT_END, &CKSJDemoVCDlg::OnBnClickedButtonSendPktEnd)
-	ON_BN_CLICKED(IDC_BUTTON_RECONNECT, &CKSJDemoVCDlg::OnBnClickedButtonReconnect)
 	ON_BN_CLICKED(IDC_CHECK_INVERT, &CKSJDemoVCDlg::OnBnClickedCheckInvert)
 	ON_BN_CLICKED(IDC_CHECK_FLASH_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckFlashEnable)
 END_MESSAGE_MAP()
@@ -342,7 +339,6 @@ void CKSJDemoVCDlg::OnCbnSelchangeComboDeviceList()
 	m_nDeviceCurSel = pComboBox->GetCurSel();
 
 	UpdateInterface();
-	UpdateInterfaceFlash();
 	UpdateInterfaceTriggerMode();
 	UpdateInterfaceFunction();
 }
@@ -957,27 +953,6 @@ void CKSJDemoVCDlg::OnBnClickedCheckRecover()
 	KSJ_CaptureSetRecover(m_nDeviceCurSel, bRecover == BST_CHECKED ? TRUE : FALSE);
 }
 
-void CKSJDemoVCDlg::OnBnClickedButtonResetDevice()
-{
-	if (m_nDeviceCurSel == -1)    return;
-	int nRet = KSJ_ResetDevice(m_nDeviceCurSel);
-	ShowErrorInfo(nRet);
-}
-
-void CKSJDemoVCDlg::OnBnClickedButtonSendPktEnd()
-{
-	if (m_nDeviceCurSel == -1)    return;
-	int nRet = KSJ_SendPktEnd(m_nDeviceCurSel);
-	ShowErrorInfo(nRet);
-}
-
-void CKSJDemoVCDlg::OnBnClickedButtonReconnect()
-{
-	if (m_nDeviceCurSel == -1)    return;
-	int nRet = KSJ_ReconnectDevice(m_nDeviceCurSel);
-	ShowErrorInfo(nRet);
-}
-
 void CKSJDemoVCDlg::UpdateInterfaceFlash()
 {
 	if (m_nDeviceCurSel == -1)    return;
@@ -1009,3 +984,4 @@ void CKSJDemoVCDlg::SetFlash()
 	int nRet = KSJ_FlashControlSet(m_nDeviceCurSel, bEnable == BST_CHECKED ? TRUE : FALSE, bInvert == BST_CHECKED ? TRUE : FALSE, 0);
 	ShowErrorInfo(nRet);
 }
+
