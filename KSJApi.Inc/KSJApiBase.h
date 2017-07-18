@@ -70,7 +70,7 @@ extern "C"{
 		KSJ_MUC130C_MRYY,    // Not Support
 		KSJ_MUC130M_MRYY,    // Not Support
 		KSJ_MUC320C_MRYY,    // Not Support
-		KSJ_MUC500C_MRYY,    // Not Support
+		KSJ_MUC500C_MRYYO,   // Jelly2
 		KSJ_MUC500M_MRYYO,   // Jelly2
 		KSJ_MUC900C_MRYY,    // Not Support
 		KSJ_MUC1000C_MRYY,   // Not Support
@@ -130,7 +130,16 @@ extern "C"{
 		KSJ_MU3L2K7C_AGYYO,
 		KSJ_MU3L2K7M_AGYYO,
 		KSJ_MU3L4K3C_AGYYO,    // 100
-		KSJ_MU3L4K3M_AGYYO
+		KSJ_MU3L4K3M_AGYYO,
+		KSJ_MU3HS2000C_SRYYO,
+		KSJ_MU3HS2000M_SRYYO,
+
+		KSJ_MU3HS500C_SGYYO,
+		KSJ_MU3HS500M_SGYYO,
+		KSJ_MU3HS230C_SGYYO,   // imx174 
+		KSJ_MU3HS230M_SGYYO,
+		KSJ_MU3HI400C_IGYYO, 
+		KSJ_MU3HI500M_IGYYO
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);
