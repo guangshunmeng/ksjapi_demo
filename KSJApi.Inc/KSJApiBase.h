@@ -29,7 +29,7 @@ extern "C"{
 	// Device Type
 	enum KSJ_DEVICETYPE
 	{
-		KSJ_UC130C_MRNN = 0,  // Guass2
+		KSJ_UC130C_MRNN = 0,  // 0 Guass2
 		KSJ_UC130M_MRNN,      // Guass2
 		KSJ_RESERVED0,
 		KSJ_UC320C_MRNN,      // Guass2
@@ -39,7 +39,7 @@ extern "C"{
 		KSJ_UC320C_MRYN,
 		KSJ_UC500C_MRNN,
 		KSJ_UC500M_MRNN,
-		KSJ_UC500C_MRYN,
+		KSJ_UC500C_MRYN,     // 10
 		KSJ_UC500M_MRYN,
 		KSJ_UC320C_OCR,      // Not Support
 		KSJ_UC900C_MRNN,     // Not Support
@@ -49,7 +49,7 @@ extern "C"{
 		KSJ_UC130C_MRYY,     // Elanus2
 		KSJ_UC130M_MRYY,     // Elanus2 
 		KSJ_UD140C_SGNN,     // Not Support
-		KSJ_UD140M_SGNN,     // Not Support
+		KSJ_UD140M_SGNN,     // 20 Not Support
 		KSJ_UC36C_MGNN,      // Not Support
 		KSJ_UC36M_MGNN,      // Not Support
 		KSJ_UC36C_MGYN,      // Not Support
@@ -59,11 +59,11 @@ extern "C"{
 		KSJ_UC1400C_MRYY,    // Elanus2
 		KSJ_UC36C_MGYY,      // Elanus2
 		KSJ_UC36M_MGYY,      // Elanus2
-		KSJ_UC320C_MRYY,     // Elanus2
+		KSJ_UC320C_MRYY,     // 30 Elanus2
 		KSJ_UC500C_MRYY,     // Elanus2
 		KSJ_UC500M_MRYY,     // Elanus2
 		KSJ_MUC130C_MRYN,    // OEM
-		KSJ_MUC130M_MRYN,    // OEM
+		KSJ_MUC130M_MRYN,    // 34 OEM
 		KSJ_MUC320C_MRYN,    // OEM
 		KSJ_MUC36C_MGYYO,    // Jelly2
 		KSJ_MUC36M_MGYYO,    // Jelly2 
@@ -139,7 +139,9 @@ extern "C"{
 		KSJ_MU3HS230C_SGYYO,   // imx174 
 		KSJ_MU3HS230M_SGYYO,
 		KSJ_MU3HI400C_IGYYO, 
-		KSJ_MU3HI500M_IGYYO
+		KSJ_MU3HI400M_IGYYO,
+
+		KSJ_TEST_CAMERA
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);
@@ -288,6 +290,15 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_PreviewGetPausedData(int nIndex, unsigned char *pData);
 	// Get Paused Image Data when PS_PAUSE Status
 	KSJ_API  int __stdcall KSJ_PreviewGetPausedDataEx(int nIndex, unsigned char *pData, int *pnWidth, int *pnHeight, int *pnBitCount);
+
+	// Captrue and Show may Parallel
+	KSJ_API  int __stdcall KSJ_PreviewStartEx(int nIndex, bool bStart, bool bParallel );
+
+	KSJ_API  int __stdcall KSJ_PreviewGetStatusEx(int nIndex, KSJ_PREVIEWSTATUS *pPreviewStatus, bool *pbParallel);
+	// Get Capture and Show Frame rate when Preview Parallel.
+	KSJ_API  int __stdcall KSJ_PreviewGetFrameRateEx(int nIndex, float *fFrameRateCapture, float *fFrameRateShow);
+
+
 
 
 
