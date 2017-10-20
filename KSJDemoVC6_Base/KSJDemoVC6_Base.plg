@@ -1,0 +1,37 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: KSJDemoVC6_Base - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP8D14.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/KSJDemoVC6_Base.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\GITHUB\github.ksjapi_demo\KSJDemoVC6_Base\SnapStatic.cpp"
+]
+Creating command line "cl.exe @C:\Users\sl\AppData\Local\Temp\RSP8D14.tmp" 
+Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP8D15.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:no /pdb:"Release/KSJDemoVC6_Base.pdb" /machine:I386 /out:"../bin/KSJDemoVC6_Base.exe" 
+.\Release\KSJ_GS.obj
+.\Release\KSJDemoVC6_Base.obj
+.\Release\KSJDemoVC6_BaseDlg.obj
+.\Release\SnapStatic.obj
+.\Release\StdAfx.obj
+.\Release\KSJDemoVC6_Base.res
+]
+Creating command line "link.exe @C:\Users\sl\AppData\Local\Temp\RSP8D15.tmp"
+<h3>Output Window</h3>
+Compiling...
+SnapStatic.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+KSJDemoVC6_Base.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
