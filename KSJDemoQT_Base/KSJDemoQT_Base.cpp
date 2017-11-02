@@ -278,9 +278,9 @@ void KSJDemoQT_Base::UpdateInterface()
 	ui->FOV_RANGE_Label->setText(szText);
 
 	ui->PreviewColStartSpinBox->setRange(0, nColSize);
-	ui->PreviewColStartSpinBox->setValue(nColSize);
+	ui->PreviewColStartSpinBox->setValue(nColStart);
 	ui->PreviewRowStartSpinBox->setRange(0, nRowSize);
-	ui->PreviewRowStartSpinBox->setValue(nRowSize);
+	ui->PreviewRowStartSpinBox->setValue(nRowStart);
 	ui->PreviewColSizeSpinBox->setRange(0, nColSize);
 	ui->PreviewColSizeSpinBox->setValue(nColSize);
 	ui->PreviewRowSizeSpinBox->setRange(0, nRowSize);
@@ -290,9 +290,9 @@ void KSJDemoQT_Base::UpdateInterface()
 
 	KSJ_CaptureGetFieldOfViewEx(m_nDeviceCurSel, &nColStart, &nRowStart, &nColSize, &nRowSize, &ColAddressMode, &RowAddressMode, &usMultiFrame);
 	ui->CaptureColStartSpinBox->setRange(0, nColSize);
-	ui->CaptureColStartSpinBox->setValue(nColSize);
+	ui->CaptureColStartSpinBox->setValue(nColStart);
 	ui->CaptureRowStartSpinBox->setRange(0, nRowSize);
-	ui->CaptureRowStartSpinBox->setValue(nRowSize);
+	ui->CaptureRowStartSpinBox->setValue(nRowStart);
 	ui->CaptureColSizeSpinBox->setRange(0, nColSize);
 	ui->CaptureColSizeSpinBox->setValue(nColSize);
 	ui->CaptureRowSizeSpinBox->setRange(0, nRowSize);
