@@ -1,0 +1,280 @@
+2017-11-02 12-11-31-0280: KSJAPI::Api Version     = 5.3.111.76
+2017-11-02 12-11-31-0280: KSJAPI::Device Type     = Jelly3 MU3S231M(SGYYO)
+2017-11-02 12-11-31-0280: KSJAPI::Serial          = 0
+2017-11-02 12-11-31-0280: KSJAPI::FirmwareVersion = 10.1
+2017-11-02 12-11-31-0282: KSJAPI::++++Firmware Capability++++.
+2017-11-02 12-11-31-0282: KSJAPI::bmResetDevice:               1
+2017-11-02 12-11-31-0282: KSJAPI::bmSendPktEnd:                1
+2017-11-02 12-11-31-0282: KSJAPI::bmReconnect :                0
+2017-11-02 12-11-31-0282: KSJAPI::bmFastUpdate:                1
+2017-11-02 12-11-31-0282: KSJAPI::bmWorkingModeProgram:        1
+2017-11-02 12-11-31-0282: KSJAPI::bmSerialsDescProgram:        1
+2017-11-02 12-11-31-0282: KSJAPI::bmLutProgram:                1
+2017-11-02 12-11-31-0282: KSJAPI::bmGammaLutProgram:           1
+2017-11-02 12-11-31-0282: KSJAPI::bmWorkingModeExProgram:      1
+2017-11-02 12-11-31-0282: KSJAPI::bmColorModeProgram:          0
+2017-11-02 12-11-31-0282: KSJAPI::bmColorMatrixProgram:        1
+2017-11-02 12-11-31-0282: KSJAPI::bmSubCkNumInvert:            0
+2017-11-02 12-11-31-0282: KSJAPI::bmReadFpgaDead:              0
+2017-11-02 12-11-31-0282: KSJAPI::----Firmware Capability----.
+2017-11-02 12-11-31-0282: ===========================================================
+2017-11-02 12-11-31-0282: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x80(128), Value = 0xe3ff(58367)
+2017-11-02 12-11-31-0283: KSJAPI::--CMD_RdFpgaReg. ( Address = 0xf1(241), Value = 0x0803(02051)
+2017-11-02 12-11-31-0283: KSJAPI::FpgaVersion     = 8.3
+2017-11-02 12-11-31-0283: ===========================================================
+2017-11-02 12-11-31-0286: KSJAPI::++++Sensor Capability++++.
+2017-11-02 12-11-31-0286: KSJAPI::bmMono:                1
+2017-11-02 12-11-31-0286: KSJAPI::bmMirror:                    1
+2017-11-02 12-11-31-0286: KSJAPI::bmFlip:                      1
+2017-11-02 12-11-31-0286: KSJAPI::bmSkip2:                     0
+2017-11-02 12-11-31-0286: KSJAPI::bmSkip3:                     0
+2017-11-02 12-11-31-0286: KSJAPI::bmSkip4:                     0
+2017-11-02 12-11-31-0286: KSJAPI::bmSkip8:                     0
+2017-11-02 12-11-31-0286: KSJAPI::bmBinning:                   0
+2017-11-02 12-11-31-0286: KSJAPI::bmGlobalReset:               0
+2017-11-02 12-11-31-0286: KSJAPI::bmFovSizeFormat:             1
+2017-11-02 12-11-31-0286: KSJAPI::bmFovEndFormat:              0
+2017-11-02 12-11-31-0286: KSJAPI::bmEven:                      1
+2017-11-02 12-11-31-0286: KSJAPI::bmAGC:                       0
+2017-11-02 12-11-31-0286: KSJAPI::bmAEC:                       0
+2017-11-02 12-11-31-0286: KSJAPI::bmFrameRestart:              0
+2017-11-02 12-11-31-0286: KSJAPI::bmFlashEnable:               0
+2017-11-02 12-11-31-0286: KSJAPI::bmFlashInvert:               0
+2017-11-02 12-11-31-0286: KSJAPI::bmGlobalGain:                1
+2017-11-02 12-11-31-0286: KSJAPI::bmNoNeedChangeBayerWhenFlip: 0
+2017-11-02 12-11-31-0286: KSJAPI::bmNoNeedChangeBayerWhenMirror: 0
+2017-11-02 12-11-31-0286: KSJAPI::----Sensor Capability----.
+2017-11-02 12-11-31-0286: ===========================================================
+2017-11-02 12-11-31-0288: KSJAPI::++++Hardware Capability++++.
+2017-11-02 12-11-31-0288: KSJAPI::bmIo:                        0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD0_7:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD2_3:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD0_3:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPE0_3:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD2_5:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD2_7:                     0
+2017-11-02 12-11-31-0288: KSJAPI::bmPD6:                       0
+2017-11-02 12-11-31-0288: KSJAPI::bmOPT2:                      0
+2017-11-02 12-11-31-0288: KSJAPI::bmSnapIo0:                   0
+2017-11-02 12-11-31-0288: KSJAPI::bmSnapPC2:                   0
+2017-11-02 12-11-31-0288: KSJAPI::bmSnapPA1:                   0
+2017-11-02 12-11-31-0288: KSJAPI::bmHasFpga:                   1
+2017-11-02 12-11-31-0288: KSJAPI::bmHasFifo:                   0
+2017-11-02 12-11-31-0288: KSJAPI::bmHasTmp101:                 0
+2017-11-02 12-11-31-0288: KSJAPI::----Hardware Capability----.
+2017-11-02 12-11-31-0288: ===========================================================
+2017-11-02 12-11-31-0288: KSJAPI::++++Software Capability++++.
+2017-11-02 12-11-31-0288: KSJAPI::bmFixedFrameRate:            0
+2017-11-02 12-11-31-0288: KSJAPI::----Software Capability----.
+2017-11-02 12-11-31-0288: ===========================================================
+2017-11-02 12-11-31-0292: KSJAPI::++++Fpga Capability++++.
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerModeExternal:       1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerModeSoftware:       1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerModeFixedFrameRate: 1
+2017-11-02 12-11-31-0292: KSJAPI::bmLutEnable:                 1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerMethodNegedge:      1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerMethodPosedge:      1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerMethodHig:          1
+2017-11-02 12-11-31-0292: KSJAPI::bmTriggerMethodLow:          1
+2017-11-02 12-11-31-0292: KSJAPI::bmEmptyFrameBuffer:          1
+2017-11-02 12-11-31-0292: KSJAPI::bmSensitivityMode:           1
+2017-11-02 12-11-31-0292: KSJAPI::bm16BitsTransfer:            0
+2017-11-02 12-11-31-0292: KSJAPI::bmBadPixelCorrection:        1
+2017-11-02 12-11-31-0292: KSJAPI::bmLutDownload:               1
+2017-11-02 12-11-31-0292: KSJAPI::bmResolution:                12
+2017-11-02 12-11-31-0292: KSJAPI::bmAwbPresettings:            0
+2017-11-02 12-11-31-0292: KSJAPI::bmAwbPresettingsNum:         0
+2017-11-02 12-11-31-0292: KSJAPI::bmAwbAutoOnce:               0
+2017-11-02 12-11-31-0292: KSJAPI::bmAwbAutoContinuous:         0
+2017-11-02 12-11-31-0292: KSJAPI::bmCcmPresettings:            0
+2017-11-02 12-11-31-0292: KSJAPI::bmCcmPresettingsNum:         0
+2017-11-02 12-11-31-0292: KSJAPI::bmCcmAutoOnce:               0
+2017-11-02 12-11-31-0292: KSJAPI::bmCcmAutoContinuous:         0
+2017-11-02 12-11-31-0292: KSJAPI::bmGammaLutEnable:            0
+2017-11-02 12-11-31-0292: KSJAPI::bmGammaLutDownload:          0
+2017-11-02 12-11-31-0292: KSJAPI::bmSetTriggerDelay:           1
+2017-11-02 12-11-31-0292: KSJAPI::bmGetTriggerDelay:           1
+2017-11-02 12-11-31-0292: KSJAPI::bmStrobeDelay:               0
+2017-11-02 12-11-31-0292: KSJAPI::bmGetWorkingMode:            1
+2017-11-02 12-11-31-0293: KSJAPI::bmSetMultiFramesNum:               1
+2017-11-02 12-11-31-0293: KSJAPI::bmGetMultiFramesNum:         1
+2017-11-02 12-11-31-0293: KSJAPI::bmSetColorMode:              0
+2017-11-02 12-11-31-0293: KSJAPI::bmGetColorMode:              0
+2017-11-02 12-11-31-0293: KSJAPI::bmSetAwbMatrix:                 0
+2017-11-02 12-11-31-0293: KSJAPI::bmGetAwbMatrix:              0
+2017-11-02 12-11-31-0293: KSJAPI::bmSetCcmMatrix:                 0
+2017-11-02 12-11-31-0293: KSJAPI::bmGetCcmMatrix:              0
+2017-11-02 12-11-31-0293: KSJAPI::bmSetTriggerFixFrameRate:       1
+2017-11-02 12-11-31-0293: KSJAPI::bmGetTriggerFixFrameRate:         1
+2017-11-02 12-11-31-0293: KSJAPI::bmGpioNormal:                1
+2017-11-02 12-11-31-0293: KSJAPI::bmIoFilter:                  1
+2017-11-02 12-11-31-0293: KSJAPI::bmWorkingModeEx:             1
+2017-11-02 12-11-31-0293: KSJAPI::bmWaterMarkMode:             1
+2017-11-02 12-11-31-0293: KSJAPI::bmExposureLine:              0
+2017-11-02 12-11-31-0293: KSJAPI::bmFixeFrameRateStep1uS:      0
+2017-11-02 12-11-31-0293: KSJAPI::----Fpga Capability----.
+2017-11-02 12-11-31-0293: ===========================================================
+2017-11-02 12-11-31-0293: KSJAPI::--CMD_GetBayerMode. ( BayerMode = MONO ).
+2017-11-02 12-11-31-0294: KSJAPI::--CMD_GetEEPROMType. ( RomType = 24LC1024x2 ).
+2017-11-02 12-11-31-0295: KSJAPI::--CMD_GetPixClk. ( PixClk = 74 ).
+2017-11-02 12-11-31-0296: KSJAPI::--CMD_GetADResolution. ( Resolution = 12 ).
+2017-11-02 12-11-31-0296: KSJAPI::++Fpga_ReadRelateRegValue
+2017-11-02 12-11-31-0297: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x80(128), Value = 0xe3ff(58367)
+2017-11-02 12-11-31-0298: KSJAPI::--CMD_RdFpgaReg. ( Address = 0xf1(241), Value = 0x0803(02051)
+2017-11-02 12-11-31-0299: KSJAPI::--CMD_GetWorkingMode. ( WorkingMode = 0x0000 )
+2017-11-02 12-11-31-0300: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x83(131), Value = 0x0000(00000)
+2017-11-02 12-11-31-0300: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_STROBE_DELAY! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x88(136), Value = 0x0000(00000)
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_COLOR_MODE! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_AWB! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_AWB! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_AWB! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0301: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_CCM! )
+2017-11-02 12-11-31-0302: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x9c(156), Value = 0x0000(00000)
+2017-11-02 12-11-31-0303: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x9d(157), Value = 0x0000(00000)
+2017-11-02 12-11-31-0304: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x9e(158), Value = 0x0000(00000)
+2017-11-02 12-11-31-0305: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x9f(159), Value = 0x0000(00000)
+2017-11-02 12-11-31-0306: KSJAPI::--CMD_RdFpgaReg. ( Address = 0xa1(161), Value = 0x0000(00000)
+2017-11-02 12-11-31-0307: KSJAPI::--CMD_RdFpgaReg. ( Address = 0xa2(162), Value = 0x0000(00000)
+2017-11-02 12-11-31-0307: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_EXP_LINE_LSB! )
+2017-11-02 12-11-31-0307: KSJAPI::--CMD_RdFpgaReg. ( Not Support FPGAREG_EXP_LINE_MSB! )
+2017-11-02 12-11-31-0307: KSJAPI::--Fpga_ReadRelateRegValue
+2017-11-02 12-11-31-0307: KSJAPI::++++KSJLOG_OUTPUT_FPGA_RELATE_REG_VALUE++++.
+2017-11-02 12-11-31-0307: KSJAPI::Version:                      0xe3ff
+2017-11-02 12-11-31-0307: KSJAPI::VersionEx:                    0x0803
+2017-11-02 12-11-31-0307: KSJAPI::WorkingMode:                  0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wTriggerDelay:                0
+2017-11-02 12-11-31-0307: KSJAPI::wMultiFrameNum:               1
+2017-11-02 12-11-31-0307: KSJAPI::ColorMode:                    0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wAwbR:                        0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wAwbG:                        0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wAwbB:                        0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain00:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain01:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain02:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain10:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain11:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain12:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain20:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain21:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wCcmGain22:                   0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wFixedFrameRate:              0
+2017-11-02 12-11-31-0307: KSJAPI::IoMode:                       0x0000
+2017-11-02 12-11-31-0307: KSJAPI::IoStatus:                     0x0000
+2017-11-02 12-11-31-0307: KSJAPI::wIoFilter:                    0
+2017-11-02 12-11-31-0307: KSJAPI::WorkingModeEx:                0x0000
+2017-11-02 12-11-31-0307: KSJAPI::WaterMark:                    0x0000
+2017-11-02 12-11-31-0307: KSJAPI::ExpLine:                      0
+2017-11-02 12-11-31-0307: KSJAPI::bLoadLut:                     0
+2017-11-02 12-11-31-0307: KSJAPI::bLoadGammaLut:                0
+2017-11-02 12-11-31-0307: KSJAPI::----KSJLOG_OUTPUT_FPGA_RELATE_REG_VALUE----.
+2017-11-02 12-11-31-0307: ===========================================================
+2017-11-02 12-11-31-0307: KSJAPI::++DeviceInit(DeviceType = 93)
+2017-11-02 12-11-31-0308: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x021a(00538), Value = 0x00b0(00176)
+2017-11-02 12-11-31-0309: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x021b(00539), Value = 0x0007(00007)
+2017-11-02 12-11-31-0310: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0217(00535), Value = 0x00e6(00230)
+2017-11-02 12-11-31-0311: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0218(00536), Value = 0x0004(00004)
+2017-11-02 12-11-31-0312: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x029a(00666), Value = 0x00ef(00239)
+2017-11-02 12-11-31-0313: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x029b(00667), Value = 0x0000(00000)
+2017-11-02 12-11-31-0314: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x029c(00668), Value = 0x0000(00000)
+2017-11-02 12-11-31-0315: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x029d(00669), Value = 0x0000(00000)
+2017-11-02 12-11-31-0316: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0404(01028), Value = 0x0010(00016)
+2017-11-02 12-11-31-0317: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0405(01029), Value = 0x0000(00000)
+2017-11-02 12-11-31-0318: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0458(01112), Value = 0x000c(00012)
+2017-11-02 12-11-31-0319: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0459(01113), Value = 0x0000(00000)
+2017-11-02 12-11-31-0320: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0301(00769), Value = 0x0000(00000)
+2017-11-02 12-11-31-0321: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0302(00770), Value = 0x0000(00000)
+2017-11-02 12-11-31-0322: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0303(00771), Value = 0x0000(00000)
+2017-11-02 12-11-31-0323: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0304(00772), Value = 0x0000(00000)
+2017-11-02 12-11-31-0324: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0305(00773), Value = 0x0090(00144)
+2017-11-02 12-11-31-0325: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0306(00774), Value = 0x0007(00007)
+2017-11-02 12-11-31-0326: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0307(00775), Value = 0x00c0(00192)
+2017-11-02 12-11-31-0327: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0308(00776), Value = 0x0004(00004)
+2017-11-02 12-11-31-0328: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x022f(00559), Value = 0x0003(00003)
+2017-11-02 12-11-31-0329: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0232(00562), Value = 0x0001(00001)
+2017-11-02 12-11-31-0330: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0276(00630), Value = 0x0002(00002)
+2017-11-02 12-11-31-0331: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0277(00631), Value = 0x0000(00000)
+2017-11-02 12-11-31-0332: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0278(00632), Value = 0x0000(00000)
+2017-11-02 12-11-31-0333: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x027a(00634), Value = 0x00f7(00247)
+2017-11-02 12-11-31-0334: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x027b(00635), Value = 0x0003(00003)
+2017-11-02 12-11-31-0335: KSJAPI::--CMD_RdSensorRegX. ( Address = 0x0216(00534), Value = 0x0001(00001)
+2017-11-02 12-11-31-0335: KSJAPI::++++KSJLOG_OUTPUT_IMX174_RELATE_REG_VALUE++++.
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_HMAX:             0x07b0
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_VMAX:             0x04e6
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_SHS:              0x00ef
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_VIRTUAL_SVS:      0x0000
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_GAIN:             0x0010
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_BLKLEVEL:         0x000c
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_ROIPH1:           0x0000
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_ROIPV1:           0x0000
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_ROIWH1:           0x0790
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_ROIWV1:           0x04c0
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_TOUTSEL:          0x0003
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_TRIG_TOUT_SEL:    0x0001
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_PULSE1_SET:       0x0002
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_PULSE1_UP:        0x0000
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_PULSE1_DN:        0x03f7
+2017-11-02 12-11-31-0335: KSJAPI::IMX174REG_REVERSE:          0x0001
+2017-11-02 12-11-31-0335: KSJAPI::----KSJLOG_OUTPUT_IMX174_RELATE_REG_VALUE----.
+2017-11-02 12-11-31-0335: ===========================================================
+2017-11-02 12-11-31-0335: KSJAPI::++++KSJLOG_OUTPUT_FOV++++
+2017-11-02 12-11-31-0335: KSJAPI::Capture Fov
+2017-11-02 12-11-31-0335: KSJAPI::nColStart:       0
+2017-11-02 12-11-31-0335: KSJAPI::nRowStart:       0
+2017-11-02 12-11-31-0335: KSJAPI::nColSize:        1936
+2017-11-02 12-11-31-0335: KSJAPI::nRowSize:        1216
+2017-11-02 12-11-31-0335: KSJAPI::ColAddressMode:  0
+2017-11-02 12-11-31-0335: KSJAPI::RowAddressMode:  0
+2017-11-02 12-11-31-0335: KSJAPI::nWidth:          1936
+2017-11-02 12-11-31-0335: KSJAPI::nHeight:         1216
+2017-11-02 12-11-31-0335: KSJAPI::nBitsPerSample:  8
+2017-11-02 12-11-31-0335: KSJAPI::dwTotalPixels:   2354176
+2017-11-02 12-11-31-0335: KSJAPI::dwTotalBytes:    2354176
+2017-11-02 12-11-31-0335: KSJAPI::nMultiFrameNum:  1
+2017-11-02 12-11-31-0335: KSJAPI::----KSJLOG_OUTPUT_FOV----
+2017-11-02 12-11-31-0335: ===========================================================
+2017-11-02 12-11-31-0335: KSJAPI::++++KSJLOG_OUTPUT_FOV++++
+2017-11-02 12-11-31-0335: KSJAPI::Preview Fov
+2017-11-02 12-11-31-0335: KSJAPI::nColStart:       0
+2017-11-02 12-11-31-0335: KSJAPI::nRowStart:       0
+2017-11-02 12-11-31-0335: KSJAPI::nColSize:        1936
+2017-11-02 12-11-31-0336: KSJAPI::nRowSize:        1216
+2017-11-02 12-11-31-0336: KSJAPI::ColAddressMode:  0
+2017-11-02 12-11-31-0336: KSJAPI::RowAddressMode:  0
+2017-11-02 12-11-31-0336: KSJAPI::nWidth:          1936
+2017-11-02 12-11-31-0336: KSJAPI::nHeight:         1216
+2017-11-02 12-11-31-0336: KSJAPI::nBitsPerSample:  8
+2017-11-02 12-11-31-0336: KSJAPI::dwTotalPixels:   2354176
+2017-11-02 12-11-31-0336: KSJAPI::dwTotalBytes:    2354176
+2017-11-02 12-11-31-0336: KSJAPI::nMultiFrameNum:  1
+2017-11-02 12-11-31-0336: KSJAPI::----KSJLOG_OUTPUT_FOV----
+2017-11-02 12-11-31-0336: ===========================================================
+2017-11-02 12-11-31-0336: KSJAPI::--DeviceInit(Success)
+2017-11-02 12-11-31-0336: KSJAPI::++CMD_ResetDevice.
+2017-11-02 12-11-31-0339: KSJAPI::--CMD_ResetDevice.
+2017-11-02 12-11-31-0339: KSJAPI::++USB_Reset.
+2017-11-02 12-11-31-0341: KSJAPI::--USB_Reset (Success).
+2017-11-02 12-11-31-0341: ===========================================================
+2017-11-02 12-11-31-0342: KSJAPI::--CMD_RdFpgaReg. ( Address = 0x80(128), Value = 0xe3f0(58352)
+2017-11-02 12-11-31-0343: KSJAPI::--CMD_RdFpgaReg. ( Address = 0xf1(241), Value = 0x0803(02051)
+2017-11-02 12-11-34-0227: KSJAPI::++ParamSet. ( Param = 0000, Value = 0027 [KSJ_EXPOSURE] )
+2017-11-02 12-11-34-0227: KSJAPI::++IMX174_ExposureLinesSet EnterCriticalSection
+2017-11-02 12-11-34-0227: KSJAPI::--IMX174_ExposureLinesSet LeaveCriticalSection
+2017-11-02 12-11-34-0228: KSJAPI::++ParamSet. ( Param = 0023, Value = 1015 [KSJ_EXPOSURE_LINES] )
+2017-11-02 12-11-34-0228: KSJAPI::++IMX174_ExposureLinesSet EnterCriticalSection
+2017-11-02 12-11-34-0228: KSJAPI::--IMX174_ExposureLinesSet LeaveCriticalSection
+2017-11-02 12-11-34-0229: KSJAPI::++ParamSet. ( Param = 0001, Value = 0016 [KSJ_RED] )
+2017-11-02 12-11-34-0229: KSJAPI::++ParamSet. ( Param = 0002, Value = 0016 [KSJ_GREEN] )
+2017-11-02 12-11-34-0229: KSJAPI::++ParamSet. ( Param = 0003, Value = 0016 [KSJ_BLUE] )
+2017-11-02 12-11-41-0167: KSJAPI::++Device UnInit.
+2017-11-02 12-11-41-0167: KSJAPI::++StopPreview.
+2017-11-02 12-11-41-0167: KSJAPI::--StopPreview. ( Has Stop )
+2017-11-02 12-11-41-0167: KSJAPI::--Device UnInit.
