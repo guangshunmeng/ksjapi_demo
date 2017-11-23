@@ -61,6 +61,7 @@ extern "C"{
 	// 开始或终止自动白平衡调节
 	KSJ_API  int __stdcall KSJ_AWBStart(int nChannel, bool bStart, int nMaxCount, int nRTarget, int nGTarget, int nBTarget);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 设置聚焦评估区域
 	KSJ_API  int __stdcall KSJ_AFSetRegion(int nChannel, int nX, int nY, int nW, int nH);
 	// 聚焦评估回调函数, nValue为返回的评估值
