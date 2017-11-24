@@ -98,7 +98,7 @@ public:
 	afx_msg void OnBnClickedButtonAeSetregion();
 	afx_msg void OnBnClickedCheckAeStart();
 	void UpdateInterface3A();
-	void AeCallback(bool bSuccess, int nResult);
+	void AeCallback(KSJ_AE_STATUS Status, int nResult);
 	afx_msg void OnBnClickedButtonAfSetregion();
 	afx_msg void OnBnClickedCheckAfStart();
 	void AfCallback(int nResult);
