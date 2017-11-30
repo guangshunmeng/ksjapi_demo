@@ -39,12 +39,13 @@ typedef unsigned (WINAPI *PBEGINTHREADEX_FUNC)(LPVOID lpParam);
 typedef unsigned *PBEGINTHREADEX_ID;
 
 #include "..\KSJApi.Inc\KSJApi.h"
+#include "..\KSJApi.Inc\KSJApiUserZone.h"
 
 #include "..\Common\KSJ_GS.H"
 
 #ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64d.lib" )
+#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
 #else
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
 #endif

@@ -2,6 +2,7 @@
 #include "afxwin.h"
 
 #include "SnapStatic.h"
+#include "MyEdit.h"
 
 #define MAX_DEVICE    64
 
@@ -94,14 +95,7 @@ public:
 	afx_msg void OnBnClickedButtonPreviewFovSet();
 	afx_msg void OnBnClickedButtonCaptureFovSet();
 	void UpdateInterfaceFunction();
-
-private:
-    int KSJ_WrEEPROM_AUTO(int nChannel, unsigned short uRomAdress, unsigned char btValue);
-    int KSJ_RdEEPROM_AUTO(int nChannel, unsigned short uRomAdress, unsigned char *pbtValue);
-
-
+	afx_msg void OnBnClickedButtonReadRom();
+	afx_msg void OnBnClickedButtonWriteRom();
 	void UpdateInterfaceUserZone();
-public:
-	afx_msg void OnBnClickedButtonEepromWrite();
-	afx_msg void OnBnClickedButtonEepromRead();
 };

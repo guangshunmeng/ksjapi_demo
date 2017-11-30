@@ -60,8 +60,8 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_GAIN, &CKSJDemoVCDlg::OnEnChangeEditGain)
 	ON_BN_CLICKED(IDC_BUTTON_PREVIEW_FOV_SET, &CKSJDemoVCDlg::OnBnClickedButtonPreviewFovSet)
 	ON_BN_CLICKED(IDC_BUTTON_CAPTURE_FOV_SET, &CKSJDemoVCDlg::OnBnClickedButtonCaptureFovSet)
-	ON_BN_CLICKED(IDC_BUTTON_EEPROM_WRITE, &CKSJDemoVCDlg::OnBnClickedButtonEepromWrite)
-	ON_BN_CLICKED(IDC_BUTTON_EEPROM_READ, &CKSJDemoVCDlg::OnBnClickedButtonEepromRead)
+	ON_BN_CLICKED(IDC_BUTTON_READ_ROM, &CKSJDemoVCDlg::OnBnClickedButtonReadRom)
+	ON_BN_CLICKED(IDC_BUTTON_WRITE_ROM, &CKSJDemoVCDlg::OnBnClickedButtonWriteRom)
 END_MESSAGE_MAP()
 
 void CKSJDemoVCDlg::OnPaint()
@@ -115,7 +115,7 @@ CKSJDemoVCDlg::CKSJDemoVCDlg(CWnd* pParent /*=NULL*/)
 m_nDeviceCurSel(-1), m_hCaptureThread(NULL), m_hCaptureThreadExitEvent(NULL), m_bInitial(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-
+	
 	// You only call KSJ_Init once.
 	int nRet = KSJ_Init();
 }
@@ -191,10 +191,6 @@ BOOL CKSJDemoVCDlg::OnInitDialog()
 	pListFunction->SetExtendedStyle(dwStyleEx | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
 	UpdateDeviceList();
-	UpdateInterface();
-	UpdateInterfaceFunction();
-
-	UpdateInterfaceUserZone();
 
 	m_bInitial = TRUE;
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -719,105 +715,120 @@ void CKSJDemoVCDlg::UpdateInterfaceFunction()
 	}while (i--);
 }
 
-
-//自适应写函数 
-int CKSJDemoVCDlg::KSJ_WrEEPROM_AUTO(int nChannel, unsigned short uRomAdress, unsigned char btValue)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////UserZone
+struct ROMRANGE
 {
-	if (nChannel == -1)    return -1;
+	unsigned long ulMin;
+	unsigned long ulMax;
+};
 
-	int nRet = 0;
-	KSJ_EEPROM_TYPE romType;
-	KSJ_EEPROMTypeGet(nChannel, &romType);
-
-	switch (romType)
-	{
-	case KSJ_24LC64:
-		if (uRomAdress > 256)   return -1;
-		nRet = KSJ_WrEEPROM(nChannel, 0x1E00/*0x1EE0*/ + uRomAdress, btValue);
-	    break;
-	case KSJ_24LC128:
-		if (uRomAdress > 512)   return -1;
-		nRet = KSJ_WrEEPROM(nChannel, 0x3DE0 + uRomAdress, btValue);
-		break;
-	case KSJ_24LC1024:
-		if (uRomAdress > 1024)   return -1;
-		nRet = KSJ_WrEEPROMEx(nChannel, 0x3FBE0 + uRomAdress, btValue);
-	    break;
-	}
-
-	return nRet;
-}
-
-//自适应读函数 
-int CKSJDemoVCDlg::KSJ_RdEEPROM_AUTO(int nChannel, unsigned short uRomAdress, unsigned char *pbtValue)
+ROMRANGE g_RomRange[3] =
 {
-	if (nChannel == -1)    return -1;
-
-	int nRet = 0;
-	KSJ_EEPROM_TYPE romType;
-	KSJ_EEPROMTypeGet(nChannel, &romType);
-
-	switch (romType)
 	{
-	case KSJ_24LC64:
-		if (uRomAdress > 256)   return -1;
-	    nRet = KSJ_RdEEPROM(nChannel, 0x1E00/*0x1EE0*/ + uRomAdress, pbtValue);
-	    break;
-	case KSJ_24LC128:
-		if (uRomAdress > 512)   return -1;
-	    nRet = KSJ_RdEEPROM(nChannel, 0x3DE0 + uRomAdress, pbtValue);
-	    break;
-	case KSJ_24LC1024:
-		if (uRomAdress > 1024)   return -1;
-		nRet = KSJ_RdEEPROMEx(nChannel, 0x3FBE0 + uRomAdress, pbtValue);
-	    break;
-	}
+		0x1EE0,
+		0x1FDF
+	},
+	{
+		0x3FBE0,
+		0x3FFDF
+	},
+	{
+		0x3DE0,
+		0x3FDF
+	},
+};
 
-	return nRet;
-}
-
-void CKSJDemoVCDlg::UpdateInterfaceUserZone()
+void CKSJDemoVCDlg::OnBnClickedButtonReadRom()
 {
-	CComboBox *pCombo = (CComboBox*)GetDlgItem(IDC_COMBO_EEPROM_TYPE);
+	if (m_nDeviceCurSel == -1)   return;
 
-	pCombo->ResetContent();
-
-	int i;
-	for (i = 0; i < g_nRomType; i++)
-	{
-		pCombo->AddString(g_szRomType[i]);
-	}
+	unsigned long ulRomAddress;
+	unsigned char btValue;
 
 	KSJ_EEPROM_TYPE Type;
 	KSJ_EEPROMTypeGet(m_nDeviceCurSel, &Type);
 
-	pCombo->SetCurSel((int)Type);
+	TCHAR szText[16] = { '\0' };
+	((CHexEdit*)GetDlgItem(IDC_EDIT_ROM_ADDRESS))->GetWindowText(szText, sizeof(szText));
+	ulRomAddress = (unsigned long)strtoll(szText, NULL, 16);
+
+	if (ulRomAddress<g_RomRange[Type].ulMin || ulRomAddress>g_RomRange[Type].ulMax)
+	{
+		MessageBox("RomAddress out of range");
+		return;
+	}
+
+	if (KSJ_24LC1024 == Type)
+	{
+		KSJ_RdEEPROMEx(m_nDeviceCurSel, ulRomAddress, &btValue);
+	}
+	else
+	{
+		KSJ_RdEEPROM(m_nDeviceCurSel, (unsigned short)ulRomAddress, &btValue);
+	}
+
+	sprintf_s(szText, _T("%X"), btValue);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_VALUE))->SetWindowText(szText);
 }
 
-
-void CKSJDemoVCDlg::OnBnClickedButtonEepromWrite()
+void CKSJDemoVCDlg::OnBnClickedButtonWriteRom()
 {
-	UpdateData();
+	if (m_nDeviceCurSel == -1)   return;
 
-	TCHAR   szAddress[32] = {0};
-	GetDlgItemText(IDC_EDIT_EEPROM_ADDRESS, szAddress, 32);
-	TCHAR   szValue[32] = { 0 };
-	GetDlgItemText(IDC_EDIT_EEPROM_VALUE, szValue, 32);
+	unsigned long ulRomAddress;
+	unsigned char btValue;
 
+	KSJ_EEPROM_TYPE Type;
+	KSJ_EEPROMTypeGet(m_nDeviceCurSel, &Type);
 
-	int nAddress = (int)strtol(szAddress, NULL, 16);
-	int nValue   = (int)strtol(szValue, NULL, 16);
+	TCHAR szText[16] = { 0 };
+	((CHexEdit*)GetDlgItem(IDC_EDIT_ROM_ADDRESS))->GetWindowText(szText, sizeof(szText));
+	ulRomAddress = (unsigned long)strtoll(szText, NULL, 16);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_VALUE))->GetWindowText(szText, sizeof(szText));
+	btValue = (unsigned char)strtoll(szText, NULL, 16);
 
-	KSJ_WrEEPROM_AUTO(m_nDeviceCurSel, nAddress, nValue);
+	if (ulRomAddress<g_RomRange[Type].ulMin || ulRomAddress>g_RomRange[Type].ulMax)
+	{
+		MessageBox("RomAddress out of range");
+		return;
+	}
+
+	if (KSJ_24LC1024 == Type)
+	{
+		KSJ_WrEEPROMEx(m_nDeviceCurSel, ulRomAddress, btValue);
+	}
+	else
+	{
+		KSJ_WrEEPROM(m_nDeviceCurSel, (unsigned short)ulRomAddress, btValue);
+	}
 }
 
-
-void CKSJDemoVCDlg::OnBnClickedButtonEepromRead()
+void CKSJDemoVCDlg::UpdateInterfaceUserZone()
 {
-	UpdateData();
+	if (m_nDeviceCurSel == -1)   return;
 
-	TCHAR   szAddress[32] = { 0 };
-	GetDlgItemText(IDC_EDIT_EEPROM_ADDRESS, szAddress, 32);
+	KSJ_EEPROM_TYPE Type;
+	KSJ_EEPROMTypeGet(m_nDeviceCurSel, &Type);
+	((CStatic*)GetDlgItem(IDC_STATIC_EEPROM_TYPE))->SetWindowText(g_szRomType[Type]);
+	
+	TCHAR   szText[64] = { '\0' };
+	sprintf_s(szText, _T("%X-%X"), g_RomRange[Type].ulMin, g_RomRange[Type].ulMax);
+	((CStatic*)GetDlgItem(IDC_STATIC_EEPROM_RANGE))->SetWindowText(szText);
+	sprintf_s(szText, _T("%X"), g_RomRange[Type].ulMin);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_ROM_ADDRESS))->SetWindowText(szText);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_ROM_ADDRESS))->SetLimitText(10);
 
+	unsigned char btValue;
+	if (KSJ_24LC1024 == Type)
+	{
+		KSJ_RdEEPROMEx(m_nDeviceCurSel, g_RomRange[Type].ulMin, &btValue);
+	}
+	else
+	{
+		KSJ_RdEEPROM(m_nDeviceCurSel, (unsigned short)g_RomRange[Type].ulMin, &btValue);
+	}
 
+	sprintf_s(szText, _T("%X"), btValue);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_VALUE))->SetWindowText(szText);
+	((CHexEdit*)GetDlgItem(IDC_EDIT_VALUE))->SetLimitText(2);
 }

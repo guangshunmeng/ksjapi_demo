@@ -22,10 +22,15 @@
     <ProjectGuid>{BB9B5357-154F-43D3-AB53-11DCAF88957D}</ProjectGuid>
     <RootNamespace>KSJDemoVC</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <ProjectName>KSJDemoVC_UserZone</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|Win32'" Label="Configuration">
@@ -77,7 +82,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|x64'">
@@ -87,7 +92,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -210,6 +215,7 @@
     <ClInclude Include="..\common\KSJ_GS.H" />
     <ClInclude Include="KSJDemoVC.h" />
     <ClInclude Include="KSJDemoVCDlg.h" />
+    <ClInclude Include="MyEdit.h" />
     <ClInclude Include="OEM.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SnapStatic.h" />
@@ -225,6 +231,7 @@
     </ClCompile>
     <ClCompile Include="KSJDemoVC.cpp" />
     <ClCompile Include="KSJDemoVCDlg.cpp" />
+    <ClCompile Include="MyEdit.cpp" />
     <ClCompile Include="SnapStatic.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d|Win32'">Create</PrecompiledHeader>
@@ -237,10 +244,12 @@
     <ResourceCompile Include="KSJDemoVC.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\KSJDemoVC.ico" />
     <None Include="res\KSJDemoVC.rc2" />
   </ItemGroup>
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ItemGroup>
+    <Image Include="res\KSJDemoVC.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
