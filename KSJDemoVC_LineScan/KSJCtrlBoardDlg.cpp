@@ -28,14 +28,13 @@ void CKSJCtrlBoardDlg::ReadIni()
 	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("OutputChannelIndex"), 1, (DWORD*)&m_nOutputChannelIndex);
 
 	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("DelayCount"), 0, (DWORD*)&m_wDelayCount);
-	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("DelayTime"), 0, (DWORD*)&m_wDelayTime);
-	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("ColSize"), 0, (DWORD*)&m_nColSize);
-	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("RowSize"), 0, (DWORD*)&m_nRowSize);
-	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("MultiFrames"), 0, (DWORD*)&m_nMultiFrames);
-	TCHAR szText[16] = { 0 };
-	KSJINI_GetString(g_hKSJIni, _T("TRIGGER"), _T("WidthOfViewMM"), _T("0.0"), szText);
-	m_fWidthOfViewMM = _tstof(szText);
+	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("DelayTime"), 0, (DWORD*)&m_wDelayTime );
+	m_wDelayTime *= 10;
 
+	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("MultiFrames"), 0, (DWORD*)&g_nMultiFrames);
+	KSJINI_GetDWORD(g_hKSJIni, _T("TRIGGER"), _T("LineTriggerPusles"), 0, (DWORD*)&m_nLineTriggerPusles);
+
+	TCHAR szText[16] = { 0 };
 	KSJINI_GetDWORD(g_hKSJIni, _T("MODE1"), _T("EncoderResolution"), 0, (DWORD*)&m_nEncoderResolution1);
 	KSJINI_GetString(g_hKSJIni, _T("MODE1"), _T("CoderDiameter"), _T("0.0"), szText);
 	m_fCoderDiameter1 = _tstof(szText);
@@ -64,13 +63,11 @@ void CKSJCtrlBoardDlg::WriteIni()
 
 	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("DelayCount"), m_wDelayCount);
 	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("DelayTime"), m_wDelayTime / 10);
-	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("ColSize"), m_nColSize);
-	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("RowSize"), m_nRowSize);
-	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("MultiFrames"), m_nMultiFrames);
-	TCHAR szText[16] = { 0 };
-	_stprintf_s(szText, _T("%f"), m_fWidthOfViewMM);
-	KSJINI_SetString(g_hKSJIni, _T("TRIGGER"), _T("WidthOfViewMM"), szText);
 
+	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("MultiFrames"), g_nMultiFrames);
+	KSJINI_SetInt(g_hKSJIni, _T("TRIGGER"), _T("LineTriggerPusles"), m_nLineTriggerPusles);
+
+	TCHAR szText[16] = { 0 };
 	_stprintf_s(szText, _T("%f"), m_fCoderDiameter1);
 	KSJINI_SetString(g_hKSJIni, _T("MODE1"), _T("CoderDiameter"), szText);
 	KSJINI_SetInt(g_hKSJIni, _T("MODE1"), _T("EncoderResolution"), m_nEncoderResolution1);
@@ -78,6 +75,7 @@ void CKSJCtrlBoardDlg::WriteIni()
 	_stprintf_s(szText, _T("%f"), m_fCoderDiameter2);
 	KSJINI_SetString(g_hKSJIni, _T("MODE2"), _T("CoderDiameter"), szText);
 	KSJINI_SetInt(g_hKSJIni, _T("MODE2"), _T("EncoderResolution"), m_nEncoderResolution2);
+	
 }
 
 CKSJCtrlBoardDlg::CKSJCtrlBoardDlg(CWnd* pParent /*=NULL*/)
@@ -95,7 +93,11 @@ CKSJCtrlBoardDlg::CKSJCtrlBoardDlg(CWnd* pParent /*=NULL*/)
 	}
 
 	m_bInitial = false;
+	m_bStart = false;
 	m_nTimer = 0;
+	m_bAdjust = false;
+	m_bSlider = true;
+	m_bEdit = true;
 }
 
 CKSJCtrlBoardDlg::~CKSJCtrlBoardDlg()
@@ -119,15 +121,13 @@ BEGIN_MESSAGE_MAP(CKSJCtrlBoardDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_DELAY_TIME, &CKSJCtrlBoardDlg::OnEnChangeEditDelayTime)
 	ON_CBN_SELCHANGE(IDC_COMBO_DELAY_COUNT_MOTHED, &CKSJCtrlBoardDlg::OnCbnSelchangeComboDelayCountMothed)
 	ON_EN_CHANGE(IDC_EDIT_DELAY_COUNT, &CKSJCtrlBoardDlg::OnEnChangeEditDelayCount)
-	ON_EN_CHANGE(IDC_EDIT_COL_SIZE, &CKSJCtrlBoardDlg::OnEnChangeEditColSize)
-	ON_EN_CHANGE(IDC_EDIT_WIDTH_MM, &CKSJCtrlBoardDlg::OnEnChangeEditWidthMm)
-	ON_EN_CHANGE(IDC_EDIT_ROW_SIZE, &CKSJCtrlBoardDlg::OnEnChangeEditRowSize)
-	ON_EN_CHANGE(IDC_EDIT_MULTI_FRAMES, &CKSJCtrlBoardDlg::OnEnChangeEditMultiFrames)
 	ON_BN_CLICKED(IDC_BUTTON_SET_FLASHTIME, &CKSJCtrlBoardDlg::OnBnClickedButtonSetFlashtime)
 	ON_BN_CLICKED(IDC_BUTTON_SET_PREFLASHTIME, &CKSJCtrlBoardDlg::OnBnClickedButtonSetPreflashtime)
 	ON_BN_CLICKED(IDC_CHECK_FLASHMODE, &CKSJCtrlBoardDlg::OnBnClickedCheckFlashmode)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_TRIGGER, &CKSJCtrlBoardDlg::OnNMCustomdrawSliderTrigger)
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
+	ON_EN_CHANGE(IDC_EDIT_TRIGGER, &CKSJCtrlBoardDlg::OnEnChangeEditTrigger)
 END_MESSAGE_MAP()
 
 
@@ -140,29 +140,9 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 
 	ReadIni();
 	// TODO:  在此添加额外的初始化
-	CSpinButtonCtrl * pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_COL_SIZE);
-	pSpinCtrl->SetRange32(COL_SIZE_MIN, COL_SIZE_MAX);
-	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_COL_SIZE));
-	pSpinCtrl->SetBase(10);
-	pSpinCtrl->SetPos32(m_nColSize);
 
-	CString strValue;
-	strValue.Format(COL_FORMAT, m_fWidthOfViewMM);
-	((CEdit*)GetDlgItem(IDC_EDIT_WIDTH_MM))->SetWindowText(strValue);
 
-	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_ROW_SIZE);
-	pSpinCtrl->SetRange32(ROW_SIZE_MIN, ROW_SIZE_MAX);
-	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_ROW_SIZE));
-	pSpinCtrl->SetBase(10);
-	pSpinCtrl->SetPos32(m_nRowSize);
-
-	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
-	pSpinCtrl->SetRange32(MULTI_FRAMES_MIN, MULTI_FRAMES_MAX);
-	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_MULTI_FRAMES));
-	pSpinCtrl->SetBase(10);
-	pSpinCtrl->SetPos32(m_nMultiFrames);
-
-	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FLASHTIME);
+	CSpinButtonCtrl* pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FLASHTIME);
 	pSpinCtrl->SetRange32(0, 255);
 	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_FLASHTIME));
 	pSpinCtrl->SetBase(10);
@@ -178,7 +158,7 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 	pSpinCtrl->SetRange32(0, 65535);
 	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_DELAY_TIME));
 	pSpinCtrl->SetBase(10);
-	pSpinCtrl->SetPos32(m_wDelayTime);
+	pSpinCtrl->SetPos32(m_wDelayTime / 10);
 
 
 	int i;
@@ -217,7 +197,7 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 	pComboBox->SetCurSel(m_nTriggerMethodIndex);
 
 	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_OUTPUT_FREQ);
-	pSpinCtrl->SetRange32(1, 10000);
+	pSpinCtrl->SetRange32(1, 76000);
 	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_OUTPUT_FREQ));
 	TCHAR szValue[32] = { '\0' };
 	if (m_CtrlBoardType == KSJ_CONTROL_BOARD_UNO)
@@ -273,6 +253,15 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 	pComboBox->SetCurSel(m_nOutputChannelIndex);
 	UpdateType();
 	SetWindowText(m_szBuf);
+
+	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_TRIGGER);
+	pSpinCtrl->SetRange32(0, 5000);
+	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_TRIGGER));
+	pSpinCtrl->SetBase(10);
+	pSpinCtrl->SetPos32(m_nLineTriggerPusles);
+	((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->SetRange(0, 5000);
+	((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->SetPos(m_nLineTriggerPusles);
+	((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->SetTicFreq(100);
 	m_bInitial = true;
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -336,13 +325,6 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 	CEdit *pEditCtrlDelayCount = ((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	CSpinButtonCtrl * pSpinCtrlColSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_COL_SIZE);
-	CEdit *pEditCtrlColSize = ((CEdit*)GetDlgItem(IDC_EDIT_COL_SIZE));
-	CSpinButtonCtrl * pSpinCtrlRowSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_ROW_SIZE);
-	CEdit *pEditCtrlRowSize = ((CEdit*)GetDlgItem(IDC_EDIT_ROW_SIZE));
-	CEdit *pEditCtrlWidthMm = ((CEdit*)GetDlgItem(IDC_EDIT_WIDTH_MM));
-	CSpinButtonCtrl * pSpinCtrlMultiFrames = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
-	CEdit *pEditCtrlMultiFrames = ((CEdit*)GetDlgItem(IDC_EDIT_MULTI_FRAMES));
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_INPUT_SOURCE);
 
 	if (m_nTriggerModeIndex == 0)
@@ -358,13 +340,6 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 		pSpinCtrlDelayCount->EnableWindow(FALSE);
 		pEditCtrlDelayCount->EnableWindow(FALSE);
 
-		pSpinCtrlColSize->EnableWindow(FALSE);
-		pEditCtrlColSize->EnableWindow(FALSE);
-		pSpinCtrlRowSize->EnableWindow(FALSE);
-		pEditCtrlRowSize->EnableWindow(FALSE);
-		pEditCtrlWidthMm->EnableWindow(FALSE);
-		pSpinCtrlMultiFrames->EnableWindow(FALSE);
-		pEditCtrlMultiFrames->EnableWindow(FALSE);
 		pComboBox->EnableWindow(FALSE);
 	}
 	else if (m_nTriggerModeIndex == 1)
@@ -380,13 +355,6 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 		pSpinCtrlDelayCount->EnableWindow(TRUE);
 		pEditCtrlDelayCount->EnableWindow(TRUE);
 
-		pSpinCtrlColSize->EnableWindow(FALSE);
-		pEditCtrlColSize->EnableWindow(FALSE);
-		pSpinCtrlRowSize->EnableWindow(FALSE);
-		pEditCtrlRowSize->EnableWindow(FALSE);
-		pEditCtrlWidthMm->EnableWindow(FALSE);
-		pSpinCtrlMultiFrames->EnableWindow(FALSE);
-		pEditCtrlMultiFrames->EnableWindow(FALSE);
 		pComboBox->EnableWindow(TRUE);
 		// 输入到控制板的信号源选择
 
@@ -427,13 +395,6 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 		pSpinCtrlDelayCount->EnableWindow(TRUE);
 		pEditCtrlDelayCount->EnableWindow(TRUE);
 
-		pSpinCtrlColSize->EnableWindow(TRUE);
-		pEditCtrlColSize->EnableWindow(TRUE);
-		pSpinCtrlRowSize->EnableWindow(TRUE);
-		pEditCtrlRowSize->EnableWindow(TRUE);;
-		pEditCtrlWidthMm->EnableWindow(TRUE);
-		pSpinCtrlMultiFrames->EnableWindow(TRUE);
-		pEditCtrlMultiFrames->EnableWindow(TRUE);
 		pComboBox->EnableWindow(TRUE);
 
 		// 输入到控制板的信号源选择
@@ -914,20 +875,6 @@ void CKSJCtrlBoardDlg::InitialUnoInterface()
 	CSpinButtonCtrl * pSpinCtrlDelayCount = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_DELAY_COUNT);
 	pSpinCtrlDelayCount->EnableWindow(FALSE);
 
-	CSpinButtonCtrl * pSpinCtrlColSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_COL_SIZE);
-	pSpinCtrlColSize->EnableWindow(FALSE);
-	CEdit *pEditCtrlColSize = ((CEdit*)GetDlgItem(IDC_EDIT_COL_SIZE));
-	pEditCtrlColSize->EnableWindow(FALSE);
-	CSpinButtonCtrl * pSpinCtrlRowSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_ROW_SIZE);
-	pSpinCtrlRowSize->EnableWindow(FALSE);
-	CEdit *pEditCtrlRowSize = ((CEdit*)GetDlgItem(IDC_EDIT_ROW_SIZE));
-	pEditCtrlRowSize->EnableWindow(FALSE);
-	CSpinButtonCtrl * pSpinCtrlMultiFrames = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
-	pSpinCtrlMultiFrames->EnableWindow(FALSE);
-	CEdit *pEditCtrlMultiFrames = ((CEdit*)GetDlgItem(IDC_EDIT_MULTI_FRAMES));
-	pEditCtrlMultiFrames->EnableWindow(FALSE);
-	CEdit *pEditCtrlWidthmm = ((CEdit*)GetDlgItem(IDC_EDIT_WIDTH_MM));
-	pEditCtrlWidthmm->EnableWindow(FALSE);
 
 	((CCheckListBox*)GetDlgItem(IDC_CHECK_FLASHMODE))->EnableWindow(FALSE);
 	((CEdit*)GetDlgItem(IDC_EDIT_FLASHTIME))->EnableWindow(FALSE);
@@ -1131,49 +1078,6 @@ void CKSJCtrlBoardDlg::OnEnChangeEditDelayCount()
 }
 
 
-void CKSJCtrlBoardDlg::OnEnChangeEditColSize()
-{
-	if (!m_bInitial) return;
-
-	m_nColSize = GetDlgItemInt(IDC_EDIT_COL_SIZE);
-	CSpinButtonCtrl * pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_COL_SIZE);
-	pSpinCtrl->SetPos(m_nColSize);
-}
-
-
-void CKSJCtrlBoardDlg::OnEnChangeEditWidthMm()
-{
-	if (!m_bInitial) return;
-
-	CString	 strValue;
-	((CEdit*)GetDlgItem(IDC_EDIT_WIDTH_MM))->GetWindowText(strValue);
-	int nValue = (int)(_tstof(strValue) * COL_WIDTH_PRESION);
-
-
-	m_fWidthOfViewMM = (float)_tstof(strValue);
-}
-
-
-void CKSJCtrlBoardDlg::OnEnChangeEditRowSize()
-{
-	if (!m_bInitial) return;
-
-	m_nRowSize = GetDlgItemInt(IDC_EDIT_ROW_SIZE);
-	CSpinButtonCtrl * pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_ROW_SIZE);
-	pSpinCtrl->SetPos(m_nRowSize);
-}
-
-
-void CKSJCtrlBoardDlg::OnEnChangeEditMultiFrames()
-{
-	if (!m_bInitial) return;
-
-	m_nMultiFrames = GetDlgItemInt(IDC_EDIT_MULTI_FRAMES);
-	CSpinButtonCtrl * pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
-	pSpinCtrl->SetPos(m_nMultiFrames);
-}
-
-
 void CKSJCtrlBoardDlg::OnBnClickedCheckStart(BOOL bStart)
 {
 	if (KSJ_CONTROL_BOARD_UNO == m_CtrlBoardType)
@@ -1185,11 +1089,13 @@ void CKSJCtrlBoardDlg::OnBnClickedCheckStart(BOOL bStart)
 	{
 		if (bStart)
 		{
-			UnenableMega128Interface();
+			m_bStart = true;
+			if (!m_bAdjust) UnenableMega128Interface();
 		}
 		else
 		{
-			InterfaceUpdateTriggerMode();
+			m_bStart = false;
+			if (!m_bAdjust) InterfaceUpdateTriggerMode();
 		}
 
 		Start_Mega128(m_nTriggerModeIndex, bStart);
@@ -1237,13 +1143,6 @@ void CKSJCtrlBoardDlg::UnenableMega128Interface()
 	CEdit *pEditCtrlDelayCount = ((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	CSpinButtonCtrl * pSpinCtrlColSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_COL_SIZE);
-	CEdit *pEditCtrlColSize = ((CEdit*)GetDlgItem(IDC_EDIT_COL_SIZE));
-	CSpinButtonCtrl * pSpinCtrlRowSize = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_ROW_SIZE);
-	CEdit *pEditCtrlRowSize = ((CEdit*)GetDlgItem(IDC_EDIT_ROW_SIZE));
-	CEdit *pEditCtrlWidthMm = ((CEdit*)GetDlgItem(IDC_EDIT_WIDTH_MM));
-	CSpinButtonCtrl * pSpinCtrlMultiFrames = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
-	CEdit *pEditCtrlMultiFrames = ((CEdit*)GetDlgItem(IDC_EDIT_MULTI_FRAMES));
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_INPUT_SOURCE);
 
 	pEditCtrlOutputFreq->EnableWindow(FALSE);
@@ -1257,13 +1156,6 @@ void CKSJCtrlBoardDlg::UnenableMega128Interface()
 	pSpinCtrlDelayCount->EnableWindow(FALSE);
 	pEditCtrlDelayCount->EnableWindow(FALSE);
 
-	pSpinCtrlColSize->EnableWindow(FALSE);
-	pEditCtrlColSize->EnableWindow(FALSE);
-	pSpinCtrlRowSize->EnableWindow(FALSE);
-	pEditCtrlRowSize->EnableWindow(FALSE);
-	pEditCtrlWidthMm->EnableWindow(FALSE);
-	pSpinCtrlMultiFrames->EnableWindow(FALSE);
-	pEditCtrlMultiFrames->EnableWindow(FALSE);
 	pComboBox->EnableWindow(FALSE);
 
 	((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_DELAY_TIME))->EnableWindow(FALSE);
@@ -1335,11 +1227,8 @@ int  CKSJCtrlBoardDlg::CMD_SetMega128(WORD wMultiFrames)
 			usDelayCounter = m_wDelayCount;
 		}
 
-		unsigned short usMultiFrames = m_nMultiFrames;
-		float fCircle = PI * m_fCoderDiameter2;
-		float fWidthPerPixel = m_fWidthOfViewMM / m_nColSize;
-		float fPulsePerCircle = fCircle / (fWidthPerPixel * m_nRowSize);
-		unsigned short usLineTriggerPusles = (unsigned short)(1024 * (fPulsePerCircle / m_nEncoderResolution2));
+		unsigned short usMultiFrames = g_nMultiFrames;
+		unsigned short usLineTriggerPusles = ((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->GetPos();
 		nRet = SetTriggerMode2(m_nComIndex, 0, ucOutputChannel, ucOutputTriggerMethod, ucTriggerInputChannel, ucDelayMode, usDelayCounter, usLineTriggerPusles, usMultiFrames);
 	}
 
@@ -1488,4 +1377,66 @@ void CKSJCtrlBoardDlg::OnTimer(UINT_PTR nIDEvent)
 void CKSJCtrlBoardDlg::SetType()
 {
 	m_CtrlBoardType = (KSJ_CTRL_BOARD_TYPE)CMD_GetDeviceType();
+}
+
+
+void CKSJCtrlBoardDlg::OnNMCustomdrawSliderTrigger(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	// TODO:  在此添加控件通知处理程序代码
+	if (!m_bSlider)
+	{
+		m_bSlider = true;
+		return;
+	}
+
+	*pResult = 0;
+	m_bEdit = false;
+	m_nLineTriggerPusles = ((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->GetPos();
+	SetDlgItemInt(IDC_EDIT_TRIGGER, m_nLineTriggerPusles);
+	if (m_bStart)
+	{
+		m_bAdjust = true;
+		OnBnClickedCheckStart(FALSE);
+		OnBnClickedCheckStart(TRUE);
+		m_bAdjust = false;
+	}
+}
+
+
+BOOL CKSJCtrlBoardDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN)
+	{
+		switch (pMsg->wParam)//屏蔽esc、enter、空格
+		{
+		case VK_ESCAPE:
+		case VK_RETURN:
+		case VK_SPACE:
+			return TRUE;
+		}
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CKSJCtrlBoardDlg::OnEnChangeEditTrigger()
+{
+	if (!m_bEdit)
+	{
+		m_bEdit = true;
+		return;
+	}
+
+	m_nLineTriggerPusles = GetDlgItemInt(IDC_EDIT_TRIGGER);
+	m_bSlider = false;
+	((CSliderCtrl*)GetDlgItem(IDC_SLIDER_TRIGGER))->SetPos(m_nLineTriggerPusles);
+	if (m_bStart)
+	{
+		m_bAdjust = true;
+		OnBnClickedCheckStart(FALSE);
+		OnBnClickedCheckStart(TRUE);
+		m_bAdjust = false;
+	}
 }

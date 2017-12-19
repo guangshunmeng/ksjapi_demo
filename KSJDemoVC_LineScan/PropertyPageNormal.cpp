@@ -96,6 +96,7 @@ BOOL CPropertyPageNormal::OnInitDialog()
 		m_pCam->PreviewGetFieldOfViewEx(&nColStart, &nRowStart, &nColSize, &nRowSize, &ColAddressMode, &RowAddressMode, &wMultiFrameNum);
 		m_pCam->CaptureSetFieldOfViewEx(nColStart, nRowStart, nColSize, nRowSize, ColAddressMode, RowAddressMode, wMultiFrameNum);
 		SetDlgItemInt(IDC_EDIT_MULTIFRAME_NUM, wMultiFrameNum);
+		g_nMultiFrames = wMultiFrameNum;
 	}
 	else
 	{
@@ -134,6 +135,9 @@ BOOL CPropertyPageNormal::OnInitDialog()
 		GetDlgItem(IDC_CHECK_SAMETO)->ShowWindow(SW_HIDE);
 		((CStatic*)GetDlgItem(IDC_STATIC_GAIN1))->SetWindowText("Segment:");
 		((CStatic*)GetDlgItem(IDC_STATIC_GAIN2))->SetWindowText("Gain:");
+
+		GetDlgItem(IDC_EDIT_EXPOSURE_TIME_MS)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_EXPOSURE_TIME_MS)->EnableWindow(FALSE);
 	}
 	else
 	{
@@ -208,6 +212,7 @@ void CPropertyPageNormal::OnBnClickedButtonApply()
 		m_pCam->CaptureSetFieldOfViewEx(nColStart, nRowStart, nColSize, nRowSize, ColAddressMode, RowAddressMode, wMultiFrameNum);
 		m_pCam->PreviewGetFieldOfViewEx(&nColStart, &nRowStart, &nColSize, &nRowSize, &ColAddressMode, &RowAddressMode, &wMultiFrameNum);
 		SetDlgItemInt(IDC_EDIT_MULTIFRAME_NUM, wMultiFrameNum);
+		g_nMultiFrames = wMultiFrameNum;
 	}
 	else
 	{
@@ -220,6 +225,7 @@ void CPropertyPageNormal::OnBnClickedButtonApply()
 	SetDlgItemInt(IDC_EDIT_ROW_START, nRowStart);
 	SetDlgItemInt(IDC_EDIT_COL_SIZE, nColSize);
 	SetDlgItemInt(IDC_EDIT_ROW_SIZE, nRowSize);
+	m_pCam->UpdatePreview();
 }
 
 
@@ -306,3 +312,6 @@ void CPropertyPageNormal::OnEnChangeEditExposureLines()
 	int nCur = 0;
 	m_pCam->GetParam(KSJ_EXPOSURE, &nCur);
 }
+
+
+

@@ -31,7 +31,6 @@ public:
 	afx_msg void OnCbnSelchangeComboMethod();
 	afx_msg void OnEnChangeEditDelay();
 	afx_msg void OnEnChangeEditFixedFrameRateHw();
-	afx_msg void OnBnClickedButtonEmptyFrameBuffer();
 	afx_msg void OnBnClickedCheckInvert();
 	afx_msg void OnBnClickedCheckFlashEnable();
 };

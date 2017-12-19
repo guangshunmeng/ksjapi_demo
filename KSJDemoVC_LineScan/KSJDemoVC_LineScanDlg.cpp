@@ -61,6 +61,8 @@ CKSJDemoVC_LineScanDlg::CKSJDemoVC_LineScanDlg(CWnd* pParent /*=NULL*/)
 	m_PageTrigger.m_psp.dwFlags &= ~(PSP_HASHELP);
 	InitialIni(NULL);
 	m_pCam = new CKSJCamClass;
+	
+	g_nMultiFrames = 1;
 }
 
 void CKSJDemoVC_LineScanDlg::DoDataExchange(CDataExchange* pDX)
@@ -86,6 +88,7 @@ BEGIN_MESSAGE_MAP(CKSJDemoVC_LineScanDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_STOP, &CKSJDemoVC_LineScanDlg::OnCbnSelchangeComboStop)
 	ON_MESSAGE(WM_TRIGGER, &CKSJDemoVC_LineScanDlg::OnMsgSetTrigger)
 	ON_BN_CLICKED(IDCANCEL, &CKSJDemoVC_LineScanDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_BUTTON_CAPTURE, &CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture)
 END_MESSAGE_MAP()
 
 
@@ -140,6 +143,7 @@ BOOL CKSJDemoVC_LineScanDlg::OnInitDialog()
 	OnBnClickedButtonRefresh();
 	UpdateUI();
 	GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(FALSE);
+	m_pCam->SetWnd(GetDlgItem(IDC_VIEW));
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -182,7 +186,7 @@ void CKSJDemoVC_LineScanDlg::UpdateDeviceList()
 		pComboBox->AddString(szMenuItem);
 	}
 
-	pComboBox->SetCurSel(m_nDeviceCurSel);
+	pComboBox->SetCurSel(-1);
 }
 
 void CKSJDemoVC_LineScanDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -243,13 +247,10 @@ void CKSJDemoVC_LineScanDlg::OnCbnSelchangeComboType()
 	if (m_nDeviceCurSel == CB_ERR)    return;
 	if (m_pCam->GetDeviceIndex() != m_nDeviceCurSel || (!m_pCam->IsOpen()))
 	{
-		HWND   hPreviewWnd = ((CStatic*)GetDlgItem(IDC_VIEW))->m_hWnd;
-		RECT   rtPreviewWndClient;
-		((CStatic*)GetDlgItem(IDC_VIEW))->GetClientRect(&rtPreviewWndClient);
-
-		m_pCam->Preview(hPreviewWnd, rtPreviewWndClient, false);
+		m_pCam->PreviewStart(false);
 		m_pCam->Initial(m_nDeviceCurSel);
-		m_pCam->Preview(hPreviewWnd, rtPreviewWndClient, true);
+		m_pCam->UpdatePreview();
+		m_pCam->PreviewStart(true);
 	}
 }
 
@@ -276,6 +277,7 @@ void CKSJDemoVC_LineScanDlg::OnCbnSelchangeComboComs()
 
 void CKSJDemoVC_LineScanDlg::OnBnClickedButtonRefresh()
 {
+	m_pCam->PreviewStart(false);
 	KSJCOM_UnInit();
 	KSJCOM_Init();
 
@@ -305,7 +307,7 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonRefresh()
 	if (m_nComIndex > nComNum - 1)
 		m_nComIndex = 0;
 
-	pComboBox->SetCurSel(m_nComIndex);
+	pComboBox->SetCurSel(-1);
 
 	UpdateDeviceList();
 }
@@ -333,13 +335,14 @@ LRESULT CKSJDemoVC_LineScanDlg::OnMsgSetTrigger(WPARAM wParam, LPARAM lParam)
 
 void CKSJDemoVC_LineScanDlg::OnBnClickedButtonStart()
 {
-	if (m_nDeviceCurSel == -1 || m_nDeviceCurSel == -1) return;
+	if (m_nDeviceCurSel == -1 || m_nComIndex == -1) return;
 	if (m_pKSJCtrlBoardDlg->GetSafeHwnd())
 	{
 		GetDlgItem(IDC_BUTTON_START)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(TRUE);
 		GetDlgItem(IDC_COMBO_TYPE)->EnableWindow(FALSE);
 		GetDlgItem(IDC_COMBO_COMS)->EnableWindow(FALSE);
+		
 		KSJ_TRIGGERMODE TriggerMode;
 		KSJ_TriggerModeGet(m_nDeviceCurSel, &TriggerMode);
 		if (TriggerMode == KSJ_TRIGGER_EXTERNAL)
@@ -359,7 +362,7 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonStart()
 
 void CKSJDemoVC_LineScanDlg::OnBnClickedButtonStop()
 {
-	if (m_nDeviceCurSel == -1 || m_nDeviceCurSel == -1) return;
+	if (m_nDeviceCurSel == -1 || m_nComIndex == -1) return;
 	if (m_pKSJCtrlBoardDlg->GetSafeHwnd())
 	{
 		GetDlgItem(IDC_BUTTON_START)->EnableWindow(TRUE);
@@ -370,7 +373,13 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonStop()
 		KSJ_TriggerModeGet(m_nDeviceCurSel, &TriggerMode);
 		if (TriggerMode == KSJ_TRIGGER_EXTERNAL) KSJ_PreviewSetCallback(m_nDeviceCurSel, NULL, this);
 		m_pKSJCtrlBoardDlg->OnBnClickedCheckStart(FALSE);
-		KSJ_EmptyFrameBuffer(m_nDeviceCurSel);
+		m_pCam->PreviewStart(false);
+		Sleep(200);
+		KSJ_TriggerModeSet(m_nDeviceCurSel, KSJ_TRIGGER_INTERNAL);
+		Sleep(100);
+		KSJ_TriggerModeSet(m_nDeviceCurSel, KSJ_TRIGGER_EXTERNAL);
+		Sleep(100);
+		m_pCam->PreviewStart(true);
 	}
 	else
 	{
@@ -542,9 +551,56 @@ void CKSJDemoVC_LineScanDlg::OnCbnSelchangeComboStop()
 
 void CKSJDemoVC_LineScanDlg::OnBnClickedCancel()
 {
-	HWND   hPreviewWnd = ((CStatic*)GetDlgItem(IDC_VIEW))->m_hWnd;
-	RECT   rtPreviewWndClient;
-	((CStatic*)GetDlgItem(IDC_VIEW))->GetClientRect(&rtPreviewWndClient);
-	m_pCam->Preview(hPreviewWnd, rtPreviewWndClient, false);
+	BOOL bRet = GetDlgItem(IDC_BUTTON_START)->IsWindowEnabled();
+	if (!bRet)
+	{
+		MessageBox("请先停止触发板");
+		return;
+	}
+	
+	m_pCam->PreviewStart(false);
 	CDialogEx::OnCancel();
+}
+
+
+void CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture()
+{
+	if (m_nDeviceCurSel == -1)
+	{
+		MessageBox("请选择相机");
+		return;
+	}
+
+	int    nCaptureWidth, nCaptureHeight, nCaptureBitCount;
+
+	KSJ_CaptureGetSizeEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);
+	BYTE    *pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];
+	KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
+
+	TCHAR   szFileName[MAX_PATH] = { '\0' };
+
+	SYSTEMTIME LocalTime;
+	GetLocalTime(&LocalTime);
+	sprintf_s(szFileName, _T("Capture//capture-%04d-%02d-%02d-%02d-%02d-%02d-%03d.bmp"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds);
+
+	KSJ_HelperSaveToBmp(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount, szFileName);
+	delete[] pImageData;
+	pImageData = NULL;
+}
+
+
+BOOL CKSJDemoVC_LineScanDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN)
+	{
+		switch (pMsg->wParam)//屏蔽esc、enter、空格
+		{
+		case VK_ESCAPE:
+		case VK_RETURN:
+		case VK_SPACE:
+			return TRUE;
+		}
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

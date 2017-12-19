@@ -72,18 +72,14 @@ public:
 	BYTE  m_btFwVersionMaj;
 	BYTE  m_btFwVersionMin;
 
-	float m_fWidthOfViewMM;
-	int m_nColSize;
-	int m_nRowSize;
-	int m_nMultiFrames;
+	int m_nTimer;
+	TCHAR   m_szBuf[128];
+	CWnd *m_Speed;
 	float m_fCoderDiameter1;
 	int m_nEncoderResolution1;
 	float m_fCoderDiameter2;
 	int m_nEncoderResolution2;
-	int m_nTimer;
-	TCHAR   m_szBuf[128];
-	CWnd *m_Speed;
-
+	int m_nLineTriggerPusles;
 private:
 	void InterfaceUpdateDelayCountMethod();
 	void InterfaceUpdateTriggerMode();
@@ -101,7 +97,10 @@ private:
 public:
 	KSJ_CTRL_BOARD_TYPE    m_CtrlBoardType;
 	bool m_bInitial;
-
+	bool m_bStart;
+	bool m_bAdjust;
+	bool m_bSlider;
+	bool m_bEdit;
 public:
 	WORD CMD_GetDeviceType();
 	WORD CMD_GetFwVersion();
@@ -131,18 +130,17 @@ public:
 	afx_msg void OnEnChangeEditDelayTime();
 	afx_msg void OnCbnSelchangeComboDelayCountMothed();
 	afx_msg void OnEnChangeEditDelayCount();
-	afx_msg void OnEnChangeEditColSize();
-	afx_msg void OnEnChangeEditWidthMm();
-	afx_msg void OnEnChangeEditRowSize();
-	afx_msg void OnEnChangeEditMultiFrames();
 	afx_msg void OnBnClickedButtonSetFlashtime();
 	afx_msg void OnBnClickedButtonSetPreflashtime();
 	afx_msg void OnBnClickedCheckFlashmode();
 	afx_msg void OnDestroy();
+	afx_msg void OnNMCustomdrawSliderTrigger(NMHDR *pNMHDR, LRESULT *pResult);
 	void OnBnClickedCheckStart(BOOL bStart);
 	void ReadIni();
 	void WriteIni();
 	void UpdateType();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	void SetType();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnEnChangeEditTrigger();
 };

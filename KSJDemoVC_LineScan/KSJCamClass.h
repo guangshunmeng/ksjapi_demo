@@ -22,11 +22,12 @@ public:
 	CKSJCamClass(void);
 	virtual ~CKSJCamClass(void);
 	void Initial(int nIndex);
-
+	void SetWnd(CWnd* pPreviewWnd);
 private:
 	void ReadIni();
 	void WriteIni();
-
+	CWnd* m_pPreviewWnd;
+	
 public:
 	// 是否已打开
 	virtual bool IsOpen() const;
@@ -38,7 +39,7 @@ public:
 	//virtual bool Capture( CPrImage* pImage, DWORD nDelay );
 
 
-	void Preview(HWND hWnd, RECT rtWndClient, bool bStart);
+	void UpdatePreview();
 
 	int GetDeviceIndex();
 	void ConvertCKdataToKSJdata(unsigned char *pImageKSJData, unsigned char *pImageCKData, int nWidth, int nHeight, int nBitCount);
@@ -60,6 +61,7 @@ public:
 	int AWAIBA_GetGainRange(int nSegIndex, int *pnMin, int *pnMax);
 	int AWAIBA_SetGain(int nSegIndex, int nGain);
 	int AWAIBA_GetGain(int nSegIndex, int *pnGain);
+	int PreviewStart(bool bStart);
 
 private:
 	int				m_nColStart;
@@ -162,4 +164,5 @@ private:
 	KSJ_CCM_MODE		 m_CcmMode;
 	KSJ_COLOR_TEMPRATURE m_CcmPresetting;
 	float				 m_fColorMatrix[3][3];
+
 };

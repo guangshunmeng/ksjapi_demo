@@ -434,10 +434,11 @@ void CKSJDemoVCDlg::OnTimer(UINT_PTR nIDEvent)
 	}
 	else if (nIDEvent == TIMERID_GET_FRAME_RATE)
 	{
-		float fFrameRate = 0.0f;
-		KSJ_PreviewGetFrameRate(m_nDeviceCurSel, &fFrameRate);
+		float fFrameRateCapture = 0.0f;
+		float fFrameRateShow = 0.0f;
+		KSJ_PreviewGetFrameRateEx(m_nDeviceCurSel, &fFrameRateCapture, &fFrameRateShow);
 		TCHAR   szFrameRate[32] = { '\0' };
-		sprintf_s(szFrameRate, _T("KSJDemo Fps=%0.2f"), fFrameRate);
+		sprintf_s(szFrameRate, _T("KSJDemo Fps=%0.2f"), fFrameRateShow);
 		SetWindowText(szFrameRate);
 	}
 
@@ -464,7 +465,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckPreviewstart()
 
 	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->GetCheck();
 
-	int nRet = KSJ_PreviewStart(m_nDeviceCurSel, (bCheck ? true : false));
+	int nRet = KSJ_PreviewStartEx(m_nDeviceCurSel, (bCheck ? true : false), true);
 
 	if (bCheck)
 	{

@@ -339,6 +339,8 @@ CKSJCamClass::CKSJCamClass(void)
 	m_CcmMode = KSJ_CCM_DISABLE;
 	m_CcmPresetting = KSJ_CT_5000K;
 	memset(m_fColorMatrix, 0, sizeof(m_fColorMatrix));
+
+	m_pPreviewWnd = NULL;
 }
 
 CKSJCamClass::~CKSJCamClass(void)
@@ -350,6 +352,11 @@ void CKSJCamClass::Initial(int nIndex)
 {
 	m_nIndex = nIndex;
 	ReadIni();
+}
+
+void CKSJCamClass::SetWnd(CWnd* pPreviewWnd)
+{
+	m_pPreviewWnd = pPreviewWnd;
 }
 
 bool CKSJCamClass::IsOpen() const
@@ -386,18 +393,54 @@ bool CKSJCamClass::IsOpen() const
 //}
 
 
-void CKSJCamClass::Preview(HWND hWnd, RECT rtWndClient, bool bStart)
+void CKSJCamClass::UpdatePreview()
 {
-	if (-1 == m_nIndex) return;
+	if (m_pPreviewWnd == NULL) return;
 
-	int    nPreviewWndWidth = 0;
-	int    nPreviewWndHeight = 0;
+	HWND hWnd = ((CStatic*)m_pPreviewWnd)->m_hWnd;
+	RECT rtWndClient;
+	((CStatic*)m_pPreviewWnd)->GetClientRect(&rtWndClient);
 
-	nPreviewWndWidth = rtWndClient.right - rtWndClient.left;
-	nPreviewWndHeight = rtWndClient.bottom - rtWndClient.top;
+	RECT   rtPreviewWndClient;
+	KSJ_ADDRESSMODE ColAddressMode = KSJ_SKIPNONE;
+	KSJ_ADDRESSMODE RowAddressMode = KSJ_SKIPNONE;
+	unsigned short wMultiFrameNum;
+	KSJ_PreviewGetFieldOfViewEx(m_nIndex, (int*)&rtPreviewWndClient.left, (int*)&rtPreviewWndClient.top,
+		(int*)&rtPreviewWndClient.right, (int*)&rtPreviewWndClient.bottom, &ColAddressMode, &RowAddressMode, &wMultiFrameNum);
+	rtPreviewWndClient.bottom *= wMultiFrameNum;
+	int nPreviewWndWidth = rtWndClient.right - rtWndClient.left;
+	int nPreviewWndHeight = rtWndClient.bottom - rtWndClient.top;
+	float fPreviewWndRate = (float)nPreviewWndWidth / (float)nPreviewWndHeight;
 
-	KSJ_PreviewSetPos(m_nIndex, hWnd, 0, 0, nPreviewWndWidth, nPreviewWndHeight);
+	int nClientWidth = rtPreviewWndClient.right - rtPreviewWndClient.left;
+	int nClientHeight = rtPreviewWndClient.bottom - rtPreviewWndClient.top;
+	float fClientRate = (float)nClientWidth / (float)nClientHeight;
+	float fRate = 0;
+	if (fClientRate > fPreviewWndRate)
+	{
+		fRate = (float)nPreviewWndWidth / (float)nClientWidth;
+		nClientHeight *= fRate;
+		nClientWidth = nPreviewWndWidth;
+		rtPreviewWndClient.top = (nPreviewWndHeight - nClientHeight) / 2;
+		rtPreviewWndClient.bottom += rtPreviewWndClient.top;
+	}
+	else
+	{
+		fRate = (float)nPreviewWndHeight / (float)nClientHeight;
+		nClientWidth *= fRate;
+		nClientHeight = nPreviewWndHeight;
+		rtPreviewWndClient.left = (nPreviewWndWidth - nClientWidth) / 2;
+	}
+
+	KSJ_PreviewSetPos(m_nIndex, hWnd, rtPreviewWndClient.left, rtPreviewWndClient.top, nClientWidth, nClientHeight);
+	((CStatic*)m_pPreviewWnd)->ShowWindow(FALSE);
+	((CStatic*)m_pPreviewWnd)->ShowWindow(TRUE);
+}
+
+int CKSJCamClass::PreviewStart(bool bStart)
+{
 	KSJ_PreviewStart(m_nIndex, bStart);
+	return 0;
 }
 
 int CKSJCamClass::GetDeviceIndex()

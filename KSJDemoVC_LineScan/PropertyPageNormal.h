@@ -33,4 +33,5 @@ public:
 	afx_msg void OnEnChangeEditGainBlue();
 	afx_msg void OnEnChangeEditExposureTimeMs();
 	afx_msg void OnEnChangeEditExposureLines();
+	afx_msg void OnCbnSelchangeComboDelayCountMothed();
 };

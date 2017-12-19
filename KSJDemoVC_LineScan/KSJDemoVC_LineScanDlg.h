@@ -67,4 +67,6 @@ public:
 	afx_msg void OnCbnSelchangeComboStop();
 	afx_msg LRESULT OnMsgSetTrigger(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedButtonCapture();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

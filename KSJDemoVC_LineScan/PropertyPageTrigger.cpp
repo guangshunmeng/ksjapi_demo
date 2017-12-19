@@ -36,7 +36,6 @@ BEGIN_MESSAGE_MAP(CPropertyPageTrigger, CPropertyPage)
 	ON_CBN_SELCHANGE(IDC_COMBO_METHOD, &CPropertyPageTrigger::OnCbnSelchangeComboMethod)
 	ON_EN_CHANGE(IDC_EDIT_DELAY, &CPropertyPageTrigger::OnEnChangeEditDelay)
 	ON_EN_CHANGE(IDC_EDIT_FIXED_FRAME_RATE_HW, &CPropertyPageTrigger::OnEnChangeEditFixedFrameRateHw)
-	ON_BN_CLICKED(IDC_BUTTON_EMPTY_FRAME_BUFFER, &CPropertyPageTrigger::OnBnClickedButtonEmptyFrameBuffer)
 	ON_BN_CLICKED(IDC_CHECK_INVERT, &CPropertyPageTrigger::OnBnClickedCheckInvert)
 	ON_BN_CLICKED(IDC_CHECK_FLASH_ENABLE, &CPropertyPageTrigger::OnBnClickedCheckFlashEnable)
 END_MESSAGE_MAP()
@@ -97,6 +96,8 @@ BOOL CPropertyPageTrigger::OnInitDialog()
 
 	pComboBox->SetCurSel((int)TriggerMode);
 
+
+
 	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_METHOD);
 	pComboBox->ResetContent();
 
@@ -125,7 +126,7 @@ BOOL CPropertyPageTrigger::OnInitDialog()
 	CSpinButtonCtrl * pSpinCtrlFixedFrameRateHw = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW);
 	pSpinCtrlFixedFrameRateHw->SetBuddy(GetDlgItem(IDC_EDIT_FIXED_FRAME_RATE_HW));
 	pSpinCtrlFixedFrameRateHw->SetBase(10);
-	pSpinCtrlFixedFrameRateHw->SetRange32(1, 150);    // Frame Rate is decided by Exposure, aoi, so it's difficult to get range, use can test it.
+	pSpinCtrlFixedFrameRateHw->SetRange32(1, 760000);    // Frame Rate is decided by Exposure, aoi, so it's difficult to get range, use can test it.
 
 	float fFixedFrameRate = 0.0f;
 	m_pCam->GetFixedFrameRateEx(&fFixedFrameRate);
@@ -160,13 +161,26 @@ void CPropertyPageTrigger::OnCbnSelchangeComboMode()
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_MODE);
 	int nIndex = pComboBox->GetCurSel();
 	if (nIndex == CB_ERR)    return;
-
+	m_pCam->PreviewStart(false);
+	Sleep(10);
 	m_pCam->TriggerModeSet((KSJ_TRIGGERMODE)nIndex);
 
 	KSJ_TRIGGERMODE    TriggerMode;
 	m_pCam->TriggerModeGet(&TriggerMode);
 
 	pComboBox->SetCurSel((int)TriggerMode);
+	m_pCam->PreviewStart(true);
+
+	if (TriggerMode != KSJ_TRIGGER_FIXFRAMERATE)
+	{
+		GetDlgItem(IDC_EDIT_FIXED_FRAME_RATE_HW)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW)->EnableWindow(FALSE);
+	}
+	else
+	{
+		GetDlgItem(IDC_EDIT_FIXED_FRAME_RATE_HW)->EnableWindow(TRUE);
+		GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW)->EnableWindow(TRUE);
+	}
 }
 
 
@@ -175,13 +189,15 @@ void CPropertyPageTrigger::OnCbnSelchangeComboMethod()
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_METHOD);
 	int nIndex = pComboBox->GetCurSel();
 	if (nIndex == CB_ERR)    return;
-
+	m_pCam->PreviewStart(false);
+	Sleep(10);
 	m_pCam->TriggerMethodSet((KSJ_TRIGGERMETHOD)nIndex);
 
 	KSJ_TRIGGERMETHOD    TriggerMethod;
 	m_pCam->TriggerMethodGet(&TriggerMethod);
 
 	pComboBox->SetCurSel((int)TriggerMethod);
+	m_pCam->PreviewStart(true);
 }
 
 
@@ -201,13 +217,6 @@ void CPropertyPageTrigger::OnEnChangeEditFixedFrameRateHw()
 	int nValue = GetDlgItemInt(IDC_EDIT_FIXED_FRAME_RATE_HW);
 	m_pCam->SetFixedFrameRateEx(nValue);
 }
-
-
-void CPropertyPageTrigger::OnBnClickedButtonEmptyFrameBuffer()
-{
-	m_pCam->EmptyFrameBuffer();
-}
-
 
 void CPropertyPageTrigger::OnBnClickedCheckInvert()
 {

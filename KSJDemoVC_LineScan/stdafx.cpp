@@ -5,4 +5,4 @@
 
 #include "stdafx.h"
 
-
+int g_nMultiFrames;
