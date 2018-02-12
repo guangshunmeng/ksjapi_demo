@@ -26,7 +26,7 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_CaptureRgbDataToClipboard(int nChannel);
 
 	// 设置FFC视场
-	KSJ_API  int __stdcall KSJ_SetFlatFieldCorrectionFieldOfView(int nChannel, int nColStart, int nRowStart, int nColSize, int nRowSize, KSJ_ADDRESSMODE ColAddressMode, KSJ_ADDRESSMODE RowAddressMode, unsigned short wMultiFrameNum);
+	KSJ_API  int __stdcall KSJ_SetFlatFieldCorrectionFieldOfView(int nChannel, int nColStart, int nRowStart, int nColSize, int nRowSize, KSJ_ADDRESSMODE AmCol, KSJ_ADDRESSMODE AmRow, unsigned short wMultiFrameNum);
 
 	// 获取FFC的视场，视场必须相同才可以进行校正。
 	KSJ_API  int __stdcall KSJ_GetFlatFieldCorrectionFieldOfView(int nChannel, int *pnColStart, int *pnRowStart, int *pnColSize, int *pnRowSize, KSJ_ADDRESSMODE *pColAddressMode, KSJ_ADDRESSMODE *pRowAddressMode, unsigned short *pwMultiFrameNum);

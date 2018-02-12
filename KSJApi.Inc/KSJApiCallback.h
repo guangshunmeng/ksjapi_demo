@@ -16,10 +16,10 @@ extern "C"{
 #endif
 
      // Preview Callback
-	typedef VOID(CALLBACK *KSJ_PREVIEWCALLBACK)(unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext);
+	typedef void(CALLBACK *KSJ_PREVIEWCALLBACK)(unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext);
     KSJ_API  int __stdcall KSJ_PreviewSetCallback( int nChannel, KSJ_PREVIEWCALLBACK pfPreviewCallback, void *lpContext );
 
-    typedef VOID(CALLBACK *KSJ_PREVIEWCALLBACKEX)(HDC  hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext);
+    typedef void(CALLBACK *KSJ_PREVIEWCALLBACKEX)(HDC  hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext);
     KSJ_API  int __stdcall KSJ_PreviewSetCallbackEx( int nChannel, KSJ_PREVIEWCALLBACKEX pfPreviewCallbackEx, void *lpContext );
 
 

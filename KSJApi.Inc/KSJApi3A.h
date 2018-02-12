@@ -17,10 +17,10 @@ extern "C"{
 
 	// 设置自动曝光的区域，这个区域是相对预览图像的左上角像素位置
 	KSJ_API  int __stdcall KSJ_AESetRegion(int nChannel, int nX, int nY, int nW, int nH);
-	// 设置自动曝光的区域，这个区域是相对预览图像的左上角像素位置,是否显示区域
-	KSJ_API  int __stdcall KSJ_AEShowRegion(int nChannel, bool bShow);
 	// Get AE Region (according to preview image left top coner ) and Show Status.
 	KSJ_API  int __stdcall KSJ_AEGetRegion(int nChannel, int *pnX, int *pnY, int *pnW, int *pnH, bool *pbShow);
+	// 设置自动曝光的区域，这个区域是相对预览图像的左上角像素位置,是否显示区域
+	KSJ_API  int __stdcall KSJ_AEShowRegion(int nChannel, bool bShow);
 
 	KSJ_API  int __stdcall KSJ_AESetPeakAveRatio(int nChannel, float fRatio);
 	KSJ_API  int __stdcall KSJ_AEGetPeakAveRatio(int nChannel, float *pfRatio);
@@ -64,6 +64,8 @@ extern "C"{
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 设置聚焦评估区域
 	KSJ_API  int __stdcall KSJ_AFSetRegion(int nChannel, int nX, int nY, int nW, int nH);
+	KSJ_API  int __stdcall KSJ_AFShowRegion(int nChannel, bool bShow);
+	KSJ_API  int __stdcall KSJ_AFGetRegion(int nChannel, int *pnX, int *pnY, int *pnW, int *pnH, bool *pbShow);
 	// 聚焦评估回调函数, nValue为返回的评估值
 	typedef void(__stdcall *KSJ_AFCALLBACK)(int nValue, void *lpContext);
 	// 设置聚焦评估回调

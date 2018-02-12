@@ -43,13 +43,13 @@ extern "C"{
 
 	// 参考“凯视佳工业相机内部API函数说明书”
 	// 单次读写字节数必须不大于64字节
-	KSJ_API  int __stdcall KSJ_WrSensorReg(int nChannel, unsigned char btRegAdress, unsigned short wValue);
-	KSJ_API  int __stdcall KSJ_RdSensorReg(int nChannel, unsigned char btRegAdress, unsigned short *pwValue);
+	KSJ_API  int __stdcall KSJ_WrSensorReg(int nChannel, unsigned char btRegAddress, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_RdSensorReg(int nChannel, unsigned char btRegAddress, unsigned short *pwValue);
 	KSJ_API  int __stdcall KSJ_WrSensorRegX(int nChannel, unsigned short wRegAdress, unsigned short wValue);
 	KSJ_API  int __stdcall KSJ_RdSensorRegX(int nChannel, unsigned short wRegAdress, unsigned short *pwValue);
 	KSJ_API  int __stdcall KSJ_FrameRestart(int nChannel); 	// 当曝光改变后无法立刻生效时，需调用此函数。
-	KSJ_API  int __stdcall KSJ_WrFpgaReg(int nChannel, unsigned char btRegAdress, unsigned short wValue);
-	KSJ_API  int __stdcall KSJ_RdFpgaReg(int nChannel, unsigned char btRegAdress, unsigned short *pwValue);
+	KSJ_API  int __stdcall KSJ_WrFpgaReg(int nChannel, unsigned char btRegAddress, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_RdFpgaReg(int nChannel, unsigned char btRegAddress, unsigned short *pwValue);
 	KSJ_API  int __stdcall KSJ_ResetFpga(int nChannel, bool bReset);
 	KSJ_API  int __stdcall KSJ_WrFx2Sfr(int nChannel, unsigned short uRegAdress, unsigned char btValue);
 	KSJ_API  int __stdcall KSJ_RdFx2Sfr(int nChannel, unsigned short uRegAdress, unsigned char *pbtValue);

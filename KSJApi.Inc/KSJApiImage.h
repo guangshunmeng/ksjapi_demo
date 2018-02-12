@@ -47,8 +47,8 @@ extern "C"{
 
 	// …Ë÷√Gamma÷µ£¨∑∂Œß -9 - +9
     KSJ_API  int __stdcall KSJ_GammaGetRange(int nChannel, int *pnMinGamma, int *pnMaxGamm);
-    KSJ_API  int __stdcall KSJ_GammaGetValue(int nChannel, int *pnValue);
     KSJ_API  int __stdcall KSJ_GammaSetValue( int nChannel, int nValue );
+    KSJ_API  int __stdcall KSJ_GammaGetValue(int nChannel, int *pnValue);
 
     typedef enum
     {
@@ -65,6 +65,7 @@ extern "C"{
     KSJ_API  int __stdcall KSJ_HueSaturationSet(int nChannel, KSJHueRange HueRange, int nHue, int nSaturation, int nLightness);
     KSJ_API  int __stdcall KSJ_HueSaturationGet(int nChannel, KSJHueRange HueRange, int *pnHue, int *pnSaturation, int *pnLightness);
     KSJ_API  int __stdcall KSJ_HueSaturationSetEnable(int nChannel, bool bEnable);
+	KSJ_API  int __stdcall KSJ_HueSaturationGetEnable(int nChannel, bool *pbEnable);
 
 #ifdef __cplusplus
 }

@@ -65,7 +65,7 @@ KSJ_API  int __stdcall KSJ_GpioInModeSet(int nChannel, KSJ_GPIOIN_MODE GpioInMod
 KSJ_API  int __stdcall KSJ_GpioInModeGet(int nChannel, KSJ_GPIOIN_MODE *pGpioInMode);
 // 当外触发输入引脚作为普通IO时，可以通过此函数进行读取，BIT0为该引脚电平状态。1为高电平，0为低电平。
 // 注意：只有在设置为KSJ_GPIOIN_NORMAL模式下才可以读取。
-KSJ_API  int __stdcall KSJ_GpioInStatusGet(int nChannel, BYTE *pbtValue);
+KSJ_API  int __stdcall KSJ_GpioInStatusGet(int nChannel, unsigned char *pbtValue);
 
 // 通过查询KSJ_SUPPORT_FLASHOUT_ASIO功能调用如下函数
 // When call KSJ_GpioSetDirection(, bit1 = 1 ) == KSJ_GpioOutModeSet(, KSJ_GPIOOUT_FLASH)
@@ -80,11 +80,11 @@ KSJ_API  int __stdcall KSJ_GpioOutModeSet(int nChannel, KSJ_GPIOOUT_MODE GpioOut
 KSJ_API  int __stdcall KSJ_GpioOutModeGet(int nChannel, KSJ_GPIOOUT_MODE *pGpioOutMode);
 
 // 注意：只有在KSJ_NORMAL_OUT模式下，才可以设置。
-KSJ_API  int __stdcall KSJ_GpioOutStatusSet(int nChannel, BYTE btValue);
+KSJ_API  int __stdcall KSJ_GpioOutStatusSet(int nChannel, unsigned char btValue);
 
 // 设置滤波时间，单位为Us，如果设置为0，则硬件将以200ns进行滤波。
-KSJ_API  int __stdcall KSJ_GpioFilterSet(int nChannel, WORD wFilterTimeUs);
-KSJ_API  int __stdcall KSJ_GpioFilterGet(int nChannel, WORD *pwFilterTimeUs);
+KSJ_API  int __stdcall KSJ_GpioFilterSet(int nChannel, unsigned short wFilterTimeUs);
+KSJ_API  int __stdcall KSJ_GpioFilterGet(int nChannel, unsigned short *pwFilterTimeUs);
 
 
 

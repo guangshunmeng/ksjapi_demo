@@ -144,6 +144,7 @@ BOOL CKSJDemoVC_LineScanDlg::OnInitDialog()
 	UpdateUI();
 	GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(FALSE);
 	m_pCam->SetWnd(GetDlgItem(IDC_VIEW));
+	SetDlgItemInt(IDC_EDIT_COUNT, 1);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -570,13 +571,20 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture()
 		MessageBox("请选择相机");
 		return;
 	}
+	int nCount = GetDlgItemInt(IDC_EDIT_COUNT);
+	if (nCount < 1) nCount = 1;
 
 	int    nCaptureWidth, nCaptureHeight, nCaptureBitCount;
-
 	KSJ_CaptureGetSizeEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);
-	BYTE    *pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];
-	KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
+	int nSize = nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3);
+	
+	BYTE    *pImageData = new BYTE[nSize * nCount];
+	for (int i = 0; i < nCount; i++)
+	{
+		KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData + i * nSize);
+	}
 
+	nCaptureHeight *= 3;
 	TCHAR   szFileName[MAX_PATH] = { '\0' };
 
 	SYSTEMTIME LocalTime;
