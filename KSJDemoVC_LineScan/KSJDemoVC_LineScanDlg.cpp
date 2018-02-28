@@ -573,7 +573,7 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture()
 	}
 	int nCount = GetDlgItemInt(IDC_EDIT_COUNT);
 	if (nCount < 1) nCount = 1;
-
+	m_pCam->PreviewStart(false);
 	int    nCaptureWidth, nCaptureHeight, nCaptureBitCount;
 	KSJ_CaptureGetSizeEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);
 	int nSize = nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3);
@@ -581,10 +581,10 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture()
 	BYTE    *pImageData = new BYTE[nSize * nCount];
 	for (int i = 0; i < nCount; i++)
 	{
-		KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData + i * nSize);
+		KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData + (nCount - 1 - i)* nSize);
 	}
 
-	nCaptureHeight *= 3;
+	nCaptureHeight *= nCount;
 	TCHAR   szFileName[MAX_PATH] = { '\0' };
 
 	SYSTEMTIME LocalTime;
@@ -594,6 +594,8 @@ void CKSJDemoVC_LineScanDlg::OnBnClickedButtonCapture()
 	KSJ_HelperSaveToBmp(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount, szFileName);
 	delete[] pImageData;
 	pImageData = NULL;
+
+	m_pCam->PreviewStart(true);
 }
 
 

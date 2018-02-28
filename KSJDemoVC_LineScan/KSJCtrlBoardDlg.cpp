@@ -1194,6 +1194,12 @@ int  CKSJCtrlBoardDlg::CMD_SetMega128(WORD wMultiFrames)
 	if (m_nTriggerModeIndex == 0)
 	{
 		unsigned short usOutputFreq = m_wOutputFreq;
+		BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_INFINITE))->GetCheck();
+		if (bCheck)
+		{
+			m_wOutputPulseNum = 65535;
+		}
+
 		unsigned short usOutputPulseNum = m_wOutputPulseNum;
 		nRet = SetTriggerMode0(m_nComIndex, 0, ucOutputChannel, ucOutputTriggerMethod, usOutputFreq, usOutputPulseNum);
 	}
