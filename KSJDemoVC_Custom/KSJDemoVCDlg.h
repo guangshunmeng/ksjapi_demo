@@ -105,4 +105,7 @@ private:
 public:
 	afx_msg void OnBnClickedButtonSaveFfc();
 	afx_msg void OnBnClickedButtonLoadFfc();
+	afx_msg void OnBnClickedButtonLoadCalibrationMapFile();
+	afx_msg void OnBnClickedCheckPreviewCalEnable();
+	afx_msg void OnBnClickedCheckCaptureCalEnable();
 };

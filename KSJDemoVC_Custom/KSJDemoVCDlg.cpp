@@ -66,6 +66,9 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_MAKE_FLAT_FIELD_FRAMES, &CKSJDemoVCDlg::OnBnClickedButtonMakeFlatFieldFrames)
 	ON_BN_CLICKED(IDC_BUTTON_SAVE_FFC, &CKSJDemoVCDlg::OnBnClickedButtonSaveFfc)
 	ON_BN_CLICKED(IDC_BUTTON_LOAD_FFC, &CKSJDemoVCDlg::OnBnClickedButtonLoadFfc)
+	ON_BN_CLICKED(IDC_BUTTON_LOAD_CALIBRATION_MAP_FILE, &CKSJDemoVCDlg::OnBnClickedButtonLoadCalibrationMapFile)
+	ON_BN_CLICKED(IDC_CHECK_PREVIEW_CAL_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckPreviewCalEnable)
+	ON_BN_CLICKED(IDC_CHECK_CAPTURE_CAL_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckCaptureCalEnable)
 END_MESSAGE_MAP()
 
 void CKSJDemoVCDlg::OnPaint()
@@ -831,4 +834,42 @@ void CKSJDemoVCDlg::OnBnClickedButtonLoadFfc()
 		return;
 
 	KSJ_LoadFlatFieldCorrection(m_nDeviceCurSel, (LPTSTR)(LPCTSTR)m_strFFCFile);
+}
+
+
+void CKSJDemoVCDlg::OnBnClickedButtonLoadCalibrationMapFile()
+{
+	CString strFilter = _T("ffc File(*.cmf)|*.cmf|All Files(*.*)|*.*||");
+
+	CFileDialog FileDlg(TRUE, TEXT(""), _T("ksj.cmf"), NULL, strFilter);
+
+	CString m_strFFCFile;
+	m_strFFCFile.Empty();
+
+	if (FileDlg.DoModal() == IDOK)
+	{
+		m_strFFCFile = FileDlg.GetPathName();
+	}
+	else
+		return;
+
+	KSJ_LoadCalibrationMapFile(m_nDeviceCurSel, (LPTSTR)(LPCTSTR)m_strFFCFile);
+}
+
+
+void CKSJDemoVCDlg::OnBnClickedCheckPreviewCalEnable()
+{
+	if (m_nDeviceCurSel == -1)    return;
+	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_PREVIEW_CAL_ENABLE))->GetCheck();
+
+	KSJ_PreviewSetCalibration(m_nDeviceCurSel, bCheck);
+}
+
+
+void CKSJDemoVCDlg::OnBnClickedCheckCaptureCalEnable()
+{
+	if (m_nDeviceCurSel == -1)    return;
+	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_CAPTURE_CAL_ENABLE))->GetCheck();
+
+	KSJ_CaptureSetCalibration(m_nDeviceCurSel, bCheck);
 }

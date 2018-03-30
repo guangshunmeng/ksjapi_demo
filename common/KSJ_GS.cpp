@@ -28,7 +28,6 @@ const TCHAR * g_szDeviceType[] =
 	_T("xxxxxxx UC36M(MGNN)"),
 	_T("xxxxxxx UC36C(MGYN)"),
 	_T("xxxxxxx UC36M(MGYN)"),
-
 	_T("Elanus2 UC900C(MRYY)"),
 	_T("Elanus2 UC1000C(MRYY)"),
 	_T("Elanus2 UC1400C(MRYY)"),
@@ -37,14 +36,11 @@ const TCHAR * g_szDeviceType[] =
 	_T("Elanus2 UC320C(MRYY)"),
 	_T("Elanus2 UC500C(MRYY)"),
 	_T("Elanus2 UC500M(MRYY)"),
-
 	_T("CatchBEST MUC130C(MRYN)"),
 	_T("CatchBEST MUC130M(MRYN)"),
 	_T("CatchBEST MUC320C(MRYN)"),
-
 	_T("Jelly2 MUC36C(MGYYO)"),
 	_T("Jelly2 MUC36M(MGYYO)"),
-
 	_T("xxxxxx MUC130C(MRYY)"),
 	_T("xxxxxx MUC130M(MRYY)"),
 	_T("xxxxxx MUC320C(MRYY)"),
@@ -53,14 +49,12 @@ const TCHAR * g_szDeviceType[] =
 	_T("xxxxxx MUC900C(MRYY)"),
 	_T("xxxxxx MUC1000C(MRYY)"),
 	_T("xxxxxx MUC1400C(MRYY)"),
-
 	_T("Elanus2 UD205C(SGYY)"),
 	_T("Elanus2 UD205M(SGYY)"),
 	_T("Elanus2 UD274C(SGYY)"),
 	_T("Elanus2 UD274M(SGYY)"),
 	_T("Elanus2 UD285C(SGYY)"),
 	_T("Elanus2 UD285M(SGYY)"),
-
 	_T("Jelly3 MU3C500C(MRYYO)"),
 	_T("Jelly3 MU3C500M(MRYYO)"),
 	_T("Jelly3 MU3C1000C(MRYYO)"),
@@ -71,49 +65,38 @@ const TCHAR * g_szDeviceType[] =
 	_T("Jelly3 MU3E130M(EGYYO)"),
 	_T("Jelly1 MUC36C(MGYFO)"),
 	_T("Jelly1 MUC36M(MGYFO)"),
-
 	_T("Jelly3 MU3C120C(MGYYO)"),
 	_T("Jelly3 MU3C120M(MGYYO)"),
 	_T("Jelly3 MU3E200C(EGYYO)"),
 	_T("Jelly3 MU3E200M(EGYYO)"),
-
 	_T("Jelly1 MUC130C(MRYNO)"),    // Jelly1 ++20150208
 	_T("Jelly1 MUC130M(MRYNO)"),    // Jelly1 ++20150208
 	_T("Jelly1 MUC320C(MRYNO)"),    // Jelly1 ++20150208
-
 	_T("Gauss3 U3C130C(MRYNO)"),
 	_T("Gauss3 U3C130M(MRYNO)"),
 	_T("Gauss3 U3C320C(MRYNO)"),
 	_T("Gauss3 U3C500C(MRYNO)"),
 	_T("Gauss3 U3C500M(MRYNO)"),
-
 	_T("xxxxxx MU3C1401C(MRYYO)"),
 	_T("xxxxxx MU3C1001C(MRYYO)"),
 	_T("xxxxxx MUC131M(MRYN)"),
-
 	_T("xxxxxx MU3C501C(MRYYO)"),
 	_T("xxxxxx MU3C501M(MRYYO)"),
-	_T("xxxxxx MU3C121C(MGYYO)"),
-	_T("xxxxxx MU3C121M(MGYYO)"),
+	_T("Jelly2 MUC120C(MGYYO)"),
+	_T("Jelly2 MUC120M(MGYYO)"),
 	_T("xxxxxx MU3E131C(EGYY)"),
 	_T("xxxxxx MU3E131M(EGYY)"),
 	_T("xxxxxx MU3E201C(EGYYO)"),
 	_T("xxxxxx MU3E201M(EGYYO)"),
-
 	_T("Missing Device"),
-
 	_T("Jelly3 MU3S230C(SGYYO)"),
 	_T("Jelly3 MU3S230M(SGYYO)"),
-
 	_T("Jelly3 MU3S640C(SRYYO)"),
 	_T("Jelly3 MU3S640M(SRYYO)"),
-
 	_T("Cooler CUD285C(SGYYO)"),
 	_T("Cooler CUD285M(SGYYO)"),
-
 	_T("Jelly3 MU3S231C(SGYYO)"),
 	_T("Jelly3 MU3S231M(SGYYO)"),
-
 	_T("Jelly3 MU3S500C(SGYYO)"),
 	_T("Jelly3 MU3S500M(SGYYO)"),
 
@@ -138,6 +121,20 @@ const TCHAR * g_szDeviceType[] =
 	_T("Jelly6 MU3HI400M(IGYYO)"),
 
 	_T("TEST CAMERA"),
+
+	_T("Jelly6 MU3HI401C(IGYYO)"),
+	_T("Jelly6 MU3HI401M(IGYYO)"),
+
+	_T("Jelly6 MU3S40C(SGYYO)"),
+	_T("Jelly6 MU3S40M(SGYYO)"),
+
+	_T("Jelly6 MU3S210C(SRYYO)"),
+	_T("Jelly6 MU3S210M(SRYYO)"),
+	_T("Jelly6 MU3I130C(IGYYO)"),
+	_T("Jelly6 MU3I130M(IGYYO)"),
+
+	_T("Jelly6 MU3S321C(SGYYO)"),
+	_T("Jelly6 MU3S321M(SGYYO)"),
 
 	_T("UNKOWN TYPE"),
 	_T("UNKOWN TYPE"),
@@ -275,6 +272,7 @@ const int g_nWBMode = sizeof(g_szWBMode) / sizeof(TCHAR*);
 
 const TCHAR  *g_szHWBMode[] =
 { 
+	_T("Disable"),
 	_T("Hardware Presettings"),
     _T("Hardware Auto Once"),
     _T("Hardware Auto Continuous"),
@@ -477,4 +475,53 @@ const TCHAR *g_szAEStatus[] =
 };
 const int g_nAEStatus = sizeof(g_szAEStatus) / sizeof(TCHAR*);
 
+const TCHAR *g_szBayerFilter[] =
+{
+	_T("Nearest Neighbor"),
+	_T("Bilinear"),
+	_T("Smooth Hue"),
+	_T("Edge Sensing"),
+	_T("Laplacian"),
+	_T("Fast Bilinear")
 
+};
+const int g_nBayerFilter = sizeof(g_szBayerFilter) / sizeof(TCHAR*);
+
+
+const TCHAR *g_szBayerMode1[] =
+{
+	_T("BGGR to BGR24"),
+	_T("GRBG to BGR24"),
+	_T("RGGB to BGR24"),
+	_T("GBRG to BGR24"),
+	_T("BGGR to BGR24 FLIP"),
+	_T("GRBG to BGR24 FLIP"),
+	_T("RGGB to BGR24 FLIP"),
+	_T("GBRG to BGR24 FLIP"),
+	_T("BGGR to BGR32"),
+	_T("GRBG to BGR32"),
+	_T("RGGB to BGR32"),
+	_T("GBRG to BGR32"),
+	_T("BGGR to BGR32 FLIP"),
+	_T("GRBG to BGR32 FLIP"),
+	_T("RGGB to BGR32 FLIP"),
+	_T("GBRG to BGR32 FLIP"),
+	_T("BGGR to GRAY8"),
+	_T("GRBG to GRAY8"),
+	_T("RGGB to GRAY8"),
+	_T("GBRG to GRAY8"),
+	_T("BGGR to GRAY8 FLIP"),
+	_T("GRBG to GRAY8 FLIP"),
+	_T("RGGB to GRAY8 FLIP"),
+	_T("GBRG to GRAY8 FLIP")
+};
+
+const int g_nBayerMode1 = sizeof(g_szBayerMode1) / sizeof(TCHAR*);
+
+
+const TCHAR *g_szMapMode[] =
+{
+	_T("Nearest Neighbor"),
+	_T("Bilinear")
+};
+const int g_nMapMode = sizeof(g_szMapMode) / sizeof(TCHAR*);

@@ -26,7 +26,7 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_CaptureRgbDataToClipboard(int nChannel);
 
 	// 设置FFC视场
-	KSJ_API  int __stdcall KSJ_SetFlatFieldCorrectionFieldOfView(int nChannel, int nColStart, int nRowStart, int nColSize, int nRowSize, KSJ_ADDRESSMODE ColAddressMode, KSJ_ADDRESSMODE RowAddressMode, unsigned short wMultiFrameNum);
+	KSJ_API  int __stdcall KSJ_SetFlatFieldCorrectionFieldOfView(int nChannel, int nColStart, int nRowStart, int nColSize, int nRowSize, KSJ_ADDRESSMODE AmCol, KSJ_ADDRESSMODE AmRow, unsigned short wMultiFrameNum);
 
 	// 获取FFC的视场，视场必须相同才可以进行校正。
 	KSJ_API  int __stdcall KSJ_GetFlatFieldCorrectionFieldOfView(int nChannel, int *pnColStart, int *pnRowStart, int *pnColSize, int *pnRowSize, KSJ_ADDRESSMODE *pColAddressMode, KSJ_ADDRESSMODE *pRowAddressMode, unsigned short *pwMultiFrameNum);
@@ -48,6 +48,18 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_SaveFlatFieldCorrection(int nChannel, TCHAR *pszFilePath);
 
 	KSJ_API  int __stdcall KSJ_LoadFlatFieldCorrection(int nChannel, TCHAR *pszFilePath);
+
+
+	// 预览时是否使能
+	KSJ_API  int __stdcall KSJ_PreviewSetCalibration(int nChannel, bool bEnable);
+
+	KSJ_API  int __stdcall KSJ_PreviewGetCalibration(int nChannel, bool *pbEnable);
+	// 采集时是否使能
+	KSJ_API  int __stdcall KSJ_CaptureSetCalibration(int nChannel, bool bEnable);
+
+	KSJ_API  int __stdcall KSJ_CaptureGetCalibration(int nChannel, bool *pbEnable);
+
+	KSJ_API  int __stdcall KSJ_LoadCalibrationMapFile(int nChannel, TCHAR *pszFilePath);
 
 #ifdef __cplusplus
 }

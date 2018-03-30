@@ -20,23 +20,23 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_SetSerials(int nChannel, unsigned char btSerials);
 	KSJ_API  int __stdcall KSJ_GetSerials(int nChannel, unsigned char *pbtSerials);
 
-	KSJ_API  int __stdcall KSJ_WorkingModeProgram(int nChannel, WORD wValue);
-	KSJ_API  int __stdcall KSJ_WorkingModeReadout(int nChannel, WORD *pValue);
+	KSJ_API  int __stdcall KSJ_WorkingModeProgram(int nChannel, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_WorkingModeReadout(int nChannel, unsigned short *pValue);
 
-	KSJ_API  int __stdcall KSJ_WorkingModeExProgram(int nChannel, WORD wValue);
-	KSJ_API  int __stdcall KSJ_WorkingModeExReadout(int nChannel, WORD *pValue);
+	KSJ_API  int __stdcall KSJ_WorkingModeExProgram(int nChannel, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_WorkingModeExReadout(int nChannel, unsigned short *pValue);
 
-	KSJ_API  int __stdcall KSJ_ColorModeProgram(int nChannel, WORD wValue);
-	KSJ_API  int __stdcall KSJ_ColorModeReadout(int nChannel, WORD *pValue);
+	KSJ_API  int __stdcall KSJ_ColorModeProgram(int nChannel, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_ColorModeReadout(int nChannel, unsigned short *pValue);
 
-	KSJ_API  int __stdcall KSJ_SerialsDescProgram(int nChannel, BYTE btDesc[16]);
-	KSJ_API  int __stdcall KSJ_SerialsDescReadout(int nChannel, BYTE btDesc[16]);
+	KSJ_API  int __stdcall KSJ_SerialsDescProgram(int nChannel, unsigned char btDesc[16]);
+	KSJ_API  int __stdcall KSJ_SerialsDescReadout(int nChannel, unsigned char btDesc[16]);
 
-	KSJ_API  int __stdcall KSJ_LutInfoProgram(int nChannel, WORD wValue);
-	KSJ_API  int __stdcall KSJ_LutInfoReadout(int nChannel, WORD *pValue);
+	KSJ_API  int __stdcall KSJ_LutInfoProgram(int nChannel, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_LutInfoReadout(int nChannel, unsigned short *pValue);
 
-	KSJ_API  int __stdcall KSJ_GammaLutInfoProgram(int nChannel, WORD wValue);
-	KSJ_API  int __stdcall KSJ_GammaLutInfoReadout(int nChannel, WORD *pValue);
+	KSJ_API  int __stdcall KSJ_GammaLutInfoProgram(int nChannel, unsigned short wValue);
+	KSJ_API  int __stdcall KSJ_GammaLutInfoReadout(int nChannel, unsigned short *pValue);
 
 	KSJ_API  int __stdcall KSJ_HWBMatrixProgram(int nChannel, float fMatrix[3]);
 	KSJ_API  int __stdcall KSJ_HWBMatrixReadout(int nChannel, float fMatrix[3]);
