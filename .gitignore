@@ -44,3 +44,6 @@ KSJApiLog/
 /KSJDemoVC_UserZone.Lib
 KSJDemoVC_Custom.Lib/
 /bin/KSJApiLog
+
+*.ffc
+*.mpf

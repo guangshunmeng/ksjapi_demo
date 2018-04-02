@@ -475,7 +475,11 @@ void CKSJDemoVCDlg::OnBnClickedCheckPreviewstart()
 		KillTimer(TIMERID_GET_FRAME_RATE);
 	}
 
-	nRet = KSJ_WhiteBalanceSet(m_nDeviceCurSel, KSJ_SWB_AUTO_CONITNUOUS);	nRet = KSJ_AWBSetRegion(m_nDeviceCurSel, 648, 486, 2592, 1944);	nRet = KSJ_SetParam(m_nDeviceCurSel, KSJ_EXPOSURE_LINES, 32);}
+	nRet = KSJ_WhiteBalanceSet(m_nDeviceCurSel, KSJ_SWB_AUTO_CONITNUOUS);
+	nRet = KSJ_AWBSetRegion(m_nDeviceCurSel, 648, 486, 2592, 1944);
+	nRet = KSJ_SetParam(m_nDeviceCurSel, KSJ_EXPOSURE_LINES, 32);
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Start Capture Message Function
