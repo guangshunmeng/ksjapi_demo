@@ -152,7 +152,11 @@ extern "C"{
 		KSJ_MU3S210C_SRYYO,    // 115
 		KSJ_MU3S210M_SRYYO,    // 116
 		KSJ_MU3I130C_IGYYO,    // 117
-		KSJ_MU3I130M_IGYYO     // 118
+		KSJ_MU3I130M_IGYYO,    // 118
+
+		KSJ_MU3S321C_SGYYO,    // 119
+		KSJ_MU3S321M_SGYYO     // 120
+
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);

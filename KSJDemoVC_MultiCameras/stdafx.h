@@ -59,13 +59,13 @@ typedef unsigned *PBEGINTHREADEX_ID;
 #else
 #ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
+#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )// KSJApi64d.lib仅供凯视佳内部调试使用，用户编译时请修改成KSJApi64.lib
 #else
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
 #endif
 #else
 #ifdef _DEBUG
-#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )
+#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )// KSJApid.lib仅供凯视佳内部调试使用，用户编译时请修改成KSJApi.lib
 #else
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )
 #endif

@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_LOAD_CALIBRATION_MAP_FILE, &CKSJDemoVCDlg::OnBnClickedButtonLoadCalibrationMapFile)
 	ON_BN_CLICKED(IDC_CHECK_PREVIEW_CAL_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckPreviewCalEnable)
 	ON_BN_CLICKED(IDC_CHECK_CAPTURE_CAL_ENABLE, &CKSJDemoVCDlg::OnBnClickedCheckCaptureCalEnable)
+	ON_BN_CLICKED(IDC_BUTTON_PROGRAM_CAL, &CKSJDemoVCDlg::OnBnClickedButtonProgramCal)
 END_MESSAGE_MAP()
 
 void CKSJDemoVCDlg::OnPaint()
@@ -872,4 +873,16 @@ void CKSJDemoVCDlg::OnBnClickedCheckCaptureCalEnable()
 	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_CAPTURE_CAL_ENABLE))->GetCheck();
 
 	KSJ_CaptureSetCalibration(m_nDeviceCurSel, bCheck);
+}
+
+
+void CKSJDemoVCDlg::OnBnClickedButtonProgramCal()
+{
+	if (m_nDeviceCurSel == -1)    return;
+
+	float fCoef[14] = { 456.005005, 0.000000, 647.381104, 0.000000,
+		454.305847,	502.129578, 0.000000, 0.000000, 1.000000,
+		-0.141965,	0.030308, -0.000111, -0.001125, -0.003585 };
+
+	KSJ_CalibrationProgram(m_nDeviceCurSel, fCoef);
 }

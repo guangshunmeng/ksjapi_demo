@@ -108,4 +108,5 @@ public:
 	afx_msg void OnBnClickedButtonLoadCalibrationMapFile();
 	afx_msg void OnBnClickedCheckPreviewCalEnable();
 	afx_msg void OnBnClickedCheckCaptureCalEnable();
+	afx_msg void OnBnClickedButtonProgramCal();
 };

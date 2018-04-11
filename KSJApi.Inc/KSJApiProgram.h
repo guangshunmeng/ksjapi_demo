@@ -54,6 +54,8 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_GammaLutDataProgram(int nChannel, unsigned short *pData, int nWords);
 	KSJ_API  int __stdcall KSJ_GammaLutDataReadout(int nChannel, unsigned short *pData, int *pnWords);
 
+	KSJ_API  int __stdcall KSJ_CalibrationProgram(int nIndex, float fCoefficient[14]);
+	KSJ_API  int __stdcall KSJ_CalibrationReadout(int nIndex, float fCoefficient[14]);
 
 #ifdef __cplusplus
 }
