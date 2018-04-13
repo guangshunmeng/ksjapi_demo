@@ -90,9 +90,10 @@
             // PictureBox_PREVIEWWND
             // 
             this.PictureBox_PREVIEWWND.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PictureBox_PREVIEWWND.Location = new System.Drawing.Point(10, 28);
+            this.PictureBox_PREVIEWWND.Location = new System.Drawing.Point(10, 25);
             this.PictureBox_PREVIEWWND.Name = "PictureBox_PREVIEWWND";
-            this.PictureBox_PREVIEWWND.Size = new System.Drawing.Size(567, 599);
+            this.PictureBox_PREVIEWWND.Size = new System.Drawing.Size(555, 602);
+            this.PictureBox_PREVIEWWND.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox_PREVIEWWND.TabIndex = 0;
             this.PictureBox_PREVIEWWND.TabStop = false;
             // 

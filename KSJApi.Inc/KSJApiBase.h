@@ -109,8 +109,8 @@ extern "C"{
 		KSJ_MUC131M_MRYN,      // 76 OEM Device
 		KSJ_MU3C501C_MRYYO,    // 77 DELETE Not Support
 		KSJ_MU3C501M_MRYYO,    // 78 DELETE Not Support
-		KSJ_MU3C121C_MGYYO,    // 79 DELETE Not Support
-		KSJ_MU3C121M_MGYYO,    // 80 DELETE Not Support
+		KSJ_MUC120C_MGYYO,     // 79 Jelly2
+		KSJ_MUC120M_MGYYO,     // 80 Jelly2
 		KSJ_MU3E131C_EGYYO,    // 81 DELETE Not Support
 		KSJ_MU3E131M_EGYYO,    // 82 DELETE Not Support
 		KSJ_MU3E201C_EGYYO,    // 83 DELETE Not Support
@@ -152,7 +152,11 @@ extern "C"{
 		KSJ_MU3S210C_SRYYO,    // 115
 		KSJ_MU3S210M_SRYYO,    // 116
 		KSJ_MU3I130C_IGYYO,    // 117
-		KSJ_MU3I130M_IGYYO     // 118
+		KSJ_MU3I130M_IGYYO,    // 118
+
+		KSJ_MU3S321C_SGYYO,    // 119
+		KSJ_MU3S321M_SGYYO     // 120
+
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);

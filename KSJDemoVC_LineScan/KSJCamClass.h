@@ -156,6 +156,9 @@ public:
 	int ColorCorrectionPresettingGet(KSJ_COLOR_TEMPRATURE *pCcmPresetting);
 	int ColorCorrectionMatrixSet(float fMatrix[3][3]);
 	int ColorCorrectionMatrixGet(float fMatrix[3][3]);
+
+	int SensitivitySetMode(KSJ_SENSITIVITYMODE SensitivityMode);
+	int SensitivityGetMode(KSJ_SENSITIVITYMODE *pSensitivityMode);
 private:
 	KSJ_WB_MODE			 m_WbMode;
 	KSJ_COLOR_TEMPRATURE m_WbPresetting;
@@ -164,5 +167,6 @@ private:
 	KSJ_CCM_MODE		 m_CcmMode;
 	KSJ_COLOR_TEMPRATURE m_CcmPresetting;
 	float				 m_fColorMatrix[3][3];
+	KSJ_SENSITIVITYMODE m_Mode;
 
 };

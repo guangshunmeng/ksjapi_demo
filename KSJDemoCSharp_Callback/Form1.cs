@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using KSJCamera;
+using KSJApi_TriggerMode;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.IO;
@@ -14,6 +15,9 @@ using KSJ_GS;
 using KSJ_FUNCTION;
 using KSJ_Code;
 using KSJApi_Callback;
+using KSJ_Win;
+using HalconDotNet;
+//using System.Drawing.Imaging; 
 
 namespace KSJDemoCSharp
 {
@@ -26,7 +30,8 @@ namespace KSJDemoCSharp
             m_nDeviceCurSel = -1;
             // 初始化动态库
             KSJApiBase.KSJ_Init();
-
+            previewCallBack = new KSJApiCallback.KSJ_PREVIEWCALLBACK(PreviewCallback);
+            previewCallBackEx = new KSJApiCallback.KSJ_PREVIEWCALLBACKEX(PreviewCallbackEx);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -78,7 +83,7 @@ namespace KSJDemoCSharp
 
                 string szText = String.Format("Index({0})-Type({1})-Serials({2})-FwVer({3}.{4})-FpgaVer({5}.{6})",
                                         i, KSJGS.g_szDeviceType[(int)(m_DeviceInfo[i].DeviceType)], m_DeviceInfo[i].nSerials, btMajVersion, btMinVersion, btFpgaMajVersion, btFpgaMinVersion);
-                ComboBox_DEVICE_LIST.Items.Insert(0, szText);
+                ComboBox_DEVICE_LIST.Items.Insert(i, szText);
             }
         }
 
@@ -294,6 +299,7 @@ namespace KSJDemoCSharp
             m_nDeviceCurSel = ComboBox_DEVICE_LIST.SelectedIndex;
             UpdateInterface();
             UpdateInterfaceFunction();
+            KSJApiTriggerMode.KSJ_TriggerModeSet(m_nDeviceCurSel, KSJApiTriggerMode.KSJ_TRIGGERMODE.KSJ_TRIGGER_SOFTWARE);
         }
 
         private void Button_PREVIEW_FOV_SET_Click(object sender, EventArgs e)
@@ -396,21 +402,19 @@ namespace KSJDemoCSharp
             {
                 Timer_GET_FRAME_RATE.Stop();
             }
-
         }
 
         private void Timer_GET_FRAME_RATE_Tick(object sender, EventArgs e)
         {
-            float fFrameRate = 0.0f;
-            KSJApiBase.KSJ_PreviewGetFrameRate(m_nDeviceCurSel, ref fFrameRate);
-            string szFrameRate = fFrameRate.ToString("0.00");
-            this.Text = string.Format("KSJDemo Fps={0}", szFrameRate);
+            //float fFrameRate = 0.0f;
+            //KSJApiBase.KSJ_PreviewGetFrameRate(m_nDeviceCurSel, ref fFrameRate);
+            //string szFrameRate = fFrameRate.ToString("0.00");
+            //this.Text = string.Format("KSJDemo Fps={0}", szFrameRate);
         }
 
-        private void Button_CAPTURE_Click(object sender, EventArgs e)
+        unsafe private void Button_CAPTURE_Click(object sender, EventArgs e)
         {
             if (m_nDeviceCurSel == -1) return;
-
             int nCaptureWidth = 0;
             int nCaptureHeight = 0;
             int nCaptureBitCount = 0;
@@ -421,10 +425,9 @@ namespace KSJDemoCSharp
             byte[] pImageData = new byte[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];
 
             long counterStart = 0;
-            KSJApiBase.QueryPerformanceCounter(ref counterStart);
+            KSJWin.QueryPerformanceCounter(ref counterStart);
 
-            nRet =  KSJApiBase.KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
-
+            nRet = KSJApiBase.KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
             PrintErrorMessage(nRet);
             if (nRet != KSJCode.RET_SUCCESS)
             {
@@ -432,10 +435,10 @@ namespace KSJDemoCSharp
             }
 
             long counterEnd = 0;
-            KSJApiBase.QueryPerformanceCounter(ref counterEnd);
+            KSJWin.QueryPerformanceCounter(ref counterEnd);
 
             long nFreq = 0;
-            KSJApiBase.QueryPerformanceFrequency(ref nFreq);
+            KSJWin.QueryPerformanceFrequency(ref nFreq);
 
             float fInterval = (float)(counterEnd - counterStart);
             float fElapse = fInterval / (float)nFreq * 1000;    // MS
@@ -450,20 +453,13 @@ namespace KSJDemoCSharp
 
             TextBox_ELAPSE_TIME.Text = string.Format("Elapse: {0}ms", fElapse);
 
+            Bitmap bitmap = BytesToBitmap(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount);
+            PictureBox_PREVIEWWND.Image = Image.FromHbitmap(bitmap.GetHbitmap());
         }
 
-        public void PreviewCallback(IntPtr pImageData, int width, int height, int nBitCount, IntPtr lpContext)
+        private void PreviewCallback(IntPtr pImageData, int width, int height, int nBitCount, IntPtr lpContext)
         {
-            try
-            {
-                //KSJApiBase.OutputDebugString("++KSJCSharpDemo::PreviewCallback");
-                DrawCrossLine(width / 2, height / 2, 10, pImageData, width, height, nBitCount);
-                //KSJApiBase.OutputDebugString("--KSJCSharpDemo::PreviewCallback");
-            }
-            catch(Exception)
-            {
-                //KSJApiBase.OutputDebugString("--KSJCSharpDemo::PreviewCallback Exception");
-            }
+            DrawCrossLine(width / 2, height / 2, 10, pImageData, width, height, nBitCount);
         }
 
         unsafe private void DrawCrossLine(int nX, int nY, int nLineWidth, IntPtr pImageData, int nWidth, int nHeight, int nBitCount)
@@ -491,84 +487,108 @@ namespace KSJDemoCSharp
             int j = 0;
 
             for (i = 0; i < nHeight; i++)     // draw vertical line
-            {   
-                int temp = nWidthBytes * i + nStartPixelH * nPixelBytes;
+            {
+                int ntemp = nWidthBytes * i + nStartPixelH * nPixelBytes;
 
                 for (j = nStartPixelH; j <= nEndPixelH; j++)
                 {
                     if (1 == nPixelBytes)
                     {
-                        *( pBitmap + temp ) = 0 ;
+                        *(pBitmap + ntemp) = 0;
                     }
                     else
                     {
-                        *(pBitmap + temp + 1) = 0;
-                        *(pBitmap + temp + 2) = 0;
-                        *(pBitmap + temp + 3) = 0;
+                        *(pBitmap + ntemp) = 0;
+                        *(pBitmap + ntemp + 1) = 0;
+                        *(pBitmap + ntemp + 2) = 255;
                     }
 
-                    temp += nPixelBytes;
+                    ntemp += nPixelBytes;
                 }
-
             }
- 
-        }
-        public static IntPtr GetPtrFromByteArray(byte[] value)
-        {
-            unsafe
+
+            for (i = nStartPixelV; i <= nEndPixelV; i++)// draw horizontal line
             {
-                fixed (byte* pa = &value[0])
+                int ntemp = (nHeight - 1 - i) * nWidthBytes;
+                for (j = 0; j < nWidth; j++)
                 {
-                    return new IntPtr(pa);
+                    if (1 == nPixelBytes)
+                    {
+                        *(pBitmap + ntemp) = 0;
+                    }
+                    else
+                    {
+                        *(pBitmap + ntemp) = 0;
+                        *(pBitmap + ntemp + 1) = 0;
+                        *(pBitmap + ntemp + 2) = 255;
+                    }
+
+                    ntemp += nPixelBytes;
                 }
             }
         }
-        public static unsafe System.Drawing.Bitmap BytesToBitmap( byte[] bytes, int width, int height )
-        {
 
+        public static unsafe System.Drawing.Bitmap BytesToBitmap(byte[] bytes, int width, int height, int nBitCount)
+        {
             try
             {
-                Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+                PixelFormat bitmaptype = PixelFormat.Format8bppIndexed;
+                int nPixelBytes = nBitCount >> 3;
+
+                if (3 == nPixelBytes)
+                {
+                    bitmaptype = PixelFormat.Format24bppRgb;
+                }
+                else if (4 == nPixelBytes)
+                {
+                    bitmaptype = PixelFormat.Format32bppPArgb;
+                }
+
+                Bitmap bitmap = new Bitmap(width, height, bitmaptype);
                 //获取图像的BitmapData对像 
-                BitmapData bmpData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+                BitmapData bmpData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmaptype);
 
                 byte* ptr = (byte*)(bmpData.Scan0);
+                int nWidthBytes = width * nPixelBytes;
+                int nSrcOffset = 0;
+                int nDesOffset = 0;
                 for (int i = 0; i < height; i++)
                 {
+                    nSrcOffset = (height - i - 1) * nWidthBytes;
+                    nDesOffset = 0;
                     for (int j = 0; j < width; j++)
                     {
-                        int offset = (height - i - 1) * bmpData.Width + j;
-                        int val = bytes[offset];
-                        *(ptr + j) = (byte)val;
+                        for (int k = 0; k < nPixelBytes; k++)
+                        {
+                            *(ptr + nDesOffset + k) = bytes[nSrcOffset + k];
+                        }
+
+                        nDesOffset += nPixelBytes;
+                        nSrcOffset += nPixelBytes;
                     }
 
-                    ptr = ptr + bmpData.Stride;
+                    ptr = ptr + nWidthBytes;
                 }
 
-                //Marshal.Copy(bmpData, 0, ptr, scanBytes);
                 bitmap.UnlockBits(bmpData);  // 解锁内存区域
 
-                // 修改生成位图的索引表，从伪彩修改为灰度
-                ColorPalette palette;
-                // 获取一个Format8bppIndexed格式图像的Palette对象
-                using (Bitmap bmp = new Bitmap(1, 1, PixelFormat.Format8bppIndexed))
+                if (1 == nPixelBytes)
                 {
-                    palette = bmp.Palette;
+                    // 修改生成位图的索引表，从伪彩修改为灰度
+                    ColorPalette palette;
+                    // 获取一个Format8bppIndexed格式图像的Palette对象
+                    using (Bitmap bmp = new Bitmap(1, 1, PixelFormat.Format8bppIndexed))
+                    {
+                        palette = bmp.Palette;
+                    }
+                    for (int i = 0; i < 256; i++)
+                    {
+                        palette.Entries[i] = Color.FromArgb(i, i, i);
+                    }
+                    // 修改生成位图的索引表
+                    bitmap.Palette = palette;
                 }
-                for (int i = 0; i < 256; i++)
-                {
-                    palette.Entries[i] = Color.FromArgb(i, i, i);
-                }
-                // 修改生成位图的索引表
-                bitmap.Palette = palette;
 
-                string filePatn = "E:\\temp\\" + "_InspCode_";
-                if (!Directory.Exists(filePatn))
-                { Directory.CreateDirectory(filePatn); }
-                // int jobID_Code = _jobID_Code + 1;
-                string saveImagepath = filePatn + "\\" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff") + ".bmp";
-
-                bitmap.Save(saveImagepath);
                 return bitmap;
             }
             catch (ArgumentNullException ex)
@@ -583,17 +603,17 @@ namespace KSJDemoCSharp
 
         private void PreviewCallbackEx(IntPtr hDC, IntPtr returnBitmap, int width, int height, int nBitCount, IntPtr lpContext)
         {
-            DateTime dt = DateTime.Now; 
+            DateTime dt = DateTime.Now;
             Graphics g = Graphics.FromHdc(hDC);
             Font f = new Font("宋体", height / 20, FontStyle.Regular);
             g.DrawString(dt.ToString(), f, Brushes.AliceBlue, width / 20, height / 14);
+            g.Dispose();
         }
 
-       KSJApiCallback.KSJ_PREVIEWCALLBACK previewCallBack;
-       private void CheckBox_SET_CALLBACK_CheckedChanged(object sender, EventArgs e)
+        KSJApiCallback.KSJ_PREVIEWCALLBACK previewCallBack;
+        KSJApiCallback.KSJ_PREVIEWCALLBACKEX previewCallBackEx;
+        private void CheckBox_SET_CALLBACK_CheckedChanged(object sender, EventArgs e)
         {
-
-            previewCallBack = new KSJApiCallback.KSJ_PREVIEWCALLBACK(PreviewCallback);
             bool bCheck = CheckBox_SET_CALLBACK.Checked;
             if (bCheck)
             {
@@ -607,12 +627,10 @@ namespace KSJDemoCSharp
 
         private void CheckBox_SET_CALLBACKEX_CheckedChanged(object sender, EventArgs e)
         {
-            KSJApiCallback.KSJ_PREVIEWCALLBACKEX previewCallBack = new KSJApiCallback.KSJ_PREVIEWCALLBACKEX(PreviewCallbackEx);
-
             bool bCheck = CheckBox_SET_CALLBACKEX.Checked;
             if (bCheck)
             {
-                KSJApiCallback.KSJ_PreviewSetCallbackEx(m_nDeviceCurSel, previewCallBack, PictureBox_PREVIEWWND.Handle);
+                KSJApiCallback.KSJ_PreviewSetCallbackEx(m_nDeviceCurSel, previewCallBackEx, PictureBox_PREVIEWWND.Handle);
             }
             else
             {

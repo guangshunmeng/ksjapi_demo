@@ -183,7 +183,7 @@ void KSJDemoQT_Base::on_CaptureButton_clicked()
 	QImage::Format format;
 	if (nCaptureBitCount == 24)
 	{
-		format = QImage::Format_RGB888;
+		format = QImage::Format_BGR30;
 	}
 	else
 	{

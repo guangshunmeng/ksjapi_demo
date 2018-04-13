@@ -119,7 +119,7 @@ namespace KSJ_GS
 
 	        ("Jelly3 MU3S231C(SGYYO)"),
 	        ("Jelly3 MU3S231M(SGYYO)"),
-            
+
             ("Jelly3 MU3S500C(SGYYO)"),
 	        ("Jelly3 MU3S500M(SGYYO)"),
 
@@ -131,19 +131,8 @@ namespace KSJ_GS
 	        ("Jelly4 MU3L4K3C(AGYYO)"),
 	        ("Jelly4 MU3L4K3M(AGYYO)"),
 
-	        ("Jelly6 MU3HS2000C(SRYYO)"),
-	        ("Jelly6 MU3HS2000M(SRYYO)"),
-
-	        ("Jelly6 MU3HS500C(SRYYO)"),
-	        ("Jelly6 MU3HS500M(SRYYO)"),
-
-	        ("Jelly6 MU3HS230C(SRYYO)"),
-	        ("Jelly6 MU3HS230M(SRYYO)"),
-
-	        ("Jelly6 MU3HI400C(IGYYO)"),
-	        ("Jelly6 MU3HI400M(IGYYO)"),
-
-	        ("TEST CAMERA"),
+	        ("MU3HS2000C(SRYYO)"),
+	        ("MU3HS2000M(SRYYO)"),
 
 	        ("UNKOWN TYPE"),
 	        ("UNKOWN TYPE"),

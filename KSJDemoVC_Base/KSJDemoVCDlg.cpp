@@ -543,7 +543,7 @@ void CKSJDemoVCDlg::Capture()
 
 	int nRet = KSJ_CaptureGetSizeEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);
 	ShowErrorInfo(nRet);
-
+	nCaptureBitCount = 8;
 	BYTE    *pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];
 
 	LARGE_INTEGER    counterStart;
@@ -551,7 +551,7 @@ void CKSJDemoVCDlg::Capture()
 
 	PostMessage(WM_CAPTURE_START, NULL, NULL);
 
-	nRet = KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
+	nRet = KSJ_CaptureRawData(m_nDeviceCurSel, pImageData);
 	ShowErrorInfo(nRet);
 	if (nRet != RET_SUCCESS)
 	{

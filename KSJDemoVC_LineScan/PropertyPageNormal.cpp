@@ -36,6 +36,9 @@ BEGIN_MESSAGE_MAP(CPropertyPageNormal, CPropertyPage)
 	ON_EN_CHANGE(IDC_EDIT_GAIN_BLUE, &CPropertyPageNormal::OnEnChangeEditGainBlue)
 	ON_EN_CHANGE(IDC_EDIT_EXPOSURE_TIME_MS, &CPropertyPageNormal::OnEnChangeEditExposureTimeMs)
 	ON_EN_CHANGE(IDC_EDIT_EXPOSURE_LINES, &CPropertyPageNormal::OnEnChangeEditExposureLines)
+	ON_BN_CLICKED(IDC_CHECK_FLIP, &CPropertyPageNormal::OnBnClickedCheckFlip)
+	ON_BN_CLICKED(IDC_CHECK_MIRROR, &CPropertyPageNormal::OnBnClickedCheckMirror)
+	ON_CBN_SELCHANGE(IDC_COMBO_DEVICE_SENSITIVITY_MODE, &CPropertyPageNormal::OnCbnSelchangeComboDeviceSensitivityMode)
 END_MESSAGE_MAP()
 
 
@@ -183,6 +186,29 @@ BOOL CPropertyPageNormal::OnInitDialog()
 	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_EXPOSURE_LINES);
 	pSpinCtrl->SetRange32(nMin, nMax);
 	pSpinCtrl->SetPos32(nCur);
+
+	m_pCam->GetParam(KSJ_FLIP, &nCur); 
+	((CButton*)GetDlgItem(IDC_CHECK_FLIP))->SetCheck(nCur);
+	m_pCam->GetParam(KSJ_MIRROR, &nCur);
+	((CButton*)GetDlgItem(IDC_CHECK_MIRROR))->SetCheck(nCur);
+
+	m_pCam->QueryFunction(KSJ_SUPPORT_SENSITIVITY_MODE, &nSupport);
+	CComboBox    *pComboBox;
+	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_DEVICE_SENSITIVITY_MODE);
+	pComboBox->ResetContent();
+	pComboBox->EnableWindow(nSupport ? TRUE : FALSE);
+	if (nSupport)
+	{
+		for (int i = 0; i < g_nSensitivity; i++)
+		{
+			pComboBox->AddString(g_szSensitivity[i]);
+		}
+
+		KSJ_SENSITIVITYMODE Mode;
+		m_pCam->SensitivityGetMode(&Mode);
+		pComboBox->SetCurSel(Mode);
+	}
+
 	m_bInitial = true;
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常:  OCX 属性页应返回 FALSE
@@ -314,4 +340,29 @@ void CPropertyPageNormal::OnEnChangeEditExposureLines()
 }
 
 
+void CPropertyPageNormal::OnBnClickedCheckFlip()
+{
+	if (!m_bInitial) return;
+	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_FLIP))->GetCheck();
+	m_pCam->SetParam(KSJ_FLIP, bCheck ? TRUE : FALSE);
+}
 
+
+void CPropertyPageNormal::OnBnClickedCheckMirror()
+{
+	if (!m_bInitial) return;
+	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_MIRROR))->GetCheck();
+	m_pCam->SetParam(KSJ_MIRROR, bCheck ? TRUE : FALSE);
+}
+
+
+void CPropertyPageNormal::OnCbnSelchangeComboDeviceSensitivityMode()
+{
+	if (!m_bInitial) return;
+
+	KSJ_SENSITIVITYMODE Mode;
+	CComboBox    *pComboBox = NULL;
+	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_DEVICE_SENSITIVITY_MODE);
+	Mode = (KSJ_SENSITIVITYMODE)pComboBox->GetCurSel();
+	m_pCam->SensitivitySetMode(Mode);
+}

@@ -49,6 +49,27 @@ extern "C"{
 
 	KSJ_API  int __stdcall KSJ_LoadFlatFieldCorrection(int nChannel, TCHAR *pszFilePath);
 
+
+	// 预览时是否使能
+	KSJ_API  int __stdcall KSJ_PreviewSetCalibration(int nChannel, bool bEnable);
+
+	KSJ_API  int __stdcall KSJ_PreviewGetCalibration(int nChannel, bool *pbEnable);
+	// 采集时是否使能
+	KSJ_API  int __stdcall KSJ_CaptureSetCalibration(int nChannel, bool bEnable);
+
+	KSJ_API  int __stdcall KSJ_CaptureGetCalibration(int nChannel, bool *pbEnable);
+
+	KSJ_API  int __stdcall KSJ_LoadCalibrationMapFile(int nChannel, const TCHAR *pszFilePath);
+
+	enum KSJ_MAPMODE 
+	{
+		KSJ_MM_NEARESTNEIGHBOR,
+		KSJ_MM_BILINEAR
+	};
+
+	KSJ_API  int __stdcall KSJ_SetCalibrationMapMode(int nChannel, KSJ_MAPMODE MapMode);
+	KSJ_API  int __stdcall KSJ_GetCalibrationMapMode(int nChannel, KSJ_MAPMODE *pMapMode);
+
 #ifdef __cplusplus
 }
 #endif

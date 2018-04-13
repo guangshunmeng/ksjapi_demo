@@ -34,4 +34,7 @@ public:
 	afx_msg void OnEnChangeEditExposureTimeMs();
 	afx_msg void OnEnChangeEditExposureLines();
 	afx_msg void OnCbnSelchangeComboDelayCountMothed();
+	afx_msg void OnBnClickedCheckFlip();
+	afx_msg void OnBnClickedCheckMirror();
+	afx_msg void OnCbnSelchangeComboDeviceSensitivityMode();
 };

@@ -1217,3 +1217,20 @@ int CKSJCamClass::ColorCorrectionMatrixGet(float fMatrix[3][3])
 	memcpy(m_fColorMatrix, fMatrix, sizeof(m_fColorMatrix));
 	return nRet;
 }
+
+int CKSJCamClass::SensitivitySetMode(KSJ_SENSITIVITYMODE SensitivityMode)
+{
+	if (m_nIndex == -1)    return RET_FAIL;
+	int nRet = KSJ_SensitivitySetMode(m_nIndex, SensitivityMode);
+	m_Mode = SensitivityMode;
+	return nRet;
+}
+
+int CKSJCamClass::SensitivityGetMode(KSJ_SENSITIVITYMODE *pSensitivityMode)
+{
+	if (m_nIndex == -1)    return RET_FAIL;
+	int nRet = KSJ_SensitivityGetMode(m_nIndex, pSensitivityMode);
+	m_Mode = *pSensitivityMode;
+	return nRet;
+}
+

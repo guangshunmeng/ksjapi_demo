@@ -39,6 +39,12 @@ KSJ_API  int __stdcall KSJ_GpioGetStatus   ( int nChannel, unsigned char *pbtGpi
 KSJ_API  int __stdcall KSJ_FlashControlSet(int nChannel, bool bEnable, bool bInvert, int nMode);
 KSJ_API  int __stdcall KSJ_FlashControlGet(int nChannel, bool *pbEnable, bool *pbInvert, int *pnMode);
 
+KSJ_API  int __stdcall KSJ_FlashEnableSet(int nChannel, bool bEnable);
+KSJ_API  int __stdcall KSJ_FlashEnableGet(int nChannel, bool *pbEnable);
+
+KSJ_API  int __stdcall KSJ_FlashInvertSet(int nChannel, bool bInvert);
+KSJ_API  int __stdcall KSJ_FlashInvertGet(int nChannel, bool *pbInvert);
+
 enum KSJ_FLASHMODE
 {
 	KSJ_FM_TROW,

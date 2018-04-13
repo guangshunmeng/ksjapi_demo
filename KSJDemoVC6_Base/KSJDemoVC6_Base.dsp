@@ -109,7 +109,7 @@ SOURCE=.\KSJDemoVC6_BaseDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\GITHUB\github.ksjapi_demo\KSJDemoVC6_Base\SnapStatic.cpp
+SOURCE=.\SnapStatic.cpp
 # End Source File
 # Begin Source File
 
@@ -138,7 +138,7 @@ SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\GITHUB\github.ksjapi_demo\KSJDemoVC6_Base\SnapStatic.h
+SOURCE=.\SnapStatic.h
 # End Source File
 # Begin Source File
 
