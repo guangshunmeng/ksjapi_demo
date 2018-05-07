@@ -75,6 +75,10 @@ public:
 	int m_nTimer;
 	TCHAR   m_szBuf[128];
 	CWnd *m_Speed;
+	float m_fWidthOfViewMM;
+	int m_nColSize;
+	int m_nRowSize;
+	int m_nMultiFrames;
 	float m_fCoderDiameter1;
 	int m_nEncoderResolution1;
 	float m_fCoderDiameter2;
@@ -134,7 +138,6 @@ public:
 	afx_msg void OnBnClickedButtonSetPreflashtime();
 	afx_msg void OnBnClickedCheckFlashmode();
 	afx_msg void OnDestroy();
-	afx_msg void OnNMCustomdrawSliderTrigger(NMHDR *pNMHDR, LRESULT *pResult);
 	void OnBnClickedCheckStart(BOOL bStart);
 	void ReadIni();
 	void WriteIni();
@@ -142,5 +145,8 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	void SetType();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	afx_msg void OnEnChangeEditTrigger();
+	afx_msg void OnEnChangeEditColSize();
+	afx_msg void OnEnChangeEditWidthMm();
+	afx_msg void OnEnChangeEditRowSize();
+	afx_msg void OnEnChangeEditMultiFrames();
 };
