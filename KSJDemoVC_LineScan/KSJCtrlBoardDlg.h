@@ -49,7 +49,8 @@ private:
 		unsigned char m_ucDelayModeMode2,
 		unsigned short m_usDelayCounterMode2,
 		unsigned short usTriggerNumPerCircleMode2,
-		unsigned short usNumofBufferMode2);
+		unsigned short usNumofBufferMode2,
+		unsigned char  ucOutputTriggerMode = 2);
 
 public:
 	int m_nComIndex;
@@ -57,7 +58,11 @@ public:
 	int m_nTriggerModeIndex;
 	int m_nInputSourceIndex;
 	int m_nTriggerMethodIndex;
-
+	unsigned long m_ulTotalPulseCur;
+	unsigned long m_ulTotalPulsePre;
+	double     m_dIntervalOfEveryPulse;
+	int m_nLed;
+	int m_nPulse;
 	WORD   m_wOutputFreq;        // 触发模式0的时候，触发相机的频率
 	WORD   m_wOutputPulseNum;    // 触发模式0的时候，触发相机的次数
 	BOOL   m_bInfinite;          // 无限次触发相机
@@ -109,6 +114,7 @@ public:
 	WORD CMD_GetDeviceType();
 	WORD CMD_GetFwVersion();
 	WORD CMD_GetMega8Message(int type);
+	int  GetComParam(unsigned char ucType, unsigned long *ulParam);
 	void Start_Uno(BOOL bStart);
 	int  CMD_SetUno(BYTE btChannel, WORD wTriggerSpeed, WORD wPulseNum);
 	int  CMD_StartUno(BYTE btChannel, BOOL bStart);
@@ -149,4 +155,6 @@ public:
 	afx_msg void OnEnChangeEditWidthMm();
 	afx_msg void OnEnChangeEditRowSize();
 	afx_msg void OnEnChangeEditMultiFrames();
+	afx_msg void OnBnClickedCheckLed();
+	afx_msg void OnEnChangeEditPulse();
 };

@@ -46,8 +46,8 @@ extern "C"{
 		KSJ_UC1000C_MRNN,      // 14 Not Support
 		KSJ_UC900C_MRYN,       // 15 Not Support
 		KSJ_UC1000C_MRYN,      // 16 Not Support
-		KSJ_UC130C_MRYY,       // 17 Elanus2 Not Support
-		KSJ_UC130M_MRYY,       // 18 Elanus2 Not Support
+		KSJ_MUC120C_MRYYO,     // 17 Jelly2 V6.0.121.16
+		KSJ_MUC120M_MRYYO,     // 18 Jelly2 V6.0.121.16
 		KSJ_UD140C_SGNN,       // 19 Not Support
 		KSJ_UD140M_SGNN,       // 20 Not Support
 		KSJ_UC36C_MGNN,        // 21 Elanus2 Not Support
@@ -105,7 +105,6 @@ extern "C"{
 		KSJ_U3C500M_MRYNO,     // 73 Guass3
 		KSJ_MU3C1401C_MRYYO,   // 74 DELETE Not Support 
 		KSJ_MU3C1001C_MRYYO,   // 75 DELETE Not Support
-
 		KSJ_MUC131M_MRYN,      // 76 OEM Device
 		KSJ_MU3C501C_MRYYO,    // 77 DELETE Not Support
 		KSJ_MU3C501M_MRYYO,    // 78 DELETE Not Support
@@ -134,29 +133,23 @@ extern "C"{
 		KSJ_MU3L4K3M_AGYYO,    // 101
 		KSJ_MU3HS2000C_SRYYO,  // 102
 		KSJ_MU3HS2000M_SRYYO,  // 103
-
 		KSJ_MU3HS500C_SGYYO,   // 104
 		KSJ_MU3HS500M_SGYYO,   // 105
 		KSJ_MU3HS230C_SGYYO,   // 106 imx174 
 		KSJ_MU3HS230M_SGYYO,   // 107
 		KSJ_MU3HI400C_IGYYO,   // 108
 		KSJ_MU3HI400M_IGYYO,   // 109
-
 		KSJ_TEST_CAMERA,       // 110
-
 		KSJ_MU3HI401C_IGYYO, 
 		KSJ_MU3HI401M_IGYYO,
 		KSJ_MU3S40C_SGYYO, 
 		KSJ_MU3S40M_SGYYO,     // 114
-
 		KSJ_MU3S210C_SRYYO,    // 115
 		KSJ_MU3S210M_SRYYO,    // 116
 		KSJ_MU3I130C_IGYYO,    // 117
 		KSJ_MU3I130M_IGYYO,    // 118
-
 		KSJ_MU3S321C_SGYYO,    // 119
 		KSJ_MU3S321M_SGYYO     // 120
-
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);
@@ -312,11 +305,6 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_PreviewGetStatusEx(int nIndex, KSJ_PREVIEWSTATUS *pPreviewStatus, bool *pbParallel);
 	// Get Capture and Show Frame rate when Preview Parallel.
 	KSJ_API  int __stdcall KSJ_PreviewGetFrameRateEx(int nIndex, float *fFrameRateCapture, float *fFrameRateShow);
-
-
-
-
-
 
 #ifdef __cplusplus
 }

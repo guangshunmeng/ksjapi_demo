@@ -46,6 +46,11 @@ void CKSJCtrlBoardDlg::ReadIni()
 	KSJINI_GetDWORD(g_hKSJIni, _T("MODE2"), _T("EncoderResolution"), 0, (DWORD*)&m_nEncoderResolution2);
 	KSJINI_GetString(g_hKSJIni, _T("MODE2"), _T("CoderDiameter"), _T("0.0"), szText);
 	m_fCoderDiameter2 = _tstof(szText);
+
+	KSJINI_GetString(g_hKSJIni, _T("MODE3"), _T("IntervalOfEveryPulse"), _T("0.024"), szText);
+	m_dIntervalOfEveryPulse = _tstof(szText);
+	KSJINI_GetDWORD(g_hKSJIni, _T("MODE3"), _T("Led"), 0, (DWORD*)&m_nLed);
+	KSJINI_GetDWORD(g_hKSJIni, _T("MODE3"), _T("Pulse"), 0, (DWORD*)&m_nPulse);
 }
 
 
@@ -83,7 +88,9 @@ void CKSJCtrlBoardDlg::WriteIni()
 	_stprintf_s(szText, _T("%f"), m_fCoderDiameter2);
 	KSJINI_SetString(g_hKSJIni, _T("MODE2"), _T("CoderDiameter"), szText);
 	KSJINI_SetInt(g_hKSJIni, _T("MODE2"), _T("EncoderResolution"), m_nEncoderResolution2);
-	
+
+	KSJINI_SetInt(g_hKSJIni, _T("MODE3"), _T("Led"), m_nLed);
+	KSJINI_SetInt(g_hKSJIni, _T("MODE3"), _T("Pulse"), m_nPulse);
 }
 
 CKSJCtrlBoardDlg::CKSJCtrlBoardDlg(CWnd* pParent /*=NULL*/)
@@ -106,6 +113,8 @@ CKSJCtrlBoardDlg::CKSJCtrlBoardDlg(CWnd* pParent /*=NULL*/)
 	m_bAdjust = false;
 	m_bSlider = true;
 	m_bEdit = true;
+	m_ulTotalPulseCur = 0;
+	m_ulTotalPulsePre = 0;
 }
 
 CKSJCtrlBoardDlg::~CKSJCtrlBoardDlg()
@@ -138,6 +147,8 @@ BEGIN_MESSAGE_MAP(CKSJCtrlBoardDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_WIDTH_MM, &CKSJCtrlBoardDlg::OnEnChangeEditWidthMm)
 	ON_EN_CHANGE(IDC_EDIT_ROW_SIZE, &CKSJCtrlBoardDlg::OnEnChangeEditRowSize)
 	ON_EN_CHANGE(IDC_EDIT_MULTI_FRAMES, &CKSJCtrlBoardDlg::OnEnChangeEditMultiFrames)
+	ON_BN_CLICKED(IDC_CHECK_LED, &CKSJCtrlBoardDlg::OnBnClickedCheckLed)
+	ON_EN_CHANGE(IDC_EDIT_PULSE, &CKSJCtrlBoardDlg::OnEnChangeEditPulse)
 END_MESSAGE_MAP()
 
 
@@ -191,7 +202,12 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 	pSpinCtrl->SetBase(10);
 	pSpinCtrl->SetPos32(m_wDelayTime / 10);
 
-
+	pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_PULSE);
+	pSpinCtrl->SetRange32(1, 255);
+	pSpinCtrl->SetBuddy(GetDlgItem(IDC_EDIT_PULSE));
+	pSpinCtrl->SetBase(10);
+	pSpinCtrl->SetPos32(m_nPulse);
+	((CButton*)GetDlgItem(IDC_CHECK_LED))->SetCheck(m_nLed);
 	int i;
 	CComboBox    *pComboBox = NULL;
 
@@ -284,6 +300,7 @@ BOOL CKSJCtrlBoardDlg::OnInitDialog()
 	pComboBox->SetCurSel(m_nOutputChannelIndex);
 	UpdateType();
 	SetWindowText(m_szBuf);
+	m_bInitial = true;
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常:  OCX 属性页应返回 FALSE
@@ -326,8 +343,8 @@ void CKSJCtrlBoardDlg::InterfaceUpdateDelayCountMethod()
 // 触发模式改变后需要更新界面
 void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 {
-	((CComboBox*)GetDlgItem(IDC_COMBO_OUTPUT_CHANNEL))->EnableWindow(TRUE);
 	((CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_MODE))->EnableWindow(TRUE);
+	((CComboBox*)GetDlgItem(IDC_COMBO_OUTPUT_CHANNEL))->EnableWindow(TRUE);
 	((CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD))->EnableWindow(TRUE);
 
 	CEdit *pEditCtrlOutputFreq = ((CEdit*)GetDlgItem(IDC_EDIT_OUTPUT_FREQ));
@@ -377,6 +394,15 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 		pEditCtrlMultiFrames->EnableWindow(FALSE);
 
 		pComboBox->EnableWindow(FALSE);
+		GetDlgItem(IDC_EDIT_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_CHECK_LED)->EnableWindow(FALSE);
+
+		((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_DELAY_TIME))->EnableWindow(FALSE);
+		((CEdit*)GetDlgItem(IDC_EDIT_DELAY_TIME))->EnableWindow(FALSE);
+		((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_DELAY_COUNT))->EnableWindow(FALSE);
+		((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT))->EnableWindow(FALSE);
+		((CComboBox*)GetDlgItem(IDC_COMBO_DELAY_COUNT_MOTHED))->EnableWindow(FALSE);
 	}
 	else if (m_nTriggerModeIndex == 1)
 	{
@@ -425,8 +451,46 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 			((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT))->EnableWindow(TRUE);
 			((CComboBox*)GetDlgItem(IDC_COMBO_DELAY_COUNT_MOTHED))->EnableWindow(TRUE);
 		}
+
+		GetDlgItem(IDC_EDIT_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_CHECK_LED)->EnableWindow(FALSE);
 	}
-	else if (m_nTriggerModeIndex == 2)
+	else if (m_nTriggerModeIndex == 3)
+	{
+		((CComboBox*)GetDlgItem(IDC_COMBO_OUTPUT_CHANNEL))->EnableWindow(FALSE);
+		((CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD))->EnableWindow(FALSE);
+		pEditCtrlOutputFreq->EnableWindow(FALSE);
+		pSpinCtrlOutputFreq->EnableWindow(FALSE);
+		pButtonInfinite->EnableWindow(FALSE);
+		pEditCtrlOutputNum->EnableWindow(FALSE);
+		pSpinCtrlOutputNum->EnableWindow(FALSE);
+
+		pComboBoxDelayMode->EnableWindow(FALSE);
+		pComboBoxDelayCountMethod->EnableWindow(FALSE);
+		pSpinCtrlDelayCount->EnableWindow(FALSE);
+		pEditCtrlDelayCount->EnableWindow(FALSE);
+
+		pSpinCtrlColSize->EnableWindow(FALSE);
+		pEditCtrlColSize->EnableWindow(FALSE);
+		pSpinCtrlRowSize->EnableWindow(FALSE);
+		pEditCtrlRowSize->EnableWindow(FALSE);
+		pEditCtrlWidthMm->EnableWindow(FALSE);
+		pSpinCtrlMultiFrames->EnableWindow(FALSE);
+		pEditCtrlMultiFrames->EnableWindow(FALSE);
+
+		pComboBox->EnableWindow(FALSE);
+		GetDlgItem(IDC_EDIT_PULSE)->EnableWindow(TRUE);
+		GetDlgItem(IDC_SPIN_PULSE)->EnableWindow(TRUE);
+		GetDlgItem(IDC_CHECK_LED)->EnableWindow(TRUE);
+
+		((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_DELAY_TIME))->EnableWindow(FALSE);
+		((CEdit*)GetDlgItem(IDC_EDIT_DELAY_TIME))->EnableWindow(FALSE);
+		((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_DELAY_COUNT))->EnableWindow(FALSE);
+		((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT))->EnableWindow(FALSE);
+		((CComboBox*)GetDlgItem(IDC_COMBO_DELAY_COUNT_MOTHED))->EnableWindow(FALSE);
+	}
+	else
 	{
 		pEditCtrlOutputFreq->EnableWindow(FALSE);
 		pSpinCtrlOutputFreq->EnableWindow(FALSE);
@@ -473,15 +537,28 @@ void CKSJCtrlBoardDlg::InterfaceUpdateTriggerMode()
 			((CEdit*)GetDlgItem(IDC_EDIT_DELAY_COUNT))->EnableWindow(TRUE);
 			((CComboBox*)GetDlgItem(IDC_COMBO_DELAY_COUNT_MOTHED))->EnableWindow(TRUE);
 		}
+
+		GetDlgItem(IDC_EDIT_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_PULSE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_CHECK_LED)->EnableWindow(FALSE);
 	}
 }
 
 // 由脉冲个数计算距离mm
 float CKSJCtrlBoardDlg::CalculateDelayDistance()
 {
-	float fCircle = PI * m_fCoderDiameter1;					           // 编码器同步周长(MM)
-	float fStep = fCircle / m_nEncoderResolution1;                        // 编码器一个脉冲走多长
-	return (float)m_wDelayCount * fStep;
+	if (m_nTriggerModeIndex == 1)
+	{
+		float fCircle = PI * m_fCoderDiameter1;					           // 编码器同步周长(MM)
+		float fStep = fCircle / m_nEncoderResolution1;                        // 编码器一个脉冲走多长
+		return (float)m_wDelayCount * fStep;
+	}
+	else if (m_nTriggerModeIndex == 2 || m_nTriggerModeIndex == 4)
+	{
+		float fCircle = PI * m_fCoderDiameter2;					           // 编码器同步周长(MM)
+		float fStep = fCircle / m_nEncoderResolution2;                        // 编码器一个脉冲走多长
+		return (float)m_wDelayCount * fStep;
+	}
 }
 
 // 由脉冲个数计算延时时间ms
@@ -546,7 +623,35 @@ WORD CKSJCtrlBoardDlg::CMD_GetFwVersion()
 	return (RepMega8ReadInfo.btMSB << 8) | RepMega8ReadInfo.btLSB;
 
 }
+int CKSJCtrlBoardDlg::GetComParam(unsigned char ucType, unsigned long *ulParam)
+{
+	CB_CMD_READ_INFO    CmdReadInfo;
+	memset(&CmdReadInfo, 0, sizeof(CB_CMD_READ_INFO));
 
+	CmdReadInfo.ucPre = COMMON_PROTOCOL_PRE;
+	CmdReadInfo.ucFunctionMode = 1;
+	CmdReadInfo.ucInfoIndex = ucType;
+	CmdReadInfo.ucCheckSum = 1 + ucType;
+	CmdReadInfo.ucEnd = COMMON_PROTOCOL_END;
+
+	int nBytesSend = 0;
+
+	nBytesSend = KSJCOM_SendData(m_nComIndex, (BYTE*)&CmdReadInfo, sizeof(CB_CMD_READ_INFO));
+	if (nBytesSend != sizeof(CB_CMD_READ_INFO))    return KSJCOM_RET_FAIL;
+
+	REP_CMD_READ_INFO    RepMReadInfo;
+	memset(&RepMReadInfo, 0, sizeof(REP_CMD_READ_INFO));
+
+	int nRet = KSJCOM_ReadData(m_nComIndex, (BYTE*)&RepMReadInfo, sizeof(REP_CMD_READ_INFO));
+	if (nRet != sizeof(REP_CMD_READ_INFO))
+	{
+		return KSJCOM_RET_FAIL;
+	}
+
+	*ulParam = (RepMReadInfo.bt1 << 24) | (RepMReadInfo.bt2 << 16) | (RepMReadInfo.bt3 << 8) | RepMReadInfo.bt4;
+
+	return KSJCOM_RET_SUCCESS;
+}
 
 WORD CKSJCtrlBoardDlg::CMD_GetMega8Message(int type)
 {
@@ -702,7 +807,8 @@ int CKSJCtrlBoardDlg::SetTriggerMode2(
 	unsigned char  ucDelayMode,
 	unsigned short usDelayCounter,
 	unsigned short usTriggerNumPerCircleMode2,
-	unsigned short usNumofBufferMode2
+	unsigned short usNumofBufferMode2,
+	unsigned char  ucOutputTriggerMode
 	)
 {
 	CB_CMD_TRIGGER CmdTrigger;
@@ -713,7 +819,7 @@ int CKSJCtrlBoardDlg::SetTriggerMode2(
 	CmdTrigger.ucStart = ucStart;											// ucReserve作为启停命令，0-设置参数，1-启动，2-停止
 	CmdTrigger.ucOutputChannel = ucOutputChannel;							// 8bit 选择输出通道
 	CmdTrigger.ucOutputTriggerMethod = ucOutputTriggerMethod;				// 8bit 触发方式，上、下、高、低
-	CmdTrigger.ucOutputTriggerMode = 2;
+	CmdTrigger.ucOutputTriggerMode = ucOutputTriggerMode;
 
 	CmdTrigger.TriggerMode.Mode2.ucTriggerInputChannel = ucTriggerInputChannel; // 触发输入源，共有3个触发源，0/1/2,0-触发输入源0；1-触发输入源1; 2-以编码器Z为输入源
 	CmdTrigger.TriggerMode.Mode2.ucDelayMode = ucDelayMode;                     // 触发延时模式, 两种延时模式，0：自定义延时时间，1：根据编码器输入延时
@@ -1270,7 +1376,11 @@ int  CKSJCtrlBoardDlg::CMD_SetMega128(WORD wMultiFrames)
 
 		nRet = SetTriggerMode1(m_nComIndex, 0, ucOutputChannel, ucOutputTriggerMethod, ucTriggerInputChannel, ucDelayMode, usDelayCounter);
 	}
-	else if (m_nTriggerModeIndex == 2)
+	else if (m_nTriggerModeIndex == 3)
+	{
+		return 0;
+	}
+	else 
 	{
 		unsigned char ucTriggerInputChannel = m_nInputSourceIndex;
 		unsigned char ucDelayMode = m_nDelayModeIndex;
@@ -1288,7 +1398,16 @@ int  CKSJCtrlBoardDlg::CMD_SetMega128(WORD wMultiFrames)
 		float fCircle = PI * m_fCoderDiameter2;
 		float fWidthPerPixel = m_fWidthOfViewMM / m_nColSize;
 		float fPulsePerCircle = fCircle / (fWidthPerPixel * m_nRowSize);
-		unsigned short usLineTriggerPusles = (unsigned short)(1024 * (fPulsePerCircle / m_nEncoderResolution2));
+		unsigned short usLineTriggerPusles = 0;
+		if (m_nTriggerModeIndex == 2)
+		{
+			usLineTriggerPusles = (unsigned short)(1024 * (fPulsePerCircle / m_nEncoderResolution2));
+		}
+		else
+		{
+			usLineTriggerPusles = (unsigned short)(fPulsePerCircle / m_nEncoderResolution2);
+		}
+		
 		nRet = SetTriggerMode2(m_nComIndex, 0, ucOutputChannel, ucOutputTriggerMethod, ucTriggerInputChannel, ucDelayMode, usDelayCounter, usLineTriggerPusles, usMultiFrames);
 	}
 
@@ -1318,9 +1437,19 @@ int  CKSJCtrlBoardDlg::CMD_StartMega128(WORD wMultiFrames, BOOL bStart)
 	{
 		nRet = SetTriggerMode1(m_nComIndex, ucStart, 0, 0, 0, 0, 0);
 	}
-	else if (m_nTriggerModeIndex == 2)
+	else
 	{
-		nRet = SetTriggerMode2(m_nComIndex, ucStart, 0, 0, 0, 0, 0, 0, 0);
+		if (m_nTriggerModeIndex == 3)
+		{
+			m_ulTotalPulseCur = 0;
+			m_ulTotalPulsePre = 0;
+			CMD_SetFlashlight(1, m_nPulse);
+			Sleep(30);
+			CMD_SetFlashlight(2, m_nLed);
+			Sleep(30);
+		}
+
+		nRet = SetTriggerMode2(m_nComIndex, ucStart, 0, 0, 0, 0, 0, 0, 0, m_nTriggerModeIndex);
 	}
 
 	if (nRet != sizeof(CB_CMD_TRIGGER))    return -1;
@@ -1410,23 +1539,44 @@ void CKSJCtrlBoardDlg::OnTimer(UINT_PTR nIDEvent)
 	{
 		WORD wPulse = 0;
 		float fTemp = 0;
-		wPulse = CMD_GetMega8Message(1);
-		if (0 == m_nTriggerModeIndex)
-		{
-			fTemp = ((PI * m_fCoderDiameter2) / m_nEncoderResolution2);
-		}
-		else if (1 == m_nTriggerModeIndex)
-		{
-			fTemp = ((PI * m_fCoderDiameter1) / m_nEncoderResolution1);
-		}
-		else if (2 == m_nTriggerModeIndex)
-		{
-			fTemp = ((PI * m_fCoderDiameter2) / m_nEncoderResolution2);
-		}
-
-		WORD wSpeed = (unsigned  short)(wPulse * fTemp * 10);
 		CString strSpeed;
-		strSpeed.Format("%d", wSpeed);
+		WORD wSpeed;
+		double  dCurSpeed;
+		if (3 == m_nTriggerModeIndex)
+		{
+			GetComParam(1, &m_ulTotalPulseCur);
+			if (m_ulTotalPulsePre == 0)
+			{
+				m_ulTotalPulsePre = m_ulTotalPulseCur;
+				dCurSpeed = 0;
+			}
+			else
+			{
+				dCurSpeed = (m_ulTotalPulseCur - m_ulTotalPulsePre) * m_dIntervalOfEveryPulse * 1000;
+			}
+			
+			strSpeed.Format("%.2f", dCurSpeed);
+		}
+		else
+		{
+			wPulse = CMD_GetMega8Message(1);
+			if (0 == m_nTriggerModeIndex)
+			{
+				fTemp = ((PI * m_fCoderDiameter2) / m_nEncoderResolution2);
+			}
+			else if (1 == m_nTriggerModeIndex)
+			{
+				fTemp = ((PI * m_fCoderDiameter1) / m_nEncoderResolution1);
+			}
+			else
+			{
+				fTemp = ((PI * m_fCoderDiameter2) / m_nEncoderResolution2);
+			}
+
+			wSpeed = (unsigned  short)(wPulse * fTemp * 10);
+			strSpeed.Format("%d", wSpeed);
+		}
+		
 		m_Speed->SetWindowText(strSpeed);
 	}
 
@@ -1498,4 +1648,20 @@ void CKSJCtrlBoardDlg::OnEnChangeEditMultiFrames()
 	m_nMultiFrames = GetDlgItemInt(IDC_EDIT_MULTI_FRAMES);
 	CSpinButtonCtrl * pSpinCtrl = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_MULTI_FRAMES);
 	pSpinCtrl->SetPos(m_nMultiFrames);
+}
+
+
+void CKSJCtrlBoardDlg::OnBnClickedCheckLed()
+{
+	if (!m_bInitial) return;
+	m_nLed = ((CButton*)GetDlgItem(IDC_CHECK_LED))->GetCheck();
+	CMD_SetFlashlight(2, m_nLed);
+}
+
+
+void CKSJCtrlBoardDlg::OnEnChangeEditPulse()
+{
+	if (!m_bInitial) return;
+	m_nPulse = GetDlgItemInt(IDC_EDIT_PULSE);
+	CMD_SetFlashlight(1, m_nPulse);
 }

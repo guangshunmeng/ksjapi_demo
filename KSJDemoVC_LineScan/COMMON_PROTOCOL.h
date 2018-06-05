@@ -58,6 +58,24 @@ typedef struct
 	unsigned char ucEnd; // 8bit 结尾标志,0xFF
 }CB_CMD_CTRL_LAMP;
 
+typedef struct
+{
+	unsigned char ucPre;				// 8bit 标志位'C'	
+	unsigned char ucFunctionMode;		// FM 2 读取信息
+	unsigned char ucInfoIndex;          // 0-MEGA8版本号，1-脉冲个数
+	unsigned char ucCheckSum;			// 8bit 校验和
+	unsigned char ucEnd;				// 8bit 结尾标志,0xFF		
+}CB_CMD_READ_INFO;
+
+// 返回信息4个字节。  
+typedef struct
+{
+	BYTE  bt1;
+	BYTE  bt2;
+	BYTE  bt3;
+	BYTE  bt4;
+}REP_CMD_READ_INFO;
+
 #pragma pack(push,4)
 
 #endif

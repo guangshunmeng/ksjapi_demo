@@ -73,7 +73,7 @@ KSJ_API  int __stdcall KSJ_GpioInModeGet(int nChannel, KSJ_GPIOIN_MODE *pGpioInM
 // 注意：只有在设置为KSJ_GPIOIN_NORMAL模式下才可以读取。
 KSJ_API  int __stdcall KSJ_GpioInStatusGet(int nChannel, unsigned char *pbtValue);
 
-// 通过查询KSJ_SUPPORT_FLASHOUT_ASIO功能调用如下函数
+// 通过查询KSJ_SUPPORT_GPIO_NORMAL功能调用如下函数
 // When call KSJ_GpioSetDirection(, bit1 = 1 ) == KSJ_GpioOutModeSet(, KSJ_GPIOOUT_FLASH)
 // When call KSJ_GpioSetDirection(, bit1 = 0 ) == KSJ_GpioOutModeSet(, KSJ_GPIOOUT_NORMAL)
 // 

@@ -15,7 +15,9 @@ static TCHAR *g_szTriggerModeB[] =
 {
 	_T("Trigger Mode 0 "),
 	_T("Trigger Mode 1 "),
-	_T("Trigger Mode 2 ")
+	_T("Trigger Mode 2 "),
+	_T("Trigger Mode 3 "),
+	_T("Trigger Mode 4 ")
 };
 
 static TCHAR *g_szOutputChannel[] =
