@@ -78,10 +78,10 @@ namespace KSJApi_TriggerMode
 
         // Set Read action timeout (ms). Influence capture and preview.
         [DllImport("KSJApi.dll")]
-        public static extern int KSJ_CaptureSetTimeOut(int nChannel, ulong dwTimeOut);
+        public static extern int KSJ_CaptureSetTimeOut(int nChannel, uint dwTimeOut);
         // Get Read action image timeout (ms).
         [DllImport("KSJApi.dll")]
-        public static extern int KSJ_CaptureGetTimeOut(int nChannel, ref ulong pdwTimeOut);
+        public static extern int KSJ_CaptureGetTimeOut(int nChannel, ref uint pdwTimeOut);
 
         // Set If recover device when Read Fail. It will Influence capture and preview.
         [DllImport("KSJApi.dll")]
@@ -92,10 +92,10 @@ namespace KSJApi_TriggerMode
 
         // Set timeout and recover at the same time
         [DllImport("KSJApi.dll")]
-        public static extern int KSJ_CaptureSetTimeOutEx(int nChannel, ulong dwTimeOut, bool bRecover);
+        public static extern int KSJ_CaptureSetTimeOutEx(int nChannel, uint dwTimeOut, bool bRecover);
         // Get timeout and recover at the same time
         [DllImport("KSJApi.dll")]
-        public static extern int KSJ_CaptureGetTimeOutEx(int nChannel, ref ulong pdwTimeOut, ref bool pbRecover);
+        public static extern int KSJ_CaptureGetTimeOutEx(int nChannel, ref uint pdwTimeOut, ref bool pbRecover);
 
     }
 }

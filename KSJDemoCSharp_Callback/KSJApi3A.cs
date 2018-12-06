@@ -11,6 +11,9 @@ namespace KSJ_API3A
         // 设置自动曝光的区域，这个区域是相对预览图像的左上角像素位置
         [DllImport("KSJApi.dll")]
         public static extern int KSJ_AESetRegion(int nChannel, int nX, int nY, int nW, int nH);
+        [DllImport("KSJApi.dll")]
+        public static extern int KSJ_AESetMaxCount(int nChannel, int nMaxCount);
+
         // 自动曝光回调函数
         public delegate void KSJ_AECALLBACK(bool bSuccess, int nRValue, int nGValue, int nBValue, IntPtr lpContext);
         // 定义自动曝光操作结束后的回调函数，当自动曝光结束时，KSJ开发包会自动调用AECallback用户指定的回调函数

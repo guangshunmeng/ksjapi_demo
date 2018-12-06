@@ -149,7 +149,11 @@ extern "C"{
 		KSJ_MU3I130C_IGYYO,    // 117
 		KSJ_MU3I130M_IGYYO,    // 118
 		KSJ_MU3S321C_SGYYO,    // 119
-		KSJ_MU3S321M_SGYYO     // 120
+		KSJ_MU3S321M_SGYYO,     // 120
+		DT_CB_MU3S641M_SRYYO,
+		DT_CB_MU3S1201M_SRYYO,
+		DT_CB_MU3HS2001M_SRYYO
+
 	};
 	// Enable or Disable Log output
 	KSJ_API  int __stdcall KSJ_LogSet(bool bEnable, const TCHAR *pszFolder);
@@ -221,6 +225,22 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_ExposureTimeSet(int nIndex, float fExposureTimeMs);
 	// Get Exposure Time (ms) for float format.
 	KSJ_API  int __stdcall KSJ_ExposureTimeGet(int nIndex, float *pfExpTimeMs);
+
+	KSJ_API  int __stdcall KSJ_GlobalResetShutterSet(int nIndex, bool bGlobalReset);
+	KSJ_API  int __stdcall KSJ_GlobalResetShutterGet(int nIndex, bool* pbGlobalReset);
+	
+	// Set Pre-Exposure Time (ms) for float format.( more precision )
+	KSJ_API  int __stdcall KSJ_PreExposureRangeGet(int nIndex, int *pnMinValue, int *pnMaxValue);
+
+	// Set Pre-Exposure Time (ms) for float format.( more precision )
+	KSJ_API  int __stdcall KSJ_PreExposureTimeSet(int nIndex, float fPreExpTimeMs);
+	// Get Pre-Exposure Time (ms) for float format.
+	KSJ_API  int __stdcall KSJ_PreExposureTimeGet(int nIndex, float *pfPreExpTimeMs);
+
+	// Set Pre-Exposure Lines for float format.( more precision )
+	KSJ_API  int __stdcall KSJ_PreExposureLinesSet(int nIndex, int nPreExpLines);
+	// Get Pre-Exposure Lines for float format.
+	KSJ_API  int __stdcall KSJ_PreExposureLinesGet(int nIndex, int* pnPreExpLines);
 
 	// Skip Mode (Address Mode)
 	enum KSJ_ADDRESSMODE 

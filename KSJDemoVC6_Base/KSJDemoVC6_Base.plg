@@ -6,27 +6,15 @@
 --------------------Configuration: KSJDemoVC6_Base - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP9A2A.tmp" with contents
-[
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\GITHUB\github.ksjapi_demo_sl\common\KSJ_GS.cpp"
-]
-Creating command line "cl.exe @C:\Users\sl\AppData\Local\Temp\RSP9A2A.tmp" 
-Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP9A2B.tmp" with contents
+Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP1EDA.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/KSJDemoVC6_Base.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\GITHUB\github.ksjapi_demo_sl\KSJDemoVC6_Base\KSJDemoVC6_Base.cpp"
 "D:\GITHUB\github.ksjapi_demo_sl\KSJDemoVC6_Base\KSJDemoVC6_BaseDlg.cpp"
 "D:\GITHUB\github.ksjapi_demo_sl\KSJDemoVC6_Base\SnapStatic.cpp"
 ]
-Creating command line "cl.exe @C:\Users\sl\AppData\Local\Temp\RSP9A2B.tmp" 
-Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP9A2C.tmp" with contents
-[
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/KSJDemoVC6_Base.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\GITHUB\github.ksjapi_demo_sl\KSJDemoVC6_Base\StdAfx.cpp"
-]
-Creating command line "cl.exe @C:\Users\sl\AppData\Local\Temp\RSP9A2C.tmp" 
-Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP9A2D.tmp" with contents
+Creating command line "cl.exe @C:\Users\sl\AppData\Local\Temp\RSP1EDA.tmp" 
+Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP1EDB.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/KSJDemoVC6_Based.pdb" /debug /machine:I386 /out:"../bin/KSJDemoVC6_Based.exe" /pdbtype:sept 
 .\Debug\KSJ_GS.obj
@@ -36,30 +24,13 @@ Creating temporary file "C:\Users\sl\AppData\Local\Temp\RSP9A2D.tmp" with conten
 .\Debug\StdAfx.obj
 .\Debug\KSJDemoVC6_Base.res
 ]
-Creating command line "link.exe @C:\Users\sl\AppData\Local\Temp\RSP9A2D.tmp"
+Creating command line "link.exe @C:\Users\sl\AppData\Local\Temp\RSP1EDB.tmp"
 <h3>Output Window</h3>
 Compiling...
-StdAfx.cpp
-Include KSJApi.h
-Compiling...
-KSJ_GS.cpp
-
-NOTE: WINVER has been defined as 0x0500 or greater which enables
-Windows NT 5.0 and Windows 98 features. When these headers were released,
-Windows NT 5.0 beta 1 and Windows 98 beta 2.1 were the current versions.
-
-For this release when WINVER is defined as 0x0500 or greater, you can only
-build beta or test applications.  To build a retail application,
-set WINVER to 0x0400 or visit http://www.microsoft.com/msdn/sdk
-to see if retail Windows NT 5.0 or Windows 98 headers are available.
-
-See the SDK release notes for more information.
-
-Compiling...
+Skipping... (no relevant changes detected)
 KSJDemoVC6_Base.cpp
 KSJDemoVC6_BaseDlg.cpp
 SnapStatic.cpp
-Generating Code...
 Linking...
 Creating command line "bscmake.exe /nologo /o"Debug/KSJDemoVC6_Base.bsc"  .\Debug\StdAfx.sbr .\Debug\KSJ_GS.sbr .\Debug\KSJDemoVC6_Base.sbr .\Debug\KSJDemoVC6_BaseDlg.sbr .\Debug\SnapStatic.sbr"
 Creating browse info file...

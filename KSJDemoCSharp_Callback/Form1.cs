@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using KSJCamera;
 using KSJApi_TriggerMode;
+using KSJ_API3A;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.IO;
@@ -32,6 +33,8 @@ namespace KSJDemoCSharp
             KSJApiBase.KSJ_Init();
             previewCallBack = new KSJApiCallback.KSJ_PREVIEWCALLBACK(PreviewCallback);
             previewCallBackEx = new KSJApiCallback.KSJ_PREVIEWCALLBACKEX(PreviewCallbackEx);
+
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -299,7 +302,7 @@ namespace KSJDemoCSharp
             m_nDeviceCurSel = ComboBox_DEVICE_LIST.SelectedIndex;
             UpdateInterface();
             UpdateInterfaceFunction();
-            KSJApiTriggerMode.KSJ_TriggerModeSet(m_nDeviceCurSel, KSJApiTriggerMode.KSJ_TRIGGERMODE.KSJ_TRIGGER_SOFTWARE);
+            KSJApi3A.KSJ_AESetMaxCount(m_nDeviceCurSel, 10);
         }
 
         private void Button_PREVIEW_FOV_SET_Click(object sender, EventArgs e)

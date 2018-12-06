@@ -47,7 +47,7 @@ int ConvertKSJToHalcon10(unsigned char * pImageData, int nWidth, int nHeight, in
 		return -1;
 	}
 
-	mirror_image(Halcon_Image_Convert, &Halcon_Image_Convert, "row");//上下反转图片
+	//mirror_image(Halcon_Image_Convert, &Halcon_Image_Convert, "row");//上下反转图片
 	*Halcon_Image = Halcon_Image_Convert;
 	return 0;
 }

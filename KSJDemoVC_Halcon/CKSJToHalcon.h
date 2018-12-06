@@ -1,6 +1,6 @@
 #ifndef CKSJTOHANCON_H
 #define CKSJTOHANCON_H
-#define HALCON11
+//#define HALCON11
 
 #ifdef HALCON11
 #define HCPP_LEGACY_API
@@ -11,7 +11,7 @@ int  ConvertKSJToHalcon11(unsigned char * pImageData, int nWidth, int nHeight, i
 int  ConvertHalcon11ToKSJ(HObject Image, unsigned char ** ppImageData);
 
 #else
-//#define HCPP_LEGACY_API
+#define HCPP_LEGACY_API
 #include "C:\\Program Files\\MVTec\\HALCON-10.0\\include\\cpp\\HalconCpp.h"
 #pragma comment( lib, "C:\\Program Files\\MVTec\\HALCON-10.0\\lib\\x86sse2-win32\\halconcpp.lib" )
 using namespace Halcon;

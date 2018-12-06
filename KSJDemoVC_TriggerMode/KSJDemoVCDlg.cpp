@@ -788,9 +788,8 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 
 	KSJ_TRIGGERMODE    TriggerMode;
 	int nRet = KSJ_TriggerModeGet(m_nDeviceCurSel, &TriggerMode);
-
+	KSJ_FlashControlSet(m_nDeviceCurSel, true, false, 0);
 	pComboBox->SetCurSel((int)TriggerMode);
-
 	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD);
 	pComboBox->ResetContent();
 

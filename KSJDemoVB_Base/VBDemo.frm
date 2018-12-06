@@ -1,6 +1,5 @@
 VERSION 5.00
 Begin VB.Form VBDemoForm 
-   Caption         =   "CatchBEST VB Demo"
    ClientHeight    =   8265
    ClientLeft      =   5880
    ClientTop       =   4230
@@ -8,6 +7,68 @@ Begin VB.Form VBDemoForm
    LinkTopic       =   "CatchBest VB Demo"
    ScaleHeight     =   8265
    ScaleWidth      =   18105
+   Begin VB.TextBox FIXED_FRAME_RATE 
+      Height          =   270
+      Left            =   15480
+      TabIndex        =   56
+      Top             =   6000
+      Width           =   2175
+   End
+   Begin VB.TextBox TriggerDelay 
+      Height          =   270
+      Left            =   15240
+      TabIndex        =   54
+      Top             =   5280
+      Width           =   1575
+   End
+   Begin VB.ComboBox Combo_TriggerMothod 
+      Height          =   300
+      Left            =   15240
+      Style           =   2  'Dropdown List
+      TabIndex        =   52
+      Top             =   4560
+      Width           =   2535
+   End
+   Begin VB.ComboBox Combo_TriggerMode 
+      Height          =   300
+      Left            =   15240
+      Style           =   2  'Dropdown List
+      TabIndex        =   50
+      Top             =   4080
+      Width           =   2535
+   End
+   Begin VB.CheckBox Check_Recover 
+      Caption         =   "Recover"
+      Height          =   255
+      Left            =   16800
+      TabIndex        =   48
+      Top             =   3480
+      Width           =   975
+   End
+   Begin VB.ComboBox Combo_Timeout 
+      Height          =   300
+      Left            =   15240
+      Style           =   2  'Dropdown List
+      TabIndex        =   47
+      Top             =   3480
+      Width           =   1335
+   End
+   Begin VB.CheckBox Check_Enable 
+      Caption         =   "Enable"
+      Height          =   255
+      Left            =   16440
+      TabIndex        =   45
+      Top             =   2880
+      Width           =   1215
+   End
+   Begin VB.CheckBox Check_Invert 
+      Caption         =   "Invert"
+      Height          =   255
+      Left            =   15240
+      TabIndex        =   44
+      Top             =   2880
+      Width           =   975
+   End
    Begin VB.CheckBox Check_Preview 
       Caption         =   "Preview"
       Height          =   495
@@ -94,7 +155,7 @@ Begin VB.Form VBDemoForm
       End
    End
    Begin VB.ListBox Funtion 
-      Height          =   7260
+      Height          =   1860
       Left            =   13800
       TabIndex        =   29
       Top             =   600
@@ -280,6 +341,54 @@ Begin VB.Form VBDemoForm
       Top             =   240
       Width           =   4605
    End
+   Begin VB.Label Label22 
+      Caption         =   "Fixed Frame Rate(HW):"
+      Height          =   255
+      Left            =   13560
+      TabIndex        =   55
+      Top             =   6000
+      Width           =   1935
+   End
+   Begin VB.Label Label21 
+      Caption         =   "Trigger Delay:"
+      Height          =   255
+      Left            =   13800
+      TabIndex        =   53
+      Top             =   5280
+      Width           =   1335
+   End
+   Begin VB.Label Label20 
+      Caption         =   "Trigger Method:"
+      Height          =   255
+      Left            =   13680
+      TabIndex        =   51
+      Top             =   4560
+      Width           =   1455
+   End
+   Begin VB.Label Label19 
+      Caption         =   "Trigger Mode:"
+      Height          =   255
+      Left            =   13800
+      TabIndex        =   49
+      Top             =   4080
+      Width           =   1215
+   End
+   Begin VB.Label Label18 
+      Caption         =   "Read Timeout:"
+      Height          =   255
+      Left            =   13800
+      TabIndex        =   46
+      Top             =   3480
+      Width           =   1335
+   End
+   Begin VB.Label Label17 
+      Caption         =   "Flash Control:"
+      Height          =   255
+      Left            =   13800
+      TabIndex        =   43
+      Top             =   2880
+      Width           =   1335
+   End
    Begin VB.Label Label16 
       Caption         =   "Funtion"
       Height          =   255
@@ -367,6 +476,68 @@ Public g_nCaptureHeight As Long
 Public g_nCurIndex As Long
 
 
+Private Sub Check_Enable_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    SetFlash
+End Sub
+
+Private Sub Check_Invert_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    SetFlash
+End Sub
+
+Private Function SetFlash()
+    Dim nRet As Long
+    nRet = KSJ_FlashControlSet(g_nCurIndex, Check_Enable.Value, Check_Invert.Value, nMode)
+
+End Function
+
+Private Sub Check_Recover_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    
+    nRet = KSJ_CaptureSetRecover(g_nCurIndex, Check_Recover.Value)
+End Sub
+
+Private Sub Combo_Timeout_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    Dim szTimeOut(5) As Long
+    szTimeOut(0) = 8000
+    szTimeOut(1) = &HFFFFFFFF
+    szTimeOut(2) = 500
+    szTimeOut(3) = 1000
+    szTimeOut(4) = 2000
+    szTimeOut(5) = 5000
+
+    nRet = KSJ_CaptureSetTimeOut(g_nCurIndex, szTimeOut(Combo_Timeout.ListIndex))
+End Sub
+
+Private Sub Combo_TriggerMode_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    nRet = KSJ_TriggerModeSet(m_nDeviceCurSel, Combo_TriggerMode.ListIndex)
+End Sub
+
+Private Sub Combo_TriggerMothod_Click()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    nRet = KSJ_TriggerMethodSet(m_nDeviceCurSel, Combo_TriggerMothod.ListIndex)
+End Sub
+
+Private Sub FIXED_FRAME_RATE_Change()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    nRet = KSJ_SetFixedFrameRateEx(m_nDeviceCurSel, Val(FIXED_FRAME_RATE.Text))
+End Sub
+
+Private Sub TriggerDelay_Change()
+    If g_nCurIndex = -1 Then Exit Sub
+    Dim nRet As Long
+    nRet = KSJ_TriggerDelaySet(g_nCurIndex, Val(TriggerDelay.Text))
+    
+End Sub
+
 Private Sub Form_Load()
 
     Dim nRet As Long
@@ -377,7 +548,6 @@ Private Sub Form_Load()
     Dim wFirmwareVersion As Integer
     Dim Pt As POINT
     Dim Rec     As RECT
-    
     nRet = GetWindowRect(PreviewWnd.hwnd, Rec)
     Pt.x = Rec.Left
     Pt.y = Rec.Top
@@ -499,6 +669,63 @@ Private Function UpdateInterface()
     CaptureRowStart.Text = Str(nTop)
     CaptureRowSize.Text = Str(nHeight)
     
+    Dim bEnable As Boolean
+    Dim bInvert As Boolean
+    Dim nMode As Long
+    nRet = KSJ_FlashControlGet(g_nCurIndex, bEnable, bInvert, nMode)
+    Check_Enable.Value = bEnable
+    Check_Invert.Value = bInvert
+    
+    Dim i As Integer
+    Dim szTimeOut(5) As String
+    szTimeOut(0) = "Default 8S"
+    szTimeOut(1) = "Infinite"
+    szTimeOut(2) = "500mS"
+    szTimeOut(3) = "1S"
+    szTimeOut(4) = "2S"
+    szTimeOut(5) = "5S"
+    Combo_Timeout.Clear
+    For i = 0 To 5 Step 1
+        Combo_Timeout.AddItem (szTimeOut(i))
+    Next i
+    Combo_Timeout.ListIndex = 0
+    nRet = KSJ_CaptureSetTimeOut(g_nCurIndex, 8000)
+    
+    Dim bRecover As Boolean
+    nRet = KSJ_CaptureGetRecover(g_nCurIndex, bRecover)
+    Check_Recover.Value = bRecover
+    
+    Dim szTriggerMode(3) As String
+    Dim TriggerMode As KSJ_TRIGGERMODE
+    szTriggerMode(0) = "Internal"
+    szTriggerMode(1) = "External"
+    szTriggerMode(2) = "Software"
+    szTriggerMode(3) = "Fixed Frame Rate"
+    For i = 0 To 3 Step 1
+        Combo_TriggerMode.AddItem (szTriggerMode(i))
+    Next i
+    nRet = KSJ_TriggerModeGet(g_nCurIndex, TriggerMode)
+    Combo_TriggerMode.ListIndex = TriggerMode
+    
+    Dim szTriggerMetho(3) As String
+    Dim TriggerMethod As KSJ_TRIGGERMETHOD
+    szTriggerMetho(0) = "Falling Edge"
+    szTriggerMetho(1) = "Rising Edge"
+    szTriggerMetho(2) = "High Level"
+    szTriggerMetho(3) = "Low Level"
+    For i = 0 To 3 Step 1
+        Combo_TriggerMothod.AddItem (szTriggerMetho(i))
+    Next i
+    nRet = KSJ_TriggerMethodGet(g_nCurIndex, TriggerMethod)
+    Combo_TriggerMothod.ListIndex = TriggerMethod
+    
+    Dim Delay As Long
+    nRet = KSJ_TriggerDelayGet(g_nCurIndex, Delay)
+    TriggerDelay.Text = Str(Delay)
+    
+    Dim FrameRate As Single
+    nRet = KSJ_GetFixedFrameRate(g_nCurIndex, bEnable, FrameRate)
+    FIXED_FRAME_RATE.Text = Str(FrameRate)
 End Function
 
 Private Function UpdateInterfaceFunction()
@@ -509,7 +736,7 @@ Private Function UpdateInterfaceFunction()
         nRet = KSJ_QueryFunction(g_nCurIndex, i, nSupport)
         Funtion.AddItem FunctionName(i) + Str(nSupport)
     Next i
-
+    
 End Function
 
 Private Sub Catpure_Click()
@@ -553,8 +780,8 @@ Const pixB = 1
         biBitInfo.bmiColors(i).rgbReserved = i
     Next i
     
-    nRet = SetStretchBltMode(CaptureWnd.hdc, 3)
-    nRet = StretchDIBits(CaptureWnd.hdc, 0, 0, ScaleX(CaptureWnd.Width, vbTwips, vbPixels), ScaleY(CaptureWnd.Height, vbTwips, vbPixels), 0, 0, g_nCaptureWidth, g_nCaptureHeight, pRgbData(1, 1, 1), biBitInfo, DIB_RGB_COLORS, vbSrcCopy)
+    nRet = SetStretchBltMode(CaptureWnd.hDC, 3)
+    nRet = StretchDIBits(CaptureWnd.hDC, 0, 0, ScaleX(CaptureWnd.Width, vbTwips, vbPixels), ScaleY(CaptureWnd.Height, vbTwips, vbPixels), 0, 0, g_nCaptureWidth, g_nCaptureHeight, pRgbData(1, 1, 1), biBitInfo, DIB_RGB_COLORS, vbSrcCopy)
     CaptureWnd.Refresh
 
     
@@ -660,4 +887,5 @@ Private Sub Timer1_Timer()
     KSJ_PreviewGetFrameRate 0, fFrameRate
     VBDemoForm.Caption = "CatchBEST: " & Str(fFrameRate) & "Fps"
 End Sub
+
 
