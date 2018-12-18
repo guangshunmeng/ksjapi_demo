@@ -78,6 +78,7 @@
             this.Timer_GET_FRAME_RATE = new System.Windows.Forms.Timer(this.components);
             this.Button_CAPTURE = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.hWindowControl1 = new HalconDotNet.HWindowControl();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PREVIEWWND)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_EXPOSURE_TIME_MS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_EXPOSURE_LINES)).BeginInit();
@@ -92,7 +93,7 @@
             this.PictureBox_PREVIEWWND.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PictureBox_PREVIEWWND.Location = new System.Drawing.Point(10, 25);
             this.PictureBox_PREVIEWWND.Name = "PictureBox_PREVIEWWND";
-            this.PictureBox_PREVIEWWND.Size = new System.Drawing.Size(555, 602);
+            this.PictureBox_PREVIEWWND.Size = new System.Drawing.Size(555, 274);
             this.PictureBox_PREVIEWWND.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox_PREVIEWWND.TabIndex = 0;
             this.PictureBox_PREVIEWWND.TabStop = false;
@@ -551,11 +552,23 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Callback";
             // 
+            // hWindowControl1
+            // 
+            this.hWindowControl1.BackColor = System.Drawing.Color.Black;
+            this.hWindowControl1.BorderColor = System.Drawing.Color.Black;
+            this.hWindowControl1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.hWindowControl1.Location = new System.Drawing.Point(13, 310);
+            this.hWindowControl1.Name = "hWindowControl1";
+            this.hWindowControl1.Size = new System.Drawing.Size(552, 328);
+            this.hWindowControl1.TabIndex = 47;
+            this.hWindowControl1.WindowSize = new System.Drawing.Size(552, 328);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1494, 668);
+            this.Controls.Add(this.hWindowControl1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.Button_CAPTURE);
             this.Controls.Add(this.ListView_FUNCTION);
@@ -654,6 +667,7 @@
         private System.Windows.Forms.CheckBox CheckBox_SET_CALLBACK;
         private System.Windows.Forms.CheckBox CheckBox_SET_CALLBACKEX;
         private System.Windows.Forms.GroupBox groupBox3;
+        private HalconDotNet.HWindowControl hWindowControl1;
     }
 }
 

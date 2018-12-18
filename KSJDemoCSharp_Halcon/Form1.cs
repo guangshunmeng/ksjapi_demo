@@ -482,7 +482,8 @@ namespace KSJDemoCSharp
             KSJWin.QueryPerformanceFrequency(ref nFreq);
             float fInterval = (float)(counterEnd - counterStart);
             float fElapse = fInterval / (float)nFreq * 1000;    // MS
-
+            HOperatorSet.SetPart(this.hWindowControl1.HalconWindow, 0, 0, nCaptureHeight - 1, nCaptureWidth - 1);
+            HOperatorSet.DispObj(HobjConvert, this.hWindowControl1.HalconWindow); 
             //if (bCheck)
             //{
             //    string szFileName = string.Format("capture-{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}.bmp", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
@@ -490,9 +491,9 @@ namespace KSJDemoCSharp
             //    KSJApiBase.KSJ_HelperSaveToBmp(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount, szFileName);
             //}
 
-            TextBox_ELAPSE_TIME.Text = string.Format("Elapse: {0}ms", fElapse);
-            Bitmap bitmap = BytesToBitmap(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount);
-            PictureBox_PREVIEWWND.Image = Image.FromHbitmap(bitmap.GetHbitmap());
+            //TextBox_ELAPSE_TIME.Text = string.Format("Elapse: {0}ms", fElapse);
+            //Bitmap bitmap = BytesToBitmap(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount);
+            //PictureBox_PREVIEWWND.Image = Image.FromHbitmap(bitmap.GetHbitmap());
         }
 
         private void PreviewCallback(IntPtr pImageData, int width, int height, int nBitCount, IntPtr lpContext)
