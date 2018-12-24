@@ -136,6 +136,16 @@ const TCHAR * g_szDeviceType[] =
 	_T("Jelly6 MU3S321C(SGYYO)"),
 	_T("Jelly6 MU3S321M(SGYYO)"),
 
+	_T("Jelly3 MU3S641M(SRYYO)"),
+	_T("Jelly3 MU3S1201M(SRYYO)"),
+	_T("Jelly6 MU3HS2001M(SRYYO)"),
+
+	_T("Jelly3 MU3S211M(SRYYO)"),
+	_T("Jelly3 MU3C36C(MGYY)"),
+	_T("Jelly3 MU3C36M(MGYY)"),
+	_T("Jelly6 MU3HS1200C(SRYYO)"),
+	_T("Jelly6 MU3HS1200M(SRYYO)"),
+
 	_T("UNKOWN TYPE"),
 	_T("UNKOWN TYPE"),
 	_T("UNKOWN TYPE"),
