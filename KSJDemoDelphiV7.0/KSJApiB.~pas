@@ -1,0 +1,374 @@
+unit KSJApiB;
+
+interface
+type
+arrays=array[0..2] of array[0..2] of Single;
+PInteger  = ^Integer;
+PWord     = ^Word;
+PLongBool = ^LongBool;
+PBoolean  = ^Boolean;
+PByte     = ^Byte;
+PSingle   = ^Single;
+KSJ_AECALLBACK  = procedure( bSuccess : Boolean; nResult : Integer; lpContext : Integer ); stdcall;
+KSJ_AWBCALLBACK = procedure( bSuccess : Boolean; nRValue : Integer; nGValue : Integer; nBValue : Integer; lpContext : Integer ); stdcall;
+KSJ_CCCALLBACK  = procedure( bSuccess : Boolean; nRShift : Integer; nGShift : Integer; nBShift : Integer; lpContext : Integer ); stdcall;
+KSJ_WB_CALLBACK = procedure( fBackMatrix :array of Single; lpContext : Integer); stdcall;
+// 相机类型
+KSJ_DEVICETYPE = (
+	KSJ_UC130C_MRNN = 0,
+	KSJ_UC130M_MRNN,
+	KSJ_UC200C_MRNN,
+	KSJ_UC320C_MRNN,
+	KSJ_UC130C_MRYN,
+	KSJ_UC130M_MRYN,
+	KSJ_UC200C_MRYN,
+	KSJ_UC320C_MRYN,
+	KSJ_UC500C_MRNN,
+	KSJ_UC500M_MRNN,
+	KSJ_UC500C_MRYN,
+	KSJ_UC500M_MRYN,
+	KSJ_UC320C_OCR,
+	KSJ_UC900C_MRNN,
+	KSJ_UC1000C_MRNN,
+	KSJ_UC900C_MRYN,
+	KSJ_UC1000C_MRYN,
+	KSJ_UC130C_MRYY,
+	KSJ_UC130M_MRYY,
+	KSJ_UD140C_SRNN,
+	KSJ_UD140M_SRNN,
+	KSJ_UC36C_MGNN,
+	KSJ_UC36M_MGNN,
+  Reserved = $7FFFFFFF
+);
+
+PKSJ_DEVICETYPE = ^KSJ_DEVICETYPE;
+
+
+KSJ_ADDRESSMODE = (
+  KSJ_SKIPNONE = 0,
+  KSJ_SKIP2,
+  KSJ_SKIP3,
+  KSJ_SKIP4,
+  KSJ_SKIP8,
+  Reserved1 = $7FFFFFFF
+);
+
+PKSJ_ADDRESSMODE = ^KSJ_ADDRESSMODE;
+
+// 相机参数
+KSJ_PARAM = (
+		KSJ_EXPOSURE = 0,        // Exposure Time (ms)
+		KSJ_RED,                 // Red Gain, for line scan sensor map to seg0, for ccd map to KSJ_VGAGAIN
+		KSJ_GREEN,               // Green Gain, for line scan sensor map to seg1, for ccd map to KSJ_LAMPLEVEL
+		KSJ_BLUE,                // Blue Gain, for CCD map to KSJ_CDSGAIN
+		KSJ_GAMMA,               // Gamma
+		KSJ_PREVIEW_COLUMNSTART, // Preview Col Start
+		KSJ_PREVIEW_ROWSTART,    // Preview Row Start
+		KSJ_CAPTURE_COLUMNSTART, // Capture Col Start
+		KSJ_CAPTURE_ROWSTART,    // Capture Row Start
+		KSJ_HORIZONTALBLANK,     // Horizontal Blank
+		KSJ_VERTICALBLANK,       // Vertical Blank
+		KSJ_FLIP,                // Flip
+		KSJ_BIN,                 // Binning
+		KSJ_MIRROR,              // Mirror
+		KSJ_CONTRAST,            // Contrast
+		KSJ_BRIGHTNESS,          // Brightness
+		KSJ_VGAGAIN,             // VGA Gain(CCD)
+		KSJ_CLAMPLEVEL,          // Clamp Level(CCD)
+		KSJ_CDSGAIN,             // CDS Gain(CCD)
+		KSJ_RED_SHIFT,           // Not Use
+		KSJ_GREEN_SHIFT,         // Not Use
+		KSJ_BLUE_SHIFT,          // Not Use
+		KSJ_COMPANDING,          // Companding
+		KSJ_EXPOSURE_LINES,      // Exposure Lines
+		KSJ_SATURATION,          // Saturation
+		KSJ_TRIGGERDELAY,        // Trigger Delay Step = 100uS
+		KSJ_STROBEDELAY,         // Not Use
+		KSJ_TRIGGER_MODE,        // Trigger Mode
+		KSJ_TRIGGER_METHOD,      // Trigger Method
+		KSJ_BLACKLEVEL,          // Black Level
+		KSJ_BLACKLEVEL_THRESHOLD_AUTO, // Black Level Threshold Auto
+		KSJ_BLACKLEVEL_THRESHOLD_LO,   // Black Level Low Threshold
+		KSJ_BLACKLEVEL_THRESHOLD_HI    // Black Level High Threshold
+);
+
+// Bayer模式
+KSJ_BAYERMODE = (
+  KSJ_BGGR_BGR24 = 0,
+  KSJ_GRBG_BGR24,
+  KSJ_RGGB_BGR24,
+  KSJ_GBRG_BGR24,
+  KSJ_BGGR_BGR24_FLIP,
+  KSJ_GRBG_BGR24_FLIP,
+  KSJ_RGGB_BGR24_FLIP,
+  KSJ_GBRG_BGR24_FLIP,
+  KSJ_BGGR_BGR32,
+  KSJ_GRBG_BGR32,
+  KSJ_RGGB_BGR32,
+  KSJ_GBRG_BGR32,
+  KSJ_BGGR_BGR32_FLIP,
+  KSJ_GRBG_BGR32_FLIP,
+  KSJ_RGGB_BGR32_FLIP,
+  KSJ_GBRG_BGR32_FLIP,
+  KSJ_BGGR_GRAY8,
+  KSJ_GRBG_GRAY8,
+  KSJ_RGGB_GRAY8,
+  KSJ_GBRG_GRAY8,
+  KSJ_BGGR_GRAY8_FLIP,
+  KSJ_GRBG_GRAY8_FLIP,
+  KSJ_RGGB_GRAY8_FLIP,
+  KSJ_GBRG_GRAY8_FLIP,
+  Reserved3 = $7FFFFFFF
+);
+
+PKSJ_BAYERMODE = ^KSJ_BAYERMODE;
+
+
+KSJ_COLORCORRECT = (
+  KSJ_CC_NONE,
+  KSJ_CC_SHIFTRGB,
+  KSJ_CC_EQRGB,
+  KSJ_CC_EQALL,
+  Reserved4 = $7FFFFFFF
+);
+
+PKSJ_COLORCORRECT = ^KSJ_COLORCORRECT;
+
+// Trigger Mode
+KSJ_TRIGGERMODE = (
+	KSJ_TRIGGER_INTERNAL,
+	KSJ_TRIGGER_EXTERNAL,
+	KSJ_TRIGGER_SOFTWARE,
+	KSJ_TRIGGER_FIXFRAMERATE
+);
+
+PKSJ_TRIGGERMODE = ^KSJ_TRIGGERMODE;
+
+KSJ_TRIGGERMETHOD = (
+	KSJ_TRIGGER_FALLINGEDGE,
+	KSJ_TRIGGER_RISINGEDGE,
+	KSJ_TRIGGER_HIGHLEVEL,
+	KSJ_TRIGGER_LOWLEVEL
+);
+	
+PKSJ_TRIGGERMETHOD = ^KSJ_TRIGGERMETHOD;
+
+KSJ_WB_MODE = (
+		KSJ_WB_DISABLE,
+		KSJ_SWB_PRESETTINGS,
+		KSJ_SWB_AUTO_ONCE,
+		KSJ_SWB_AUTO_CONITNUOUS,
+		KSJ_SWB_MANUAL,
+		KSJ_HWB_PRESETTINGS,
+		KSJ_HWB_AUTO_ONCE,
+		KSJ_HWB_AUTO_CONITNUOUS,
+		KSJ_HWB_MANUAL
+);
+PKSJ_WB_MODE = ^KSJ_WB_MODE;
+
+KSJ_COLOR_TEMPRATURE =
+(
+		KSJ_CT_5000K,
+		KSJ_CT_6500K,
+		KSJ_CT_2800K
+);
+PKSJ_COLOR_TEMPRATURE = ^KSJ_COLOR_TEMPRATURE;
+
+KSJ_CCM_MODE =
+(
+		KSJ_CCM_DISABLE,
+		KSJ_SCCM_PRESETTINGS,
+		KSJ_SCCM_MANUAL,
+		KSJ_HCCM_PRESETTINGS,
+		KSJ_HCCM_MANUAL
+);
+PKSJ_CCM_MODE = ^KSJ_CCM_MODE;
+
+// 得到错误信息
+function KSJ_GetErrorInfo( nErrorNo : Integer;  pszErrorInfo : PChar ) : Integer; stdcall;
+// 初始化KSJAPI.DLL
+function KSJ_Init(  ) : Integer; stdcall;
+// 反初始化KSJAPI.DLL
+function KSJ_UnInit(  ) : Integer; stdcall;
+// 得到设备个数
+function KSJ_DeviceGetCount(  ) : Integer; stdcall;
+// 得到设备信息
+function KSJ_DeviceGetInformation ( nChannel : Integer;  pDeviceType : PKSJ_DEVICETYPE; pnIndex : PInteger; pwFirmwareVersion : PWord   ) : Integer; stdcall;
+
+function KSJ_CaptureSetFieldOfView( nChannel : Integer;  nColumnStart : Integer; nRowStart : Integer; nColumnSize : Integer; nRowSize : Integer; ColumnAddressMode : KSJ_ADDRESSMODE; RowAddressMode : KSJ_ADDRESSMODE  ) : Integer; stdcall;
+
+function KSJ_CaptureGetFieldOfView( nChannel : Integer;  pnColumnStart : PInteger; pnRowStart : PInteger; pnColumnSize : PInteger; pnRowSize : PInteger; pColumnAddressMode : PKSJ_ADDRESSMODE; pRowAddressMode : PKSJ_ADDRESSMODE  ) : Integer; stdcall;
+
+function KSJ_CaptureGetSize       ( nChannel : Integer;  pnWidth : PInteger; pnHeight : PInteger  ) : Integer; stdcall;
+
+function KSJ_CaptureGetSizeEx     ( nChannel : Integer;  pnWidth : PInteger; pnHeight : PInteger; pnBitCount : PInteger  ) : Integer; stdcall;
+
+function KSJ_CaptureRawData       ( nChannel : Integer;  pRawData : PByte ) : Integer; stdcall;
+
+function KSJ_CaptureRgbData       ( nChannel : Integer;  pRgbData : PByte ) : Integer; stdcall;
+
+function KSJ_CaptureRgbDataEx     ( nChannel : Integer;  pRgbData : PByte; pnWidth : PInteger; pnHeight : PInteger; pnBitCount : PInteger  ) : Integer; stdcall;
+
+function KSJ_GetParamRange(  nChannel : Integer; Param : KSJ_PARAM; pnMinValue : PInteger; pnMaxValue : PInteger ) : Integer; stdcall;
+
+function KSJ_SetParam( nChannel : Integer; Param : KSJ_PARAM; nValue : Integer ) : Integer; stdcall;
+
+function KSJ_GetParam( nChannel : Integer; Param : KSJ_PARAM; pnValue : PInteger ) : Integer; stdcall;
+
+function KSJ_GammaSetValue( nChannel : Integer; nValue : Integer  ) : Integer; stdcall;
+
+function KSJ_GammaOn( nChannel : Integer; bOn : Boolean ) : Integer; stdcall;
+
+function KSJ_BayerSetMode( nChannel : Integer; BayerMode : KSJ_BAYERMODE ) : Integer; stdcall;
+
+function KSJ_BayerGetMode( nChannel : Integer; pBayerMode : PKSJ_BAYERMODE ) : Integer; stdcall;
+
+function KSJ_AESetRegion( nChannel : Integer; nX : Integer; nY : Integer; nW : Integer; nH : Integer ) : Integer; stdcall;
+
+function KSJ_AESetCallback( nChannel : Integer; pfAECallback : KSJ_AECALLBACK;  lpContext : Integer ) : Integer; stdcall;
+
+function KSJ_AEStart( nChannel : Integer; bStart : Boolean;  nMaxCount : Integer; nTarget : Integer ) : Integer; stdcall;
+
+function KSJ_AWBSetRegion( nChannel : Integer; nX : Integer; nY : Integer; nW : Integer; nH : Integer ) : Integer; stdcall;
+
+function KSJ_AWBSetCallback( nChannel : Integer; pfAWBCallback : KSJ_AWBCALLBACK;  lpContext : Integer ) : Integer; stdcall;
+
+function KSJ_AWBStart( nChannel : Integer; bStart : Boolean;  nMaxCount : Integer; nRTarget : Integer; nGTarget : Integer; nBTarget : Integer ) : Integer; stdcall;
+
+function KSJ_ColorCorrectSetCallback( nChannel : Integer; fpCCCallback : KSJ_CCCALLBACK;  lpContext : Integer ) : Integer; stdcall;
+
+function KSJ_ColorCorrectSet( nChannel : Integer; ColorCorrect : KSJ_COLORCORRECT;  nRTarget : Integer; nGTarget : Integer; nBTarget : Integer ) : Integer; stdcall;
+
+function KSJ_ColorCorrectGet( nChannel : Integer; pColorCorrect : PKSJ_COLORCORRECT ) : Integer; stdcall;
+
+function KSJ_ProcessContrastSet( nChannel : Integer; nContrast : Integer ) : Integer; stdcall;
+
+function KSJ_ProcessContrastGet( nChannel : Integer; pnContrast : PInteger ) : Integer; stdcall;
+
+function KSJ_ProcessContrastGetRange( nChannel : Integer; pnMinContrast : PInteger; pnMaxContrast : PInteger ) : Integer; stdcall;
+
+function KSJ_ProcessBrightnessSet( nChannel : Integer; nBrightness : Integer ) : Integer; stdcall;
+
+function KSJ_ProcessBrightnessGet( nChannel : Integer; pnBrightness : PInteger ) : Integer; stdcall;
+
+function KSJ_ProcessBrightnessGetRange( nChannel : Integer; pnMinBrightness : PInteger; pnMaxBrightness : PInteger ) : Integer; stdcall;
+
+function KSJ_RecordStart    ( nChannel : Integer; bStart : Boolean; fRecordRate : Single; pFileName : PChar  ) : Integer; stdcall;
+
+function KSJ_RecordStatusGet( nChannel : Integer; bStart : PBoolean  ) : Integer; stdcall;
+
+function KSJ_HelperSaveToBmp    ( pData : PByte; nWidth : Integer; nHeight : Integer; nBitCount : Integer; pszFileName : PChar  ) : Integer; stdcall;
+
+function KSJ_HelperSaveToJpg    ( pData : PByte; nWidth : Integer; nHeight : Integer; nBitCount : Integer; nQuality: Integer; pszFileName : PChar  ) : Integer; stdcall;
+
+
+
+
+function KSJ_TriggerModeSet( nChannel : Integer; TriggerMode : KSJ_TRIGGERMODE ) : Integer; stdcall;
+function KSJ_TriggerModeGet( nChannel : Integer; pTriggerMode : PKSJ_TRIGGERMODE ) : Integer; stdcall;
+function KSJ_SetFixedFrameRate(nChannel : Integer; bEnable : Boolean; fFrameRate : Single) : Integer; stdcall;
+function KSJ_GetFixedFrameRate(nChannel : Integer; pbEnable : PBoolean; pfFrameRate : PSingle) : Integer; stdcall;
+function KSJ_TriggerMethodSet(nChannel : Integer; TriggerMethod : KSJ_TRIGGERMETHOD) : Integer; stdcall;
+function KSJ_TriggerMethodGet(nChannel : Integer; pTriggerMethod : PKSJ_TRIGGERMETHOD) : Integer; stdcall;
+function KSJ_TriggerDelayGetRange(nChannel : Integer; wMin  : PInteger; wMax: PInteger) : Integer; stdcall;
+function KSJ_TriggerDelaySet(nChannel : Integer; wDelay: Integer) : Integer; stdcall;
+function KSJ_TriggerDelayGet(nChannel : Integer; pwDelay : PInteger) : Integer; stdcall;
+function KSJ_CaptureSetTimeOut(nChannel : Integer; dwTimeOut: Integer) : Integer; stdcall;
+function KSJ_CaptureGetTimeOut(nChannel : Integer; pdwTimeOut : PInteger) : Integer; stdcall;
+function KSJ_CaptureSetRecover(nChannel : Integer; bRecover : Boolean) : Integer; stdcall;
+function KSJ_CaptureGetRecover(nChannel : Integer; pbRecover : PBoolean) : Integer; stdcall;
+function KSJ_FlashControlSet(nChannel : Integer; bEnable : Boolean ; bInvert : Boolean ; nMode : Integer) : Integer; stdcall;
+function KSJ_FlashControlGet(nChannel : Integer; pbEnable : PBoolean ; pbInvert : PBoolean ; pnMode : PInteger) : Integer; stdcall;
+
+function KSJ_WhiteBalanceSet( nChannel : Integer; WbMode : KSJ_WB_MODE ) : Integer; stdcall;
+function KSJ_WhiteBalanceGet( nChannel : Integer; pWbMode : PKSJ_WB_MODE ) : Integer; stdcall;
+function KSJ_WhiteBalancePresettingSet( nChannel : Integer; WbPresetting : KSJ_COLOR_TEMPRATURE ) : Integer; stdcall;
+function KSJ_WhiteBalancePresettingGet( nChannel : Integer; pWbPresetting : PKSJ_COLOR_TEMPRATURE ) : Integer; stdcall;
+function KSJ_WhiteBalanceAutoSet( nChannel : Integer; nPhi : Integer ) : Integer; stdcall;
+function KSJ_WhiteBalanceAutoGet( nChannel : Integer; pnPhi : PInteger ) : Integer; stdcall;
+function KSJ_ColorCorrectionSet( nChannel : Integer; CcmMode : KSJ_CCM_MODE ) : Integer; stdcall;
+function KSJ_ColorCorrectionGet( nChannel : Integer; pCcmMode : PKSJ_CCM_MODE ) : Integer; stdcall;
+function KSJ_ColorCorrectionPresettingSet( nChannel : Integer; CcmPresetting : KSJ_COLOR_TEMPRATURE ) : Integer; stdcall;
+function KSJ_ColorCorrectionPresettingGet( nChannel : Integer; pCcmPresetting : PKSJ_COLOR_TEMPRATURE ) : Integer; stdcall;
+function KSJ_WhiteBalanceMatrixSet( nChannel : Integer; fMatrix :array of Single ) : Integer; stdcall;
+function KSJ_WhiteBalanceMatrixGet( nChannel : Integer; fMatrix :array of Single ) : Integer; stdcall;
+function KSJ_ColorCorrectionMatrixSet( nChannel : Integer; fMatrix :arrays ) : Integer; stdcall;
+function KSJ_ColorCorrectionMatrixGet( nChannel : Integer; fMatrix :arrays ) : Integer; stdcall;
+function KSJ_WhiteBalanceAutoSetCallBack( nChannel : Integer; pfCallBack : KSJ_WB_CALLBACK;  lpContext : Integer ) : Integer; stdcall;
+
+implementation
+function KSJ_GetErrorInfo; external 'KSJApi.DLL' name 'KSJ_GetErrorInfo';
+function KSJ_Init; external 'KSJApi.DLL' name 'KSJ_Init';
+function KSJ_UnInit; external 'KSJApi.DLL' name 'KSJ_UnInit';
+function KSJ_DeviceGetCount; external 'KSJApi.DLL' name 'KSJ_DeviceGetCount';
+function KSJ_DeviceGetInformation; external 'KSJApi.DLL' name 'KSJ_DeviceGetInformation';
+
+function KSJ_CaptureSetFieldOfView; external 'KSJApi.DLL' name 'KSJ_CaptureSetFieldOfView';
+function KSJ_CaptureGetFieldOfView; external 'KSJApi.DLL' name 'KSJ_CaptureGetFieldOfView';
+function KSJ_CaptureGetSize; external 'KSJApi.DLL' name 'KSJ_CaptureGetSize';
+function KSJ_CaptureGetSizeEx; external 'KSJApi.DLL' name 'KSJ_CaptureGetSizeEx';
+function KSJ_CaptureRawData; external 'KSJApi.DLL' name 'KSJ_CaptureRawData';
+
+function KSJ_CaptureRgbData; external 'KSJApi.DLL' name 'KSJ_CaptureRgbData';
+function KSJ_CaptureRgbDataEx; external 'KSJApi.DLL' name 'KSJ_CaptureRgbDataEx';
+function KSJ_GetParamRange; external 'KSJApi.DLL' name 'KSJ_GetParamRange';
+function KSJ_SetParam; external 'KSJApi.DLL' name 'KSJ_SetParam';
+function KSJ_GetParam; external 'KSJApi.DLL' name 'KSJ_GetParam';
+function KSJ_GammaSetValue; external 'KSJApi.DLL' name 'KSJ_GammaSetValue';
+function KSJ_GammaOn; external 'KSJApi.DLL' name 'KSJ_GammaOn';
+function KSJ_BayerSetMode; external 'KSJApi.DLL' name 'KSJ_BayerSetMode';
+function KSJ_BayerGetMode; external 'KSJApi.DLL' name 'KSJ_BayerGetMode';
+function KSJ_AESetRegion; external 'KSJApi.DLL' name 'KSJ_AESetRegion';
+function KSJ_AESetCallback; external 'KSJApi.DLL' name 'KSJ_AESetCallback';
+
+function KSJ_AEStart; external 'KSJApi.DLL' name 'KSJ_AEStart';
+function KSJ_AWBSetRegion; external 'KSJApi.DLL' name 'KSJ_AWBSetRegion';
+function KSJ_AWBSetCallback; external 'KSJApi.DLL' name 'KSJ_AWBSetCallback';
+function KSJ_AWBStart; external 'KSJApi.DLL' name 'KSJ_AWBStart';
+function KSJ_ColorCorrectSetCallback; external 'KSJApi.DLL' name 'KSJ_ColorCorrectSetCallback';
+function KSJ_ColorCorrectSet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectSet';
+function KSJ_ColorCorrectGet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectGet';
+function KSJ_ProcessContrastSet; external 'KSJApi.DLL' name 'KSJ_ProcessContrastSet';
+function KSJ_ProcessContrastGet; external 'KSJApi.DLL' name 'KSJ_ProcessContrastGet';
+function KSJ_ProcessContrastGetRange; external 'KSJApi.DLL' name 'KSJ_ProcessContrastGetRange';
+function KSJ_ProcessBrightnessSet; external 'KSJApi.DLL' name 'KSJ_ProcessBrightnessSet';
+function KSJ_ProcessBrightnessGet; external 'KSJApi.DLL' name 'KSJ_ProcessBrightnessGet';
+function KSJ_ProcessBrightnessGetRange; external 'KSJApi.DLL' name 'KSJ_ProcessBrightnessGetRange';
+function KSJ_RecordStart; external 'KSJApi.DLL' name 'KSJ_RecordStart';
+function KSJ_RecordStatusGet; external 'KSJApi.DLL' name 'KSJ_RecordStatusGet';
+function KSJ_HelperSaveToBmp; external 'KSJApi.DLL' name 'KSJ_HelperSaveToBmp';
+function KSJ_HelperSaveToJpg; external 'KSJApi.DLL' name 'KSJ_HelperSaveToJpg';
+function KSJ_TriggerModeSet; external 'KSJApi.DLL' name 'KSJ_TriggerModeSet';
+function KSJ_TriggerModeGet; external 'KSJApi.DLL' name 'KSJ_TriggerModeGet';
+function KSJ_SetFixedFrameRate; external 'KSJApi.DLL' name 'KSJ_SetFixedFrameRate';
+function KSJ_GetFixedFrameRate; external 'KSJApi.DLL' name 'KSJ_GetFixedFrameRate';
+function KSJ_TriggerMethodSet; external 'KSJApi.DLL' name 'KSJ_TriggerMethodSet';
+function KSJ_TriggerMethodGet; external 'KSJApi.DLL' name 'KSJ_TriggerMethodGet';
+function KSJ_TriggerDelayGetRange; external 'KSJApi.DLL' name 'KSJ_TriggerDelayGetRange';
+function KSJ_TriggerDelaySet; external 'KSJApi.DLL' name 'KSJ_TriggerDelaySet';
+function KSJ_TriggerDelayGet; external 'KSJApi.DLL' name 'KSJ_TriggerDelayGet';
+function KSJ_CaptureSetTimeOut; external 'KSJApi.DLL' name 'KSJ_CaptureSetTimeOut';
+function KSJ_CaptureGetTimeOut; external 'KSJApi.DLL' name 'KSJ_CaptureGetTimeOut';
+function KSJ_CaptureSetRecover; external 'KSJApi.DLL' name 'KSJ_CaptureSetRecover';
+function KSJ_CaptureGetRecover; external 'KSJApi.DLL' name 'KSJ_CaptureGetRecover';
+function KSJ_FlashControlSet; external 'KSJApi.DLL' name 'KSJ_FlashControlSet';
+function KSJ_FlashControlGet; external 'KSJApi.DLL' name 'KSJ_FlashControlGet';
+
+function KSJ_WhiteBalanceSet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceSet';
+function KSJ_WhiteBalanceGet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceGet';
+function KSJ_WhiteBalancePresettingSet; external 'KSJApi.DLL' name 'KSJ_WhiteBalancePresettingSet';
+function KSJ_WhiteBalancePresettingGet; external 'KSJApi.DLL' name 'KSJ_WhiteBalancePresettingGet';
+function KSJ_WhiteBalanceAutoSet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceAutoSet';
+function KSJ_WhiteBalanceAutoGet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceAutoGet';
+function KSJ_ColorCorrectionSet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionSet';
+function KSJ_ColorCorrectionGet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionGet';
+function KSJ_ColorCorrectionPresettingSet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionPresettingSet';
+function KSJ_ColorCorrectionPresettingGet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionPresettingGet';
+function KSJ_WhiteBalanceMatrixSet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceMatrixSet';
+function KSJ_WhiteBalanceMatrixGet; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceMatrixGet';
+function KSJ_ColorCorrectionMatrixSet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionMatrixSet';
+function KSJ_ColorCorrectionMatrixGet; external 'KSJApi.DLL' name 'KSJ_ColorCorrectionMatrixGet';
+function KSJ_WhiteBalanceAutoSetCallBack; external 'KSJApi.DLL' name 'KSJ_WhiteBalanceAutoSetCallBack';
+
+function KSJ_PreviewStartEx; external 'KSJApi.DLL' name 'KSJ_PreviewStartEx';
+end.

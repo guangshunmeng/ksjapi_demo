@@ -1,12 +1,8 @@
 
-// stdafx.cpp : source file that includes just the standard includes
-// KSJDemoVC.pch will be the pre-compiled header
-// stdafx.obj will contain the pre-compiled type information
+// stdafx.cpp : 只包括标准包含文件的源文件
+// KSJDemoVC_CameraManagerClass.pch 将作为预编译头
+// stdafx.obj 将包含预编译类型信息
 
 #include "stdafx.h"
-// v12
-// v13
-// v14
-// v15
 
 

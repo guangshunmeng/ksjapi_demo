@@ -1,20 +1,20 @@
 Attribute VB_Name = "KSJApiTriggerMode"
 Option Explicit
 
-enum KSJ_TRIGGERMODE
-	KSJ_TRIGGER_INTERNAL
-	KSJ_TRIGGER_EXTERNAL
-	KSJ_TRIGGER_SOFTWARE
-	KSJ_TRIGGER_FIXFRAMERATE
+Enum KSJ_TRIGGERMODE
+        KSJ_TRIGGER_INTERNAL
+        KSJ_TRIGGER_EXTERNAL
+        KSJ_TRIGGER_SOFTWARE
+        KSJ_TRIGGER_FIXFRAMERATE
 End Enum
 
 'Set Trigger Mode
 Public Declare Function KSJ_TriggerModeSet Lib "KSJAPI.dll" (ByVal nChannel As Long, ByVal TriggerMode As KSJ_TRIGGERMODE) As Long
 Public Declare Function KSJ_TriggerModeGet Lib "KSJAPI.dll" (ByVal nChannel As Long, ByRef pTriggerMode As KSJ_TRIGGERMODE) As Long
 
-enum KSJ_TRIGGERSTATUS
-	KSJ_NO
-	KSJ_HAVE
+Enum KSJ_TRIGGERSTATUS
+        KSJ_NO
+        KSJ_HAVE
 End Enum
 
 'Get Frame Buffer Status. Has One or more Frame or None. Maybe return RET_NOTSUPPORT
@@ -37,11 +37,11 @@ Public Declare Function KSJ_CaptureRgbDataExAfterEmptyFrameBuffer Lib "KSJAPI.dl
 Public Declare Function KSJ_SetFixedFrameRateEx Lib "KSJAPI.dll" (ByVal nChannel As Long, ByVal fFrameRate As Single) As Long
 Public Declare Function KSJ_GetFixedFrameRateEx Lib "KSJAPI.dll" (ByVal nChannel As Long, ByRef pfFrameRate As Single) As Long
 
-enum KSJ_TRIGGERMETHOD
-	KSJ_TRIGGER_FALLINGEDGE
-	KSJ_TRIGGER_RISINGEDGE
-	KSJ_TRIGGER_HIGHLEVEL
-	KSJ_TRIGGER_LOWLEVEL
+Enum KSJ_TRIGGERMETHOD
+        KSJ_TRIGGER_FALLINGEDGE
+        KSJ_TRIGGER_RISINGEDGE
+        KSJ_TRIGGER_HIGHLEVEL
+        KSJ_TRIGGER_LOWLEVEL
 End Enum
 
 'Set Trigger Method when in KSJ_TRIGGER_EXTERNAL mode

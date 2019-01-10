@@ -539,8 +539,8 @@ afx_msg LRESULT CKSJDemoVCDlg::MsgUpdateSnapStatic(WPARAM wParam, LPARAM lParam)
 	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_EXPOSURE);
 	pProgressCtrl->SetPos(nExposureTimeMs);
 
-	((CButton*)GetDlgItem(IDC_CHECK_CAPTURE))->SetCheck( FALSE );
-	((CButton*)GetDlgItem(IDC_CHECK_CAPTURE))->SetWindowTextA(_T("Start Capture Thread"));
+	//((CButton*)GetDlgItem(IDC_CHECK_CAPTURE))->SetCheck( FALSE );
+	//((CButton*)GetDlgItem(IDC_CHECK_CAPTURE))->SetWindowTextA(_T("Start Capture Thread"));
 
 	return 0;
 }

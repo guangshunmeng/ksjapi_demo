@@ -792,7 +792,7 @@ void CKSJDemoVCDlg::OnBnClickedButtonAeSetregion()
 	((CButton*)GetDlgItem(IDC_CHECK_AE_SHOW))->SetCheck(bShow);
 }
 
-void CKSJDemoVCDlg::AeCallback(bool bSuccess, int nResult)
+void CKSJDemoVCDlg::AeCallback(KSJ_AE_STATUS Status, int nResult)
 {
 	SetDlgItemInt(IDC_EDIT_EXPOSURE_TIME_MS, nResult);
 
@@ -801,14 +801,14 @@ void CKSJDemoVCDlg::AeCallback(bool bSuccess, int nResult)
 
 	SetDlgItemInt(IDC_EDIT_EXPOSURE_LINES, nExposureLines);
 
-	KSJ_AEStart(m_nDeviceCurSel, false, 0, 0);
+	KSJ_AEStartEx(m_nDeviceCurSel, false);
 	((CButton*)GetDlgItem(IDC_CHECK_AE_START))->SetCheck(false);
 }
 
-VOID WINAPI AECALLBACK(bool bSuccess, int nResult, void *lpContext)
+VOID WINAPI AECALLBACK(KSJ_AE_STATUS Status, int nResult, void *lpContext)
 {
 	CKSJDemoVCDlg *pVCDemoDlg = (CKSJDemoVCDlg *)lpContext;
-	pVCDemoDlg->AeCallback(bSuccess, nResult);
+	pVCDemoDlg->AeCallback(Status, nResult);
 }
 
 void CKSJDemoVCDlg::OnBnClickedCheckAeStart()
@@ -819,15 +819,15 @@ void CKSJDemoVCDlg::OnBnClickedCheckAeStart()
 	int nMaxCount = GetDlgItemInt(IDC_EDIT_AE_MAXCOUNT);
 	int nTarget   = GetDlgItemInt(IDC_EDIT_AE_TARGET);
 
-	int nRet = KSJ_AESetCallback(m_nDeviceCurSel, AECALLBACK, this);
+	int nRet = KSJ_AESetCallbackEx(m_nDeviceCurSel, AECALLBACK, this);
 	ShowErrorInfo(nRet);
 
-	nRet = KSJ_AEStart(m_nDeviceCurSel, bStart ? TRUE : FALSE, nMaxCount, nTarget);
+	KSJ_AESetMaxCount(m_nDeviceCurSel, nMaxCount);
+	KSJ_AESetTarget(m_nDeviceCurSel, nTarget);
+	nRet = KSJ_AEStartEx(m_nDeviceCurSel, bStart ? TRUE : FALSE);
 	ShowErrorInfo(nRet);
 
 }
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

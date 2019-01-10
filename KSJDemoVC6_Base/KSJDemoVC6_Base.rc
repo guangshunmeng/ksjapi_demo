@@ -1,0 +1,271 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (中国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\KSJDemoVC6_Base.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\KSJDemoVC6_Base.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 KSJDemoVC6_Base"
+FONT 9, "宋体"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "KSJDemoVC6_Base 1.0 版",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "版权所有 (C) 2017",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_KSJDEMOVC6_BASE_DIALOG DIALOGEX 0, 0, 997, 451
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "KSJDemoVC6_Base"
+FONT 9, "宋体"
+BEGIN
+    LTEXT           "",IDC_STATIC_PREVIEWWND,7,7,328,437,WS_BORDER
+    LTEXT           "Device Num:",IDC_STATIC_DEVICENUM,354,24,55,8
+    COMBOBOX        IDC_COMBO_DEVICE_LIST,413,21,264,30,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_EXPOSURE_TIME_MS,437,60,72,14,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_EXPOSURE_TIME_MS,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,509,60,11,14
+    EDITTEXT        IDC_EDIT_EXPOSURE_LINES,437,94,72,14,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_EXPOSURE_LINES,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,509,94,11,14
+    EDITTEXT        IDC_EDIT_GAIN,437,148,72,14,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_GAIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,509,148,
+                    11,14
+    LTEXT           "Exposure Time(ms):",IDC_STATIC,349,63,79,8
+    LTEXT           "Exposure Lines:",IDC_STATIC,349,96,79,8
+    LTEXT           "",IDC_STATIC_EXPOSURE_TIME_REAL,439,121,83,14,0,
+                    WS_EX_STATICEDGE
+    LTEXT           "",IDC_STATIC_EXPOSURE_TIME_RANGE,585,59,86,29,0,
+                    WS_EX_STATICEDGE
+    LTEXT           "",IDC_STATIC_EXPOSURE_LINES_RANGE,585,96,86,29,0,
+                    WS_EX_STATICEDGE
+    LTEXT           "",IDC_STATIC_GAIN_RANGE,585,147,86,29,0,
+                    WS_EX_STATICEDGE
+    LTEXT           "Range(ms):",IDC_STATIC,539,63,41,8
+    LTEXT           "Range:",IDC_STATIC,539,99,25,8
+    LTEXT           "Range:",IDC_STATIC,539,150,25,8
+    LTEXT           "Gain:",IDC_STATIC,349,151,79,8
+    LTEXT           "Fov Range:",IDC_STATIC,349,177,79,8
+    LTEXT           "",IDC_STATIC_FOV_RANGE,439,173,83,14,0,WS_EX_STATICEDGE
+    GROUPBOX        "Preview",IDC_STATIC,347,203,336,72
+    LTEXT           "Col Start:",IDC_STATIC,354,227,51,8
+    EDITTEXT        IDC_EDIT_PREVIEW_COL_START,406,226,50,14,ES_AUTOHSCROLL
+    LTEXT           "Col Size:",IDC_STATIC,353,251,51,8
+    EDITTEXT        IDC_EDIT_PREIVEW_COL_SIZE,405,250,50,14,ES_AUTOHSCROLL
+    LTEXT           "Row Start:",IDC_STATIC,464,229,51,8
+    EDITTEXT        IDC_EDIT_PREIVEW_ROW_START,516,227,50,14,ES_AUTOHSCROLL
+    LTEXT           "Row Size:",IDC_STATIC,464,253,51,8
+    EDITTEXT        IDC_EDIT_PREIVEW_ROW_SIZE,516,251,50,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Preview FOV",IDC_BUTTON_PREVIEW_FOV_SET,576,249,98,
+                    14
+    CONTROL         "Preview",IDC_CHECK_PREVIEWSTART,"Button",
+                    BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,351,287,56,16
+    GROUPBOX        "Capture",IDC_STATIC,347,307,336,72
+    LTEXT           "Col Start:",IDC_STATIC,354,331,51,8
+    EDITTEXT        IDC_EDIT_CAPTURE_COL_START,406,330,50,14,ES_AUTOHSCROLL
+    LTEXT           "Col Size:",IDC_STATIC,353,355,51,8
+    EDITTEXT        IDC_EDIT_CAPTURE_COL_SIZE,405,354,50,14,ES_AUTOHSCROLL
+    LTEXT           "Row Start:",IDC_STATIC,464,333,51,8
+    EDITTEXT        IDC_EDIT_CAPTURE_ROW_START,516,331,50,14,ES_AUTOHSCROLL
+    LTEXT           "Row Size:",IDC_STATIC,464,357,51,8
+    EDITTEXT        IDC_EDIT_CAPTURE_ROW_SIZE,516,355,50,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Capture FOV",IDC_BUTTON_CAPTURE_FOV_SET,576,353,98,
+                    14
+    PUSHBUTTON      "Capture",IDC_CAPTURE,349,391,58,17
+    CONTROL         "SaveImage",IDC_CHECK_SAVE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,443,397,52,10
+    CONTROL         "List2",IDC_LIST_FUNCTION,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,695,7,302,437
+    LTEXT           "Error Info",IDC_STATIC_ERROR_INFO,379,417,83,14,0,
+                    WS_EX_CLIENTEDGE
+    LTEXT           "Elapse",IDC_STATIC_ELAPSE_TIME,546,417,65,14,0,
+                    WS_EX_CLIENTEDGE
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "KSJDemoVC6_Base Microsoft 基础类应用程序\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "KSJDemoVC6_Base\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2017\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "KSJDemoVC6_Base.EXE\0"
+            VALUE "ProductName", "KSJDemoVC6_Base 应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_KSJDEMOVC6_BASE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 990
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 444
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 KSJDemoVC6_Base(&A)..."
+END
+
+#endif    // Chinese (中国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\KSJDemoVC6_Base.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

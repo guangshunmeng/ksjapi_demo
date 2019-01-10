@@ -1,65 +1,59 @@
 #include "stdafx.h"
 #include "KSJCamera.h"
 
-void CKSJCamera::PreviewCallback(unsigned char *pImageData, int nWidth, int nHeight, int nBitCount)
+void CKSJCamera::PreviewCallback(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, int nNo)
 {
 	if (m_bIsPaused)		return;
 
-	memcpy(m_pImage.m_lpDibArray, pImageData, m_pImage.m_ImageSize);
+	CString strTime;
+	strTime.Format("%d", nNo);
+	SaveDC(hDC);
+	SetBkMode(hDC, TRANSPARENT);
 
-	if (m_nCapturedImageNum < 1000)
-	{
-		m_nCapturedImageNum++;
-	}
-	else
-	{
-		m_nCapturedImageNum = 0;
-	}
+	HFONT hf;
+	hf = CreateFont(nHeight / 10, 0, 0, 0, FW_BLACK, FALSE, FALSE, FALSE,
+		GB2312_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FIXED_PITCH | FF_MODERN, "宋体");
+	::SelectObject(hDC, hf);
+	TextOut(hDC, nWidth / 20, nHeight / 14, strTime, strTime.GetLength());
+	::DeleteObject(hf);
 
-	if (m_pConnectView != NULL && m_pConnectView->GetSafeHwnd() != NULL)
-	{
-		m_pConnectView->Invalidate(FALSE);
-	}
+	RestoreDC(hDC, -1);
 }
 
 
-VOID WINAPI PREVIEWCALLBACK0( unsigned char *pImageData, int nWidth, int nHeight, int nBitCount,  void *lpContext )
+VOID WINAPI PREVIEWCALLBACK0(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext)
 {
 	CKSJCamera *pCamera = (CKSJCamera *)lpContext;
 
-	return pCamera->PreviewCallback(pImageData, nWidth, nHeight, nBitCount);
+	return pCamera->PreviewCallback(hDC, pImageData, nWidth, nHeight, nBitCount, 0);
 }
 
-VOID WINAPI PREVIEWCALLBACK1( unsigned char *pImageData, int nWidth, int nHeight, int nBitCount,  void *lpContext )
+VOID WINAPI PREVIEWCALLBACK1(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext)
 {
 	CKSJCamera *pCamera = (CKSJCamera *)lpContext;
 
-	return pCamera->PreviewCallback(pImageData, nWidth, nHeight, nBitCount);
-
+	return pCamera->PreviewCallback(hDC, pImageData, nWidth, nHeight, nBitCount, 1);
 }
 
-VOID WINAPI PREVIEWCALLBACK2( unsigned char *pImageData, int nWidth, int nHeight, int nBitCount,  void *lpContext )
+VOID WINAPI PREVIEWCALLBACK2(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext)
 {
 	CKSJCamera *pCamera = (CKSJCamera *)lpContext;
 
-	return pCamera->PreviewCallback(pImageData, nWidth, nHeight, nBitCount);
-
+	return pCamera->PreviewCallback(hDC, pImageData, nWidth, nHeight, nBitCount, 2);
 }
 
-VOID WINAPI PREVIEWCALLBACK3( unsigned char *pImageData, int nWidth, int nHeight, int nBitCount,  void *lpContext )
+VOID WINAPI PREVIEWCALLBACK3(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext)
 {
 	CKSJCamera *pCamera = (CKSJCamera *)lpContext;
 
-	return pCamera->PreviewCallback(pImageData, nWidth, nHeight, nBitCount);
-
+	return pCamera->PreviewCallback(hDC, pImageData, nWidth, nHeight, nBitCount, 3);
 }
 
-VOID WINAPI PREVIEWCALLBACK4( unsigned char *pImageData, int nWidth, int nHeight, int nBitCount,  void *lpContext )
+VOID WINAPI PREVIEWCALLBACK4(HDC hDC, unsigned char *pImageData, int nWidth, int nHeight, int nBitCount, void *lpContext)
 {
 	CKSJCamera *pCamera = (CKSJCamera *)lpContext;
 
-	return pCamera->PreviewCallback(pImageData, nWidth, nHeight, nBitCount);
-
+	return pCamera->PreviewCallback(hDC, pImageData, nWidth, nHeight, nBitCount, 4);
 }
 
 CKSJCamera::CKSJCamera(KSJ_DEVICETYPE DeviceType, int nIndex, int nSerials) : m_DeviceType(DeviceType), m_nIndex(nIndex), m_nSerials(nSerials)
@@ -68,9 +62,6 @@ CKSJCamera::CKSJCamera(KSJ_DEVICETYPE DeviceType, int nIndex, int nSerials) : m_
 	m_bIsConnected  = FALSE;
 	m_bIsPaused     = FALSE;
 	m_pConnectView = NULL;
-
-	CameraParam GainParam;
-	GainParam.readCameraParam();
 
 	switch (m_DeviceType)
 	{
@@ -97,17 +88,6 @@ CKSJCamera::CKSJCamera(KSJ_DEVICETYPE DeviceType, int nIndex, int nSerials) : m_
 		KSJ_SetParam(m_nIndex, KSJ_FLIP, 0);
 	}
 
-	if (!SetExposureTime(m_nIndex, m_nExposureTime))
-	{
-		return;
-	}
-	//获得gain
-	int gain_g;
-	KSJ_GetParam(m_nIndex, KSJ_GREEN, &gain_g);
-	KSJ_SetParam(m_nIndex, KSJ_GREEN, GainParam.m_dGainGreen[m_nSerials]);
-	KSJ_SetParam(m_nIndex, KSJ_RED, GainParam.m_dGainRed[m_nSerials]);
-	KSJ_SetParam(m_nIndex, KSJ_BLUE, GainParam.m_dGainBlue[m_nSerials]);
-	KSJ_SetParam(m_nIndex, KSJ_CDSGAIN, 100);
 	//获得最大分辨率
 	int nColumnStart; int nRowStart; int nColumnSize; int nRowSize; KSJ_ADDRESSMODE ColumnAddressMode; KSJ_ADDRESSMODE RowAddressMode;
 	KSJ_CaptureGetDefaultFieldOfView(m_nIndex, &nColumnStart, &nColumnStart, &m_nWidth, &m_nHeight, &ColumnAddressMode, &RowAddressMode);
@@ -116,24 +96,28 @@ CKSJCamera::CKSJCamera(KSJ_DEVICETYPE DeviceType, int nIndex, int nSerials) : m_
 	KSJ_CaptureSetFieldOfView(m_nIndex, 0, 0, m_nWidth, m_nHeight, KSJ_SKIPNONE, KSJ_SKIPNONE);
 	KSJ_PreviewSetFieldOfView(m_nIndex, 0, 0, m_nWidth, m_nHeight, KSJ_SKIPNONE, KSJ_SKIPNONE);
 	//分配内存
-	m_pImage.CreateEmpty(m_nWidth, m_nHeight, 8, 0);
+	int    nCaptureWidth, nCaptureHeight, nCaptureBitCount;
+
+	int nRet = KSJ_CaptureGetSizeEx(m_nIndex, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);
+
+	m_pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];
 
 	switch (m_nSerials)   // 如果callback是针对特定相机的，这里是不是应该用serials呢？？？
 	{
 	case 0:
-		KSJ_PreviewSetCallback(m_nIndex, PREVIEWCALLBACK0, this);
+		KSJ_PreviewSetCallbackEx(m_nIndex, PREVIEWCALLBACK0, this);
 		break;
 	case 1:
-		KSJ_PreviewSetCallback(m_nIndex, PREVIEWCALLBACK1, this);
+		KSJ_PreviewSetCallbackEx(m_nIndex, PREVIEWCALLBACK1, this);
 		break;
 	case 2:
-		KSJ_PreviewSetCallback(m_nIndex, PREVIEWCALLBACK2, this);
+		KSJ_PreviewSetCallbackEx(m_nIndex, PREVIEWCALLBACK2, this);
 		break;
 	case 3:
-		KSJ_PreviewSetCallback(m_nIndex, PREVIEWCALLBACK3, this);
+		KSJ_PreviewSetCallbackEx(m_nIndex, PREVIEWCALLBACK3, this);
 		break;
 	case 4:
-		KSJ_PreviewSetCallback(m_nIndex, PREVIEWCALLBACK4, this);
+		KSJ_PreviewSetCallbackEx(m_nIndex, PREVIEWCALLBACK4, this);
 		break;
 	}
 }
@@ -141,39 +125,75 @@ CKSJCamera::CKSJCamera(KSJ_DEVICETYPE DeviceType, int nIndex, int nSerials) : m_
 
 CKSJCamera::~CKSJCamera()
 {
-	KSJ_PreviewStart(m_nIndex, false);
+	delete[] m_pImageData;
 }
 
-BOOL CKSJCamera::ConnectCamera()
+BOOL CKSJCamera::ConnectCamera(BOOL bStart)
 {
-	KSJ_PreviewSetPos(m_nIndex, NULL, 0, 0, 0, 0);
-	KSJ_PreviewStart(m_nIndex, true);
-
+	CRect Rect;
+	m_pConnectView->GetWindowRect(&Rect);
+	SetPreviewPos(m_nIndex, m_pConnectView->m_hWnd, Rect);
+	KSJ_PreviewStart(m_nIndex, (bStart ? true : false));
 	m_bIsConnected = TRUE;
-
 	return TRUE;
 }
 
 BOOL CKSJCamera::CaptureImage()
 {
 	int nRet = RET_SUCCESS;
+	nRet = KSJ_CaptureRgbData(m_nIndex, m_pImageData);
+	return (nRet == RET_SUCCESS);
+}
 
-	CTimeCount cct;
-	cct.Start();
-	if (m_pIsRGB)
-		nRet = KSJ_CaptureRgbData/*AfterEmptyFrameBuffer*/(m_nIndex, m_pImage.m_lpDibArray);  //@whq 2016-6-25  不等待清除buffer
-	else
-		nRet = KSJ_CaptureRawData/*AfterEmptyFrameBuffer*/(m_nIndex, m_pImage.m_lpDibArray);
-	cct.End();
-	TRACE("KSJ_CaptureRawData Time = %lf\n", cct.GetUseTime());
 
-	if (m_pConnectView != NULL)
-		m_pConnectView->Invalidate(FALSE);
+BOOL CKSJCamera::PauseCamera(BOOL bIsWorking)
+{
+	int nRet = RET_SUCCESS;
+
+	m_bIsPaused = !bIsWorking;  //WHQ
+	return (nRet == RET_SUCCESS);
+
+	nRet = KSJ_PreviewPause(m_nIndex, (bIsWorking ? true : false));
 
 	return (nRet == RET_SUCCESS);
 }
 
-BOOL CKSJCamera::SetExposureTime(int nTime)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 以下的函数我没有改，请按照我的模式进行修改。
+
+
+BOOL CKSJCamera::SetPreviewPos(int nCamIndex, HWND hWnd, CRect sRect)
+{
+	int nRet;
+	int    nPreviewWndWidth = 0;
+	int    nPreviewWndHeight = 0;
+
+	nPreviewWndWidth = sRect.right - sRect.left;
+	nPreviewWndHeight = sRect.bottom - sRect.top;
+
+	// You should assign window for preview once
+	nRet = KSJ_PreviewSetPos(nCamIndex, hWnd, 0, 0, nPreviewWndWidth, nPreviewWndHeight);
+
+	return nRet;
+}
+
+
+int CKSJCamera::SetTriggerMode(KSJ_TRIGGERMODE TriggerMode)
+{
+	int nRet = KSJ_TriggerModeSet(m_nIndex, TriggerMode);
+
+	return nRet;
+}
+
+
+int CKSJCamera::ConnectView(CWnd* pConnectView)
+{
+	m_pConnectView = pConnectView;
+	return RET_SUCCESS;
+}
+
+
+int CKSJCamera::SetExposureTime(int nTime)
 {
 	int ExposureMin, ExposureMax;
 	KSJ_GetParamRange(m_nIndex, KSJ_EXPOSURE, &ExposureMin, &ExposureMax);
@@ -193,87 +213,57 @@ BOOL CKSJCamera::SetExposureTime(int nTime)
 	return (nRet == RET_SUCCESS);
 }
 
-BOOL CKSJCamera::PauseCamera(BOOL bIsWorking)
+int CKSJCamera::GetExposureTime(int* pnTime)
 {
-	int nRet = RET_SUCCESS;
+	return KSJ_GetParam(m_nIndex, KSJ_EXPOSURE, pnTime);
+}
 
-	m_bIsPaused = !bIsWorking;  //WHQ
+int CKSJCamera::SetExposureLines(int nLines)
+{
+	int ExposureMin, ExposureMax;
+	KSJ_GetParamRange(m_nIndex, KSJ_EXPOSURE_LINES, &ExposureMin, &ExposureMax);
+	if (nLines < ExposureMin)
+	{
+		nLines = ExposureMin;
+	}
+	if (nLines > ExposureMax)
+	{
+		nLines = ExposureMax;
+	}
+	int nRet = KSJ_SetParam(m_nIndex, KSJ_EXPOSURE_LINES, nLines);
+	if (nRet == RET_SUCCESS)
+	{
+		m_nExposureTime = nLines;
+	}
 	return (nRet == RET_SUCCESS);
+}
 
-	if (!bIsWorking)
-	{
-		nRet = KSJ_PreviewPause(m_nIndex, TRUE);  //@whq 2016-6-28 
-	}
-	else
-	{
-		nRet = KSJ_PreviewPause(m_nIndex, FALSE);
-		//nRet = KSJ_PreviewStart(m_nIndex, TRUE);
-		m_nCapturedImageNum = 0;
-	}
+int CKSJCamera::GetExposureLines(int* pnLines)
+{
+	return KSJ_GetParam(m_nIndex, KSJ_EXPOSURE_LINES, pnLines);
+}
 
+int CKSJCamera::SetGain(int nGain)
+{
+	int nMin, nMax;
+	KSJ_GetParamRange(m_nIndex, KSJ_RED, &nMin, &nMax);
+	if (nGain < nMin)
+	{
+		nGain = nMin;
+	}
+	if (nGain > nMax)
+	{
+		nGain = nMax;
+	}
+	int nRet = KSJ_SetParam(m_nIndex, KSJ_RED, nGain);
+	if (nRet == RET_SUCCESS)
+	{
+		m_nGain = nGain;
+	}
 	return (nRet == RET_SUCCESS);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 以下的函数我没有改，请按照我的模式进行修改。
-
-
-BOOL CKSJCamera::SetPreviewPos(int nCamIndex, HWND hWnd, CRect sRect)
+int CKSJCamera::GetGain(int* pnGain)
 {
-	int nRet;
-	double tmpscalex = sRect.Width()/(double)m_pDeviceInfo[nCamIndex].m_nWidth;
-	double tmpscaley = sRect.Height()/(double)m_pDeviceInfo[nCamIndex].m_nHeight;
-	if(tmpscalex<tmpscaley)
-	{
-		m_pShowScale[nCamIndex] = tmpscalex;
-		sRect.bottom = sRect.top  + int(m_pShowScale[nCamIndex]*m_pDeviceInfo[nCamIndex].m_nHeight + 0.5);
-	}
-	else
-	{
-		m_pShowScale[nCamIndex] = tmpscaley;
-		sRect.right  = sRect.left + int(m_pShowScale[nCamIndex]*m_pDeviceInfo[nCamIndex].m_nWidth  + 0.5);
-	}
-	nRet = KSJ_PreviewSetPos(nCamIndex, hWnd, sRect.left, sRect.right, sRect.Width(), sRect.Height());
-	return (nRet==RET_SUCCESS);
+	return KSJ_GetParam(m_nIndex, KSJ_RED, pnGain);
 }
-
-
-BOOL CKSJCamera::SetSoftTriggerMode(int nCamIndex)
-{
-	//return PauseCamera(nCamIndex,FALSE);  //@whq 2016-6-28 
-	if(m_pIsTriggerMode[nCamIndex])  //@whq 2016-6-25 
-		return TRUE;
-	int nRet = KSJ_TriggerModeSet(nCamIndex, KSJ_TRIGGER_SOFTWARE);
-	nRet &= KSJ_PreviewSetCallback(nCamIndex, NULL, NULL);
-	m_pIsTriggerMode[nCamIndex] = TRUE;
-	return (nRet==RET_SUCCESS);
-//	return TRUE;
-}
-
-BOOL CKSJCamera::SetFreeMode(int nCamIndex)
-{
-	int nRet = KSJ_TriggerModeSet(nCamIndex, KSJ_TRIGGER_INTERNAL);
-	switch(nCamIndex)
-	{
-	case 0:
-		nRet &= KSJ_PreviewSetCallback( nCamIndex, PREVIEWCALLBACK0, this );
-		break;
-	case 1:
-		nRet &= KSJ_PreviewSetCallback( nCamIndex, PREVIEWCALLBACK1, this );
-		break;
-	case 2:
-		nRet &= KSJ_PreviewSetCallback( nCamIndex, PREVIEWCALLBACK2, this );
-		break;
-	case 3:
-		nRet &= KSJ_PreviewSetCallback( nCamIndex, PREVIEWCALLBACK3, this );
-		break;
-// 	case 4:
-// 		nRet &= KSJ_PreviewSetCallback( nCamIndex, PREVIEWCALLBACK4, this );
-// 		break;
-	}
-	m_pIsTriggerMode[nCamIndex] = FALSE;
-	return (nRet==RET_SUCCESS);
-//	return TRUE;
-
-}
-

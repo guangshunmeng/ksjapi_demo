@@ -212,6 +212,15 @@ BOOL CKSJDemoVCDlg::OnInitDialog()
 	DWORD dwStyleEx = pListFunction->GetExtendedStyle();
 	pListFunction->SetExtendedStyle(dwStyleEx | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
+	CSpinButtonCtrl * pSpinCtrlTriggerDelay = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_TRIGGER_DELAY);
+	pSpinCtrlTriggerDelay->SetBuddy(GetDlgItem(IDC_EDIT_TRIGGER_DELAY));
+	pSpinCtrlTriggerDelay->SetBase(10);
+
+
+	CSpinButtonCtrl * pSpinCtrlFixedFrameRateHw = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW);
+	pSpinCtrlFixedFrameRateHw->SetBuddy(GetDlgItem(IDC_EDIT_FIXED_FRAME_RATE_HW));
+	pSpinCtrlFixedFrameRateHw->SetBase(10);
+
 	UpdateDeviceList();
 	UpdateInterface();
 	UpdateInterfaceTriggerMode();
@@ -779,9 +788,8 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 
 	KSJ_TRIGGERMODE    TriggerMode;
 	int nRet = KSJ_TriggerModeGet(m_nDeviceCurSel, &TriggerMode);
-
+	KSJ_FlashControlSet(m_nDeviceCurSel, true, false, 0);
 	pComboBox->SetCurSel((int)TriggerMode);
-
 	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD);
 	pComboBox->ResetContent();
 
@@ -796,9 +804,6 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 	pComboBox->SetCurSel((int)TriggerMethod);
 
 	CSpinButtonCtrl * pSpinCtrlTriggerDelay = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_TRIGGER_DELAY);
-	pSpinCtrlTriggerDelay->SetBuddy(GetDlgItem(IDC_EDIT_TRIGGER_DELAY));
-	pSpinCtrlTriggerDelay->SetBase(10);
-
 	int nMin = 0;
 	int nMax = 0;
 	int nCur = 0;
@@ -814,8 +819,6 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 	pSpinCtrlTriggerDelay->SetPos32(nCur);
 
 	CSpinButtonCtrl * pSpinCtrlFixedFrameRateHw = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW);
-	pSpinCtrlFixedFrameRateHw->SetBuddy(GetDlgItem(IDC_EDIT_FIXED_FRAME_RATE_HW));
-	pSpinCtrlFixedFrameRateHw->SetBase(10);
 	pSpinCtrlFixedFrameRateHw->SetRange32(1, 150);    // Frame Rate is decided by Exposure, aoi, so it's difficult to get range, use can test it.
 
 	float fFixedFrameRate = 0.0f;
@@ -915,6 +918,8 @@ void CKSJDemoVCDlg::UpdateInterfaceFunction()
 
 void CKSJDemoVCDlg::OnBnClickedCheckGetFrameBufferStatus()
 {
+	if (m_nDeviceCurSel == -1)    return;
+
 	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_GET_FRAME_BUFFER_STATUS))->GetCheck();
 	if (bCheck)
 	{
@@ -928,6 +933,8 @@ void CKSJDemoVCDlg::OnBnClickedCheckGetFrameBufferStatus()
 
 void CKSJDemoVCDlg::OnBnClickedButtonEmptyFrameBuffer()
 {
+	if (m_nDeviceCurSel == -1)    return;
+
 	int nRet = KSJ_EmptyFrameBuffer(m_nDeviceCurSel);
 	ShowErrorInfo(nRet);
 }
@@ -978,6 +985,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckFlashEnable()
 
 void CKSJDemoVCDlg::SetFlash()
 {
+	if (m_nDeviceCurSel == -1)    return;
 	BOOL bEnable = ((CButton*)GetDlgItem(IDC_CHECK_FLASH_ENABLE))->GetCheck();
 	BOOL bInvert = ((CButton*)GetDlgItem(IDC_CHECK_INVERT))->GetCheck();
 

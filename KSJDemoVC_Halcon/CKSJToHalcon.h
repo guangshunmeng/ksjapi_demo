@@ -1,23 +1,22 @@
 #ifndef CKSJTOHANCON_H
 #define CKSJTOHANCON_H
-#define HALCON11
+//#define HALCON11
 
 #ifdef HALCON11
-
 #define HCPP_LEGACY_API
-#include "HalconCpp.h"
+#include "C:\\Program Files\\MVTec\\HALCON-11.0\\include\\halconcpp\\HalconCpp.h"
+#pragma comment( lib, "C:\\Program Files\\MVTec\\HALCON-11.0\\lib\\x86sse2-win32\\halconcpp.lib" )
 using namespace HalconCpp;
 int  ConvertKSJToHalcon11(unsigned char * pImageData, int nWidth, int nHeight, int nBitCount, HObject *Halcon_Image);
-int  ConvertHalcon11ToKSJ(HObject Image, unsigned char ** ppImageData, int *pnWidth, int *pnHeight, int *pnBitCount);
+int  ConvertHalcon11ToKSJ(HObject Image, unsigned char ** ppImageData);
 
 #else
-
-//#define HCPP_LEGACY_API
-#include "HalconCpp.h"
+#define HCPP_LEGACY_API
+#include "C:\\Program Files\\MVTec\\HALCON-10.0\\include\\cpp\\HalconCpp.h"
+#pragma comment( lib, "C:\\Program Files\\MVTec\\HALCON-10.0\\lib\\x86sse2-win32\\halconcpp.lib" )
 using namespace Halcon;
 int  ConvertKSJToHalcon10(unsigned char * pImageData, int nWidth, int nHeight, int nBitCount, Hobject *Halcon_Image);
-int  ConvertHalcon10ToKSJ(Hobject Image, unsigned char ** ppImageData, int *pnWidth, int *pnHeight, int *pnBitCount);
-
+int  ConvertHalcon10ToKSJ(Hobject Image, unsigned char ** ppImageData);
 #endif
 
 

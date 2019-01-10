@@ -50,7 +50,7 @@ typedef unsigned *PBEGINTHREADEX_ID;
 #endif
 #else
 #ifdef _DEBUG
-#pragma comment( lib, "..\\KSJApi.Lib\\KSJApid.lib" )    // KSJApid.lib仅供凯视佳内部调试使用，用户编译时请修改成KSJApi.lib
+#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )
 #else
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )
 #endif

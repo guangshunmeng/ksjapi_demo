@@ -114,8 +114,8 @@ const TCHAR * g_szDeviceType[] =
 	_T("Jelly6 MU3HS500C(SRYYO)"),
 	_T("Jelly6 MU3HS500M(SRYYO)"),
 
-	_T("Jelly6 MU3HS230C(SRYYO)"),
-	_T("Jelly6 MU3HS230M(SRYYO)"),
+	_T("Jelly6 MU3HS230C(SGYYO)"),
+	_T("Jelly6 MU3HS230M(SGYYO)"),
 
 	_T("Jelly6 MU3HI400C(IGYYO)"),
 	_T("Jelly6 MU3HI400M(IGYYO)"),
@@ -138,13 +138,7 @@ const TCHAR * g_szDeviceType[] =
 
 	_T("Jelly3 MU3S641M(SRYYO)"),
 	_T("Jelly3 MU3S1201M(SRYYO)"),
-	_T("Jelly6 MU3HS2001M(SRYYO)"),
-
-	_T("Jelly3 MU3S211M(SRYYO)"),
-	_T("Jelly3 MU3C36C(MGYY)"),
-	_T("Jelly3 MU3C36M(MGYY)"),
-	_T("Jelly6 MU3HS1200C(SRYYO)"),
-	_T("Jelly6 MU3HS1200M(SRYYO)"),
+	_T("Jelly3 MU3S2001M(SRYYO)"),
 
 	_T("UNKOWN TYPE"),
 	_T("UNKOWN TYPE"),

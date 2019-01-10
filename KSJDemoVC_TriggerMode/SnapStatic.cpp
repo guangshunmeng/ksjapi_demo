@@ -53,6 +53,12 @@ CSnapStatic::~CSnapStatic()
 		delete m_pPreviewBmpInfo;
 		m_pPreviewBmpInfo = NULL;
 	}
+
+	if (m_pPreviewBmpData)
+	{
+		delete[]m_pPreviewBmpData;
+		m_pPreviewBmpData = NULL;
+	}
 }
 
 
