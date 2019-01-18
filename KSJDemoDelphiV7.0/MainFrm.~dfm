@@ -1,6 +1,6 @@
 object KSJDemoDelphi: TKSJDemoDelphi
-  Left = 385
-  Top = 239
+  Left = 413
+  Top = 288
   Width = 1070
   Height = 613
   BorderIcons = [biSystemMenu, biMinimize]

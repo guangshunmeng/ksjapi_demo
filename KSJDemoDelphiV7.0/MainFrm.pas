@@ -148,15 +148,18 @@ uses KSJCode, KSJApiB, KSJApiC;
 // 采集一帧bmp格式的图像
 procedure TKSJDemoDelphi.btnCaptureBmpClick(Sender: TObject);
 var
-nRet, nWidth, nHeight, nBitCount : Integer;
+nRet, nWidth, nHeight, nBitCount , X, Y: Integer;
 pData : PByte;
 szFileName : PChar;
 pszErrorInfo : PChar;
+BitMap : TBitmap;
+R, G, B: Byte;
 begin
 if m_nDeviceCurSel=-1 then
 begin
   Exit;
 end;
+
 pszErrorInfo := AllocMem( 256 );
 nRet := KSJ_CaptureGetSizeEx( m_nDeviceCurSel, @nWidth, @nHeight, @nBitCount );
 KSJ_GetErrorInfo( nRet, pszErrorInfo  );
@@ -165,16 +168,52 @@ pData := AllocMem( nWidth * nHeight * ( nBitCount shr 3 ) );
 
 nRet := KSJ_CaptureRgbData( m_nDeviceCurSel, pData );
 KSJ_GetErrorInfo( nRet, pszErrorInfo  );
-if ( nRet <> RET_SUCCESS ) then  MessageBox(0, pszErrorInfo, 'CatchBEST', MB_OK);
-
 szFileName := 'Catpture.bmp';
 nRet := KSJ_HelperSaveToBmp( pData, nWidth, nHeight, nBitCount, szFileName );
 KSJ_GetErrorInfo( nRet, pszErrorInfo  );
 if ( nRet <> RET_SUCCESS ) then  MessageBox(0, pszErrorInfo, 'CatchBEST', MB_OK);
 
+BitMap := TBitmap.Create;
+BitMap.Width := nWidth;
+BitMap.Height := nHeight;
+if( nBitCount = 8) then
+begin
+BitMap.PixelFormat := pf8bit;
+for Y := nHeight - 1 downto 0 do
+begin
+  for X := 0 to nWidth - 1 do
+  begin
+    B :=  pData^;
+    Bitmap.Canvas.Pixels[X, Y] :=  B Shl 16 or B  shl 8 or B;
+    Inc(pData);
+  end;
+end;
+end
+else
+begin
+BitMap.PixelFormat := pf24bit;
+for Y := nHeight - 1 downto 0 do
+begin
+  for X := 0 to nWidth - 1 do
+  begin
+    B :=  pData^;
+    Inc(pData);
+    G :=  pData^;
+    Inc(pData);
+    R :=  pData^;
+    Bitmap.Canvas.Pixels[X, Y] := B Shl 16 or G  shl 8 or R;
+    Inc(pData);
+  end;
+end;
+end;
+
+Dec(pData, nWidth * nHeight * ( nBitCount shr 3 ));
+
+Bitmap.SaveToFile('TBitmap.bmp');
+
 FreeMem( pData );
 FreeMem( pszErrorInfo );
-
+FreeAndNil( BitMap );
 end;
 
 // 初始化

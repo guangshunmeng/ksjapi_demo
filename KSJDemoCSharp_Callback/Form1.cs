@@ -17,7 +17,7 @@ using KSJ_FUNCTION;
 using KSJ_Code;
 using KSJApi_Callback;
 using KSJ_Win;
-using HalconDotNet;
+//using HalconDotNet;
 //using System.Drawing.Imaging; 
 
 namespace KSJDemoCSharp
@@ -421,7 +421,7 @@ namespace KSJDemoCSharp
             int nCaptureWidth = 0;
             int nCaptureHeight = 0;
             int nCaptureBitCount = 0;
-
+            KSJApiTriggerMode.KSJ_TriggerModeSet(m_nDeviceCurSel, KSJApiTriggerMode.KSJ_TRIGGERMODE.KSJ_TRIGGER_SOFTWARE);
             int nRet = KSJApiBase.KSJ_CaptureGetSizeEx(m_nDeviceCurSel, ref nCaptureWidth, ref nCaptureHeight, ref nCaptureBitCount);
             PrintErrorMessage(nRet);
 
