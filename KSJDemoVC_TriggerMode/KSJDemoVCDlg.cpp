@@ -819,7 +819,7 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 	pSpinCtrlTriggerDelay->SetPos32(nCur);
 
 	CSpinButtonCtrl * pSpinCtrlFixedFrameRateHw = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_FIXED_FRAME_RATE_HW);
-	pSpinCtrlFixedFrameRateHw->SetRange32(1, 150);    // Frame Rate is decided by Exposure, aoi, so it's difficult to get range, use can test it.
+	pSpinCtrlFixedFrameRateHw->SetRange32(1, 1000000);    // Frame Rate is decided by Exposure, aoi, so it's difficult to get range, use can test it.
 
 	float fFixedFrameRate = 0.0f;
 	nRet = KSJ_GetFixedFrameRateEx(m_nDeviceCurSel, &fFixedFrameRate );
