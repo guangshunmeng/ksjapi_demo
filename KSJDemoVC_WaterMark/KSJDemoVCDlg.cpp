@@ -912,10 +912,8 @@ void CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMode()
 		KSJ_PreviewStartEx(m_nDeviceCurSel, false, true);
 		KSJ_PreviewSetCallback(m_nDeviceCurSel, NULL, this);
 		KillTimer(TIMERID_GET_FRAME_RATE);
-		Sleep(2000);
 	}
 		
-	
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_MODE);
 	int nIndex = pComboBox->GetCurSel();
 	if (nIndex == CB_ERR)    return;
