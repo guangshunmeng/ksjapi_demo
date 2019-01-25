@@ -502,9 +502,10 @@ void CKSJDemoVCDlg::OnTimer(UINT_PTR nIDEvent)
 	else if (nIDEvent == TIMERID_GET_FRAME_RATE)
 	{
 		float fFrameRate = 0.0f;
-		KSJ_PreviewGetFrameRate(m_nDeviceCurSel, &fFrameRate);
+		float fFrameRateShow = 0.0f;
+		KSJ_PreviewGetFrameRateEx(m_nDeviceCurSel, &fFrameRate, &fFrameRateShow);
 		TCHAR   szFrameRate[32] = { '\0' };
-		sprintf_s(szFrameRate, _T("KSJDemo Fps=%0.2f"), fFrameRate);
+		sprintf_s(szFrameRate, _T("KSJDemo Fps=%0.2f"), fFrameRateShow);
 		SetWindowText(szFrameRate);
 	}
 	else if (nIDEvent == TIMERID_GET_FRAME_BUFFER_STATUS)
@@ -567,7 +568,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckPreviewstart()
 	int nRet;
 	if (bCheck)
 	{
-		nRet = KSJ_PreviewStart(m_nDeviceCurSel, true);
+		nRet = KSJ_PreviewStartEx(m_nDeviceCurSel, true, true);
 		if (nRet != RET_SUCCESS)
 		{
 			((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->SetCheck( FALSE );
@@ -577,7 +578,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckPreviewstart()
 	}
 	else
 	{
-		nRet = KSJ_PreviewStart(m_nDeviceCurSel, (bCheck ? true : false));
+		nRet = KSJ_PreviewStartEx(m_nDeviceCurSel, (bCheck ? true : false), true);
 		if (nRet != RET_SUCCESS)
 		{
 			((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->SetCheck(TRUE);
@@ -903,6 +904,18 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 void CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMode()
 {
 	if (m_nDeviceCurSel == -1)    return;
+	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->GetCheck();
+
+	if (bCheck)
+	{
+		((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->SetCheck(FALSE);
+		KSJ_PreviewStartEx(m_nDeviceCurSel, false, true);
+		KSJ_PreviewSetCallback(m_nDeviceCurSel, NULL, this);
+		KillTimer(TIMERID_GET_FRAME_RATE);
+		Sleep(2000);
+	}
+		
+	
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_MODE);
 	int nIndex = pComboBox->GetCurSel();
 	if (nIndex == CB_ERR)    return;
@@ -916,16 +929,18 @@ void CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMode()
 	pComboBox->SetCurSel((int)TriggerMode);
 
 	// If Set External Trigger Mode and Not Preview, We call Create Thread for Capture External Trigger Image
-	KSJ_PREVIEWSTATUS PreviewStatus;
-	nRet = KSJ_PreviewGetStatus(m_nDeviceCurSel, &PreviewStatus);
+	//KSJ_PREVIEWSTATUS PreviewStatus;
+	//nRet = KSJ_PreviewGetStatus(m_nDeviceCurSel, &PreviewStatus);
 
-	if (PreviewStatus == PS_STOP)
-	{
-		StartCaptureThread(TriggerMode == KSJ_TRIGGER_EXTERNAL ? TRUE : FALSE);
 
-		// If We Start Capture Thread, You should not Clike Start Preview Button!!!!!
-		((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->EnableWindow(TriggerMode == KSJ_TRIGGER_EXTERNAL ? FALSE : TRUE);
-	}
+
+	//if (PreviewStatus == PS_STOP)
+	//{
+	//	StartCaptureThread(TriggerMode == KSJ_TRIGGER_EXTERNAL ? TRUE : FALSE);
+
+	//	// If We Start Capture Thread, You should not Clike Start Preview Button!!!!!
+	//	((CButton*)GetDlgItem(IDC_CHECK_PREVIEWSTART))->EnableWindow(TriggerMode == KSJ_TRIGGER_EXTERNAL ? FALSE : TRUE);
+	//}
 
 
 }
