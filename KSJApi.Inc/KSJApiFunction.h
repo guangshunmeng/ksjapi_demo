@@ -76,7 +76,8 @@ enum KSJ_FUNCTION
 	KSJ_SUPPORT_COLORMATRIX_PROGRAM,    // 是否支持将HWB,HCCM校正矩阵固化
 
 	KSJ_SUPPORT_SNAP_BUTTON,            // 是否支持KSJ_SnapButtonStatus, 0 - 不支持，1 - 支持(可能根据用户设置)
-	KSJ_SUPPORT_IO_NUM                  // 支持几个IO的设置
+	KSJ_SUPPORT_IO_NUM,                 // 支持几个IO的设置
+	KSJ_SUPPORT_TRIGGER_MODE_HIGHLOW_FIXEDFRAMERATE,// 是否支持固件帧率触发（高低电平有效）
 
 };
 

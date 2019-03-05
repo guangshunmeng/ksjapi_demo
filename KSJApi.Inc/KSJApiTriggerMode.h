@@ -21,7 +21,8 @@ extern "C"{
 		KSJ_TRIGGER_INTERNAL,
 		KSJ_TRIGGER_EXTERNAL,
 		KSJ_TRIGGER_SOFTWARE,
-		KSJ_TRIGGER_FIXFRAMERATE
+		KSJ_TRIGGER_FIXFRAMERATE,
+		KSJ_TRIGGER_HIGHLOWFIXFRAMERATE
 	};
 
 	// Set Trigger Mode
@@ -49,7 +50,7 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_CaptureRgbDataExAfterEmptyFrameBuffer(int nChannel, unsigned char *pRgbData, int *pnWidth, int *pnHeight, int *pnBitCount);
 
 
-	// Fixed Frame Rate when in KSJ_TRIGGER_FIXFRAMERATE mode. Maybe Return RET_NOTSUPPORT.
+	// Fixed Frame Rate when in KSJ_TRIGGER_FIXFRAMERATE/KSJ_TRIGGER_HIGHLOWFIXFRAMERATE mode. Maybe Return RET_NOTSUPPORT.
 	KSJ_API  int __stdcall KSJ_SetFixedFrameRateEx(int nChannel, float fFrameRate);
 	KSJ_API  int __stdcall KSJ_GetFixedFrameRateEx(int nChannel, float *pfFrameRate);
 
