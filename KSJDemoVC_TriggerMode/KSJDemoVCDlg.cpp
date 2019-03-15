@@ -792,21 +792,23 @@ void CKSJDemoVCDlg::UpdateInterfaceTriggerMode()
 	pComboBox->SetCurSel((int)TriggerMode);
 	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD);
 	pComboBox->ResetContent();
+	int nMin = 0;
+	int nMax = 0;
+	int nCur = 0;
 
+	KSJ_GetParamRange(m_nDeviceCurSel, KSJ_TRIGGER_MODE, &nMin, &nMax);
 	for (i = 0; i<g_nTriggerMethod; i++)
 	{
 		pComboBox->AddString(g_szTriggerMethod[i]);
 	}
-
+	if (nMax == KSJ_TRIGGER_HIGHLOWFIXFRAMERATE) pComboBox->AddString(_T("High Low Fixed Frame Rate"));
 	KSJ_TRIGGERMETHOD    TriggerMethod;
 	nRet = KSJ_TriggerMethodGet(m_nDeviceCurSel, &TriggerMethod);
 
 	pComboBox->SetCurSel((int)TriggerMethod);
 
 	CSpinButtonCtrl * pSpinCtrlTriggerDelay = (CSpinButtonCtrl *)GetDlgItem(IDC_SPIN_TRIGGER_DELAY);
-	int nMin = 0;
-	int nMax = 0;
-	int nCur = 0;
+
 	nRet = KSJ_TriggerDelayGetRange(m_nDeviceCurSel, (WORD*)&nMin, (WORD*)&nMax);
 	pSpinCtrlTriggerDelay->SetRange32(nMin, nMax);
 
@@ -923,7 +925,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckGetFrameBufferStatus()
 	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_GET_FRAME_BUFFER_STATUS))->GetCheck();
 	if (bCheck)
 	{
-		SetTimer(TIMERID_GET_FRAME_BUFFER_STATUS, 1000, NULL);
+		SetTimer(TIMERID_GET_FRAME_BUFFER_STATUS, 10, NULL);
 	}
 	else
 	{

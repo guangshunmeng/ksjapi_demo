@@ -409,10 +409,10 @@ namespace KSJDemoCSharp
 
         private void Timer_GET_FRAME_RATE_Tick(object sender, EventArgs e)
         {
-            //float fFrameRate = 0.0f;
-            //KSJApiBase.KSJ_PreviewGetFrameRate(m_nDeviceCurSel, ref fFrameRate);
-            //string szFrameRate = fFrameRate.ToString("0.00");
-            //this.Text = string.Format("KSJDemo Fps={0}", szFrameRate);
+            float fFrameRate = 0.0f;
+            KSJApiBase.KSJ_PreviewGetFrameRate(m_nDeviceCurSel, ref fFrameRate);
+            string szFrameRate = fFrameRate.ToString("0.00");
+            this.Text = string.Format("KSJDemo Fps={0}", szFrameRate);
         }
 
         unsafe private void Button_CAPTURE_Click(object sender, EventArgs e)
@@ -457,7 +457,7 @@ namespace KSJDemoCSharp
             TextBox_ELAPSE_TIME.Text = string.Format("Elapse: {0}ms", fElapse);
 
             Bitmap bitmap = BytesToBitmap(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount);
-            PictureBox_PREVIEWWND.Image = Image.FromHbitmap(bitmap.GetHbitmap());
+            PictureBox_PREVIEWWND.Image = bitmap;
         }
 
         private void PreviewCallback(IntPtr pImageData, int width, int height, int nBitCount, IntPtr lpContext)

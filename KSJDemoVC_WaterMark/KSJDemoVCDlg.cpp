@@ -1010,7 +1010,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckGetFrameBufferStatus()
 	BOOL bCheck = ((CButton*)GetDlgItem(IDC_CHECK_GET_FRAME_BUFFER_STATUS))->GetCheck();
 	if (bCheck)
 	{
-		SetTimer(TIMERID_GET_FRAME_BUFFER_STATUS, 1000, NULL);
+		SetTimer(TIMERID_GET_FRAME_BUFFER_STATUS, 500, NULL);
 	}
 	else
 	{

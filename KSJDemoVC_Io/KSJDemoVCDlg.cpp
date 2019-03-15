@@ -878,7 +878,7 @@ void CKSJDemoVCDlg::UpdateInterfaceIO()
 	KSJ_QueryFunction(m_nDeviceCurSel, KSJ_SUPPORT_SNAP_BUTTON, &nSupport);
 	((CButton*)GetDlgItem(IDC_CHECK_SNAP_STARTDETECT))->EnableWindow(nSupport == 1 ? TRUE : FALSE);
 
-
+	KSJ_TriggerModeSet(m_nDeviceCurSel, KSJ_TRIGGER_EXTERNAL);
 }
 
 void CKSJDemoVCDlg::SetGpioDirection(int nPinIndex)
@@ -1053,7 +1053,7 @@ void CKSJDemoVCDlg::OnBnClickedCheckReadloop()
 	BOOL bChecked = ((CButton*)GetDlgItem(IDC_CHECK_READLOOP))->GetCheck();
 
 	if (bChecked)
-		SetTimer(IDT_READLOOP, 1000, NULL);
+		SetTimer(IDT_READLOOP, 10, NULL);
 	else
 		KillTimer(IDT_READLOOP);
 }

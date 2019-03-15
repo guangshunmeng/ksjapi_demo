@@ -15,3 +15,12 @@ D:\GITHUB\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Call
 D:\GITHUB\github.ksjapi_demo\bin\KSJDemoCSharp_Callback.exe
 D:\GITHUB\github.ksjapi_demo\bin\KSJDemoCSharp_Callback.pdb
 D:\GITHUB\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Callback.pdb
+D:\workspace\101\github.ksjapi_demo\bin\KSJDemoCSharp_Callback.exe.config
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Callback.exe
+D:\workspace\101\github.ksjapi_demo\bin\KSJDemoCSharp_Callback.exe
+D:\workspace\101\github.ksjapi_demo\bin\KSJDemoCSharp_Callback.pdb
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Callback.csprojResolveAssemblyReference.cache
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp.Form1.resources
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp.Properties.Resources.resources
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Callback.csproj.GenerateResource.Cache
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharp_Callback\obj\Debug\KSJDemoCSharp_Callback.pdb

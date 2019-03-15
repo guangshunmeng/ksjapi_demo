@@ -392,8 +392,8 @@ const TCHAR *g_szFunction[] =
 	_T("KSJ_SUPPORT_COLORMODE_PROGRAM"),      // 是否支持固化色彩模式
 	_T("KSJ_SUPPORT_COLORMATRIX_PROGRAM"),    // 是否支持将HWB,HCCM校正矩阵固化
 	_T("KSJ_SUPPORT_SNAP_BUTTON"),            // 
-	_T("KSJ_SUPPORT_IO_NUM")
-	_T("KSJ_SUPPORT_TRIGGER_MODE_HIGHLOW_FIXEDFRAMERATE")
+	_T("KSJ_SUPPORT_IO_NUM"),
+	_T("TRIGGER_MODE_FIXED_HIGHLOW_FRAMERATE")
 };
 const int g_nFunction = sizeof(g_szFunction) / sizeof(TCHAR*);
 
@@ -454,7 +454,6 @@ const TCHAR *g_szFunctionDesc[] =
 	_T("Does Hardware Support Program Color Matrix"),    // 是否支持将HWB,HCCM校正矩阵固化
 	_T("Does Hardware Support Snap Button"),            // 
 	_T("How many GPIO does Hardware Support")
-	_T("Does Hardware Support Fixed Frame Trigger Mode (High/Low level valid)")
 };
 
 const TCHAR *g_szGpioDirection[] = 
