@@ -540,8 +540,9 @@ void CKSJDemoVCDlg::Capture()//采集函数
 	if (m_nDeviceCurSel == -1)    return;
 
 	int    nCaptureWidth, nCaptureHeight, nCaptureBitCount;
+	int sample;
 
-	int nRet = KSJ_CaptureGetSizeEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount);//获取图像宽高位
+	int nRet = KSJ_CaptureGetSizeExEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount, &sample);//获取图像宽高位
 	//ShowErrorInfo(nRet);
 
 	BYTE    *pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];//动态分配保存图像矩阵的数组

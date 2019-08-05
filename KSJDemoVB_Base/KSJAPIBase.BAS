@@ -218,6 +218,9 @@ Public Declare Function KSJ_PreviewGetDefaultMode Lib "KSJAPI.dll" (ByVal nChann
 '∆Ù∂ØªÚÕ£÷π‘§¿¿
 Public Declare Function KSJ_PreviewStart Lib "KSJAPI.dll" (ByVal nChannel As Long, ByVal bStart As Boolean) As Long
 
+'∆Ù∂ØªÚÕ£÷π‘§¿¿
+Public Declare Function KSJ_PreviewStartEx Lib "KSJAPI.dll" (ByVal nChannel As Long, ByVal bStart As Boolean, ByVal bParallel As Boolean) As Long
+
 '‘›Õ£ªÚºÃ–¯‘§¿¿
 Public Declare Function KSJ_PreviewPause Lib "KSJAPI.dll" (ByVal nChannel As Long, ByVal bPause As Boolean) As Long
 

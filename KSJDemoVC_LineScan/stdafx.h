@@ -89,7 +89,7 @@
 #include "..\Common\KSJ_GS.H"
 #ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64d.lib" )
+#pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
 #else
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi64.lib" )
 #endif

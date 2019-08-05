@@ -63,7 +63,8 @@ extern "C"{
 		KSJ_UC500C_MRYY,       // 31 Elanus2 Not Support
 		KSJ_UC500M_MRYY,       // 32 Elanus2 Not Support
 		KSJ_MUC130C_MRYN,      // 33 OEM
-		KSJ_MUC130M_MRYN,      // 34 OEM
+		KSJ_MUC130M_MRYN,      // 34 OEM.
+		 
 		KSJ_MUC320C_MRYN,      // 35 OEM
 		KSJ_MUC36C_MGYYO,      // 36 Jelly2
 		KSJ_MUC36M_MGYYO,      // 37 Jelly2 
@@ -330,6 +331,21 @@ extern "C"{
 	KSJ_API  int __stdcall KSJ_PreviewGetStatusEx(int nIndex, KSJ_PREVIEWSTATUS *pPreviewStatus, bool *pbParallel);
 	// Get Capture and Show Frame rate when Preview Parallel.
 	KSJ_API  int __stdcall KSJ_PreviewGetFrameRateEx(int nIndex, float *fFrameRateCapture, float *fFrameRateShow);
+	KSJ_API  int __stdcall KSJ_GetPreviewFrameCount(int nIndex, int *pnCaptureFrameCount, int *pnShowFrameCount);
+
+	enum KSJ_USBSPEED
+	{
+		USB_NOT_CONNECTED = 0x00,        /**< USB device not connected. */
+		USB_FULL_SPEED,                  /**< USB full speed. */
+		USB_HIGH_SPEED,                  /**< High speed. */
+		USB_SUPER_SPEED                  /**< Super speed. */
+	};
+
+	KSJ_API  int __stdcall KSJ_GetUsbState(int nIndex, KSJ_USBSPEED* pUSBSpeed);
+
+	KSJ_API  int __stdcall KSJ_RebootDevice(int nIndex);
+
+	KSJ_API  int __stdcall KSJ_MemCpy(void* des, void* src, int len);
 
 #ifdef __cplusplus
 }

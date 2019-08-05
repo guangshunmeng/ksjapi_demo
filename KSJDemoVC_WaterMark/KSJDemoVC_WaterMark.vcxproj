@@ -240,9 +240,6 @@
     <None Include="res\KSJDemoVC.ico" />
     <None Include="res\KSJDemoVC.rc2" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\KSJDemoVC.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

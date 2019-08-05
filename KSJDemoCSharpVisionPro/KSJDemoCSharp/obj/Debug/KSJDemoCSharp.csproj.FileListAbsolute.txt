@@ -1,0 +1,15 @@
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\KSJDemoCSharp.exe.config
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\KSJDemoCSharp.exe
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\KSJDemoCSharp.pdb
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.ApplicationWizard.Core.dll
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.EdgeBlob.dll
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.PadLocator.dll
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.PointMatcher.dll
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.StreetFinder.dll
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\bin\Debug\Cognex.VisionPro.EdgeBlob.xml
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.csprojResolveAssemblyReference.cache
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.Form1.resources
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.Properties.Resources.resources
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.csproj.GenerateResource.Cache
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.exe
+D:\workspace\101\github.ksjapi_demo\KSJDemoCSharpVisionPro\KSJDemoCSharp\obj\Debug\KSJDemoCSharp.pdb

@@ -791,9 +791,9 @@ Private Sub Check_Preview_Click()
     If g_nCurIndex = -1 Then Exit Sub
     If Check_Preview.Value = 1 Then
         nRet = KSJ_PreviewSetPos(g_nCurIndex, PreviewWnd.hwnd, 0, 0, ScaleX(CaptureWnd.Width, vbTwips, vbPixels), ScaleY(CaptureWnd.Height, vbTwips, vbPixels))
-        nRet = KSJ_PreviewStart(g_nCurIndex, True)
+        nRet = KSJ_PreviewStartEx(g_nCurIndex, True, True)
     Else
-        nRet = KSJ_PreviewStart(g_nCurIndex, False)
+        nRet = KSJ_PreviewStartEx(g_nCurIndex, False, True)
     End If
 End Sub
 

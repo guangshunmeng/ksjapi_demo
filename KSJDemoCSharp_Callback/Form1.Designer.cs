@@ -78,6 +78,12 @@
             this.Timer_GET_FRAME_RATE = new System.Windows.Forms.Timer(this.components);
             this.Button_CAPTURE = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.FrameRate = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox_TriggerMethod = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboBox_TriggerMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PREVIEWWND)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_EXPOSURE_TIME_MS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_EXPOSURE_LINES)).BeginInit();
@@ -85,6 +91,7 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FrameRate)).BeginInit();
             this.SuspendLayout();
             // 
             // PictureBox_PREVIEWWND
@@ -208,6 +215,7 @@
             this.groupBox1.Controls.Add(this.Button_PREVIEW_FOV_SET);
             this.groupBox1.Controls.Add(this.TextBox_PREIVEW_ROW_SIZE);
             this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.CheckBox_PREVIEWSTART);
             this.groupBox1.Controls.Add(this.TextBox_PREIVEW_ROW_START);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.TextBox_PREIVEW_COL_SIZE);
@@ -307,7 +315,7 @@
             // 
             this.CheckBox_SET_CALLBACKEX.Appearance = System.Windows.Forms.Appearance.Button;
             this.CheckBox_SET_CALLBACKEX.AutoSize = true;
-            this.CheckBox_SET_CALLBACKEX.Location = new System.Drawing.Point(200, 70);
+            this.CheckBox_SET_CALLBACKEX.Location = new System.Drawing.Point(200, 21);
             this.CheckBox_SET_CALLBACKEX.Name = "CheckBox_SET_CALLBACKEX";
             this.CheckBox_SET_CALLBACKEX.Size = new System.Drawing.Size(93, 22);
             this.CheckBox_SET_CALLBACKEX.TabIndex = 45;
@@ -319,7 +327,7 @@
             // 
             this.CheckBox_SET_CALLBACK.Appearance = System.Windows.Forms.Appearance.Button;
             this.CheckBox_SET_CALLBACK.AutoSize = true;
-            this.CheckBox_SET_CALLBACK.Location = new System.Drawing.Point(54, 70);
+            this.CheckBox_SET_CALLBACK.Location = new System.Drawing.Point(54, 21);
             this.CheckBox_SET_CALLBACK.Name = "CheckBox_SET_CALLBACK";
             this.CheckBox_SET_CALLBACK.Size = new System.Drawing.Size(81, 22);
             this.CheckBox_SET_CALLBACK.TabIndex = 44;
@@ -338,7 +346,7 @@
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.TextBox_CAPTURE_COL_START);
             this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Location = new System.Drawing.Point(585, 402);
+            this.groupBox2.Location = new System.Drawing.Point(585, 363);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(503, 111);
             this.groupBox2.TabIndex = 29;
@@ -430,7 +438,7 @@
             // CheckBox_SAVE
             // 
             this.CheckBox_SAVE.AutoSize = true;
-            this.CheckBox_SAVE.Location = new System.Drawing.Point(585, 528);
+            this.CheckBox_SAVE.Location = new System.Drawing.Point(585, 489);
             this.CheckBox_SAVE.Name = "CheckBox_SAVE";
             this.CheckBox_SAVE.Size = new System.Drawing.Size(48, 16);
             this.CheckBox_SAVE.TabIndex = 30;
@@ -440,7 +448,7 @@
             // TextBox_ERROR_INFO
             // 
             this.TextBox_ERROR_INFO.BackColor = System.Drawing.SystemColors.Menu;
-            this.TextBox_ERROR_INFO.Location = new System.Drawing.Point(585, 606);
+            this.TextBox_ERROR_INFO.Location = new System.Drawing.Point(585, 567);
             this.TextBox_ERROR_INFO.Name = "TextBox_ERROR_INFO";
             this.TextBox_ERROR_INFO.Size = new System.Drawing.Size(222, 21);
             this.TextBox_ERROR_INFO.TabIndex = 32;
@@ -448,14 +456,14 @@
             // TextBox_ELAPSE_TIME
             // 
             this.TextBox_ELAPSE_TIME.BackColor = System.Drawing.SystemColors.Menu;
-            this.TextBox_ELAPSE_TIME.Location = new System.Drawing.Point(825, 606);
+            this.TextBox_ELAPSE_TIME.Location = new System.Drawing.Point(825, 567);
             this.TextBox_ELAPSE_TIME.Name = "TextBox_ELAPSE_TIME";
             this.TextBox_ELAPSE_TIME.Size = new System.Drawing.Size(147, 21);
             this.TextBox_ELAPSE_TIME.TabIndex = 33;
             // 
             // ProgressBar_EXPOSURE
             // 
-            this.ProgressBar_EXPOSURE.Location = new System.Drawing.Point(585, 564);
+            this.ProgressBar_EXPOSURE.Location = new System.Drawing.Point(585, 525);
             this.ProgressBar_EXPOSURE.Name = "ProgressBar_EXPOSURE";
             this.ProgressBar_EXPOSURE.Size = new System.Drawing.Size(387, 23);
             this.ProgressBar_EXPOSURE.TabIndex = 34;
@@ -509,7 +517,7 @@
             // 
             this.CheckBox_PREVIEWSTART.Appearance = System.Windows.Forms.Appearance.Button;
             this.CheckBox_PREVIEWSTART.AutoSize = true;
-            this.CheckBox_PREVIEWSTART.Location = new System.Drawing.Point(610, 363);
+            this.CheckBox_PREVIEWSTART.Location = new System.Drawing.Point(383, 23);
             this.CheckBox_PREVIEWSTART.Name = "CheckBox_PREVIEWSTART";
             this.CheckBox_PREVIEWSTART.Size = new System.Drawing.Size(57, 22);
             this.CheckBox_PREVIEWSTART.TabIndex = 40;
@@ -522,7 +530,7 @@
             this.ListView_FUNCTION.GridLines = true;
             this.ListView_FUNCTION.Location = new System.Drawing.Point(1124, 25);
             this.ListView_FUNCTION.Name = "ListView_FUNCTION";
-            this.ListView_FUNCTION.Size = new System.Drawing.Size(358, 418);
+            this.ListView_FUNCTION.Size = new System.Drawing.Size(358, 273);
             this.ListView_FUNCTION.TabIndex = 42;
             this.ListView_FUNCTION.UseCompatibleStateImageBehavior = false;
             // 
@@ -532,7 +540,7 @@
             // 
             // Button_CAPTURE
             // 
-            this.Button_CAPTURE.Location = new System.Drawing.Point(689, 520);
+            this.Button_CAPTURE.Location = new System.Drawing.Point(689, 481);
             this.Button_CAPTURE.Name = "Button_CAPTURE";
             this.Button_CAPTURE.Size = new System.Drawing.Size(87, 30);
             this.Button_CAPTURE.TabIndex = 43;
@@ -544,22 +552,87 @@
             // 
             this.groupBox3.Controls.Add(this.CheckBox_SET_CALLBACKEX);
             this.groupBox3.Controls.Add(this.CheckBox_SET_CALLBACK);
-            this.groupBox3.Location = new System.Drawing.Point(1124, 468);
+            this.groupBox3.Location = new System.Drawing.Point(1124, 319);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(358, 119);
+            this.groupBox3.Size = new System.Drawing.Size(358, 55);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Callback";
+            // 
+            // FrameRate
+            // 
+            this.FrameRate.Location = new System.Drawing.Point(1296, 468);
+            this.FrameRate.Maximum = new decimal(new int[] {
+            65536,
+            0,
+            0,
+            0});
+            this.FrameRate.Name = "FrameRate";
+            this.FrameRate.Size = new System.Drawing.Size(120, 21);
+            this.FrameRate.TabIndex = 52;
+            this.FrameRate.ValueChanged += new System.EventHandler(this.FrameRate_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1159, 470);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(131, 12);
+            this.label1.TabIndex = 51;
+            this.label1.Text = "Fixed Frame Rate(HW):";
+            // 
+            // comboBox_TriggerMethod
+            // 
+            this.comboBox_TriggerMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_TriggerMethod.FormattingEnabled = true;
+            this.comboBox_TriggerMethod.Location = new System.Drawing.Point(1241, 432);
+            this.comboBox_TriggerMethod.Name = "comboBox_TriggerMethod";
+            this.comboBox_TriggerMethod.Size = new System.Drawing.Size(214, 20);
+            this.comboBox_TriggerMethod.TabIndex = 50;
+            this.comboBox_TriggerMethod.SelectedIndexChanged += new System.EventHandler(this.comboBox_TriggerMethod_SelectedIndexChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(1144, 435);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(89, 12);
+            this.label17.TabIndex = 49;
+            this.label17.Text = "TriggerMethod:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(1144, 403);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(77, 12);
+            this.label18.TabIndex = 48;
+            this.label18.Text = "TriggerMode:";
+            // 
+            // comboBox_TriggerMode
+            // 
+            this.comboBox_TriggerMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_TriggerMode.FormattingEnabled = true;
+            this.comboBox_TriggerMode.Location = new System.Drawing.Point(1241, 400);
+            this.comboBox_TriggerMode.Name = "comboBox_TriggerMode";
+            this.comboBox_TriggerMode.Size = new System.Drawing.Size(214, 20);
+            this.comboBox_TriggerMode.TabIndex = 47;
+            this.comboBox_TriggerMode.SelectedIndexChanged += new System.EventHandler(this.comboBox_TriggerMode_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1494, 668);
+            this.Controls.Add(this.FrameRate);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBox_TriggerMethod);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.comboBox_TriggerMode);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.Button_CAPTURE);
             this.Controls.Add(this.ListView_FUNCTION);
-            this.Controls.Add(this.CheckBox_PREVIEWSTART);
             this.Controls.Add(this.Label_EXPOSURE_TIME_REAL);
             this.Controls.Add(this.Label_GAIN_RANGE);
             this.Controls.Add(this.Label_FOV_RANGE);
@@ -598,6 +671,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FrameRate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -654,6 +728,12 @@
         private System.Windows.Forms.CheckBox CheckBox_SET_CALLBACK;
         private System.Windows.Forms.CheckBox CheckBox_SET_CALLBACKEX;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown FrameRate;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox_TriggerMethod;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox comboBox_TriggerMode;
     }
 }
 

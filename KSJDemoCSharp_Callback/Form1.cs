@@ -302,7 +302,7 @@ namespace KSJDemoCSharp
             m_nDeviceCurSel = ComboBox_DEVICE_LIST.SelectedIndex;
             UpdateInterface();
             UpdateInterfaceFunction();
-            KSJApi3A.KSJ_AESetMaxCount(m_nDeviceCurSel, 10);
+            UpdateTrigger();
         }
 
         private void Button_PREVIEW_FOV_SET_Click(object sender, EventArgs e)
@@ -639,6 +639,60 @@ namespace KSJDemoCSharp
             {
                 KSJApiCallback.KSJ_PreviewSetCallbackEx(m_nDeviceCurSel, null, PictureBox_PREVIEWWND.Handle);
             }
+        }
+
+        KSJApiTriggerMode.KSJ_TRIGGERMODE m_TriggerMode;
+        KSJApiTriggerMode.KSJ_TRIGGERMETHOD m_TriggerMethod;
+        float m_fFixedFrameRate;
+
+        private void UpdateTrigger()//更新触发模式
+        {
+            string[] szMode = new string[4] { "Internal", "External", "Software", "Fixed Frame Rate" };
+            int nMin = 0;
+            int nMax = 0;
+            KSJApiBase.KSJ_GetParamRange(m_nDeviceCurSel, KSJApiBase.KSJ_PARAM.KSJRIGGER_MODE, ref nMin, ref nMax);
+            int i = 0;
+            for (i = 0; i < 4; i++)
+            {
+                comboBox_TriggerMode.Items.Insert(i, szMode[i]);
+            }
+
+            if (nMax == 4) comboBox_TriggerMode.Items.Insert(i, "High Low Fixed Frame Rate");
+
+            KSJApiTriggerMode.KSJ_TriggerModeGet(m_nDeviceCurSel, ref m_TriggerMode);
+            comboBox_TriggerMode.SelectedIndex = (int)m_TriggerMode;
+
+            string[] szMethod = new string[4] { "Falling Edge", "Rising Edge", "High Level", "Low Level" };
+            for (i = 0; i < 4; i++)
+            {
+                comboBox_TriggerMethod.Items.Insert(i, szMethod[i]);
+            }
+
+            KSJApiTriggerMode.KSJ_TriggerMethodGet(m_nDeviceCurSel, ref m_TriggerMethod);
+            comboBox_TriggerMethod.SelectedIndex = (int)m_TriggerMethod;
+
+            KSJApiTriggerMode.KSJ_GetFixedFrameRateEx(m_nDeviceCurSel, ref m_fFixedFrameRate);
+            FrameRate.Value = (decimal)m_fFixedFrameRate;
+        }
+
+
+        private void comboBox_TriggerMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_TriggerMode = (KSJApiTriggerMode.KSJ_TRIGGERMODE)comboBox_TriggerMode.SelectedIndex;
+            KSJApiTriggerMode.KSJ_TriggerModeSet(m_nDeviceCurSel, m_TriggerMode);
+        }
+
+        private void comboBox_TriggerMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_TriggerMethod = (KSJApiTriggerMode.KSJ_TRIGGERMETHOD)comboBox_TriggerMethod.SelectedIndex;
+            KSJApiTriggerMode.KSJ_TriggerMethodSet(m_nDeviceCurSel, m_TriggerMethod);
+        }
+
+        private void FrameRate_ValueChanged(object sender, EventArgs e)
+        {
+            m_fFixedFrameRate = (float)FrameRate.Value;
+            KSJApiTriggerMode.KSJ_SetFixedFrameRateEx(m_nDeviceCurSel, m_fFixedFrameRate);
+            
         }
     }
 }
