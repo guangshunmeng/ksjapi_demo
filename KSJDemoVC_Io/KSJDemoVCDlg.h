@@ -140,4 +140,8 @@ public:
 
 private:
 	WORD m_wIoFilter;
+public:
+	afx_msg void OnCbnSelchangeComboTimeout();
+	afx_msg void OnCbnSelchangeComboTriggerMode();
+	afx_msg void OnCbnSelchangeComboTriggerMethod();
 };

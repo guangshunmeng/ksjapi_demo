@@ -80,6 +80,9 @@ BEGIN_MESSAGE_MAP(CKSJDemoVCDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_SNAP_STARTDETECT, &CKSJDemoVCDlg::OnBnClickedCheckSnapStartdetect)
 	ON_CBN_SELCHANGE(IDC_COMBO_SNAP_CONDITION, &CKSJDemoVCDlg::OnCbnSelchangeComboSnapCondition)
 	ON_EN_CHANGE(IDC_EDIT_FILTER, &CKSJDemoVCDlg::OnEnChangeEditFilter)
+	ON_CBN_SELCHANGE(IDC_COMBO_TIMEOUT, &CKSJDemoVCDlg::OnCbnSelchangeComboTimeout)
+	ON_CBN_SELCHANGE(IDC_COMBO_TRIGGER_MODE, &CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMode)
+	ON_CBN_SELCHANGE(IDC_COMBO_TRIGGER_METHOD, &CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMethod)
 END_MESSAGE_MAP()
 
 void CKSJDemoVCDlg::OnPaint()
@@ -869,6 +872,16 @@ void CKSJDemoVCDlg::UpdateInterfaceIO()
 	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_SNAP_CONDITION);
 	pComboBox->ResetContent();
 
+
+	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TIMEOUT);
+	pComboBox->ResetContent();
+	for (i = 0; i < sizeof(g_szTimeOut) / sizeof(TCHAR*); i++)
+	{
+		pComboBox->AddString(g_szTimeOut[i]);
+	}
+	KSJ_CaptureSetTimeOut(m_nDeviceCurSel, g_nTimeOut[0]);
+	pComboBox->SetCurSel(0);
+
 	for (i = 0; i<g_nTriggerMethod; i++)
 	{
 		pComboBox->AddString(g_szTriggerMethod[i]);
@@ -878,7 +891,35 @@ void CKSJDemoVCDlg::UpdateInterfaceIO()
 	KSJ_QueryFunction(m_nDeviceCurSel, KSJ_SUPPORT_SNAP_BUTTON, &nSupport);
 	((CButton*)GetDlgItem(IDC_CHECK_SNAP_STARTDETECT))->EnableWindow(nSupport == 1 ? TRUE : FALSE);
 
-	KSJ_TriggerModeSet(m_nDeviceCurSel, KSJ_TRIGGER_EXTERNAL);
+	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_MODE);
+	pComboBox->ResetContent();
+
+	for (i = 0; i < g_nTriggerMode; i++)
+	{
+		pComboBox->AddString(g_szTriggerMode[i]);
+	}
+
+	KSJ_TRIGGERMODE    TriggerMode;
+	int nRet = KSJ_TriggerModeGet(m_nDeviceCurSel, &TriggerMode);
+	KSJ_FlashControlSet(m_nDeviceCurSel, true, false, 0);
+	pComboBox->SetCurSel((int)TriggerMode);
+	pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD);
+	pComboBox->ResetContent();
+	int nMin = 0;
+	int nMax = 0;
+	int nCur = 0;
+
+	KSJ_GetParamRange(m_nDeviceCurSel, KSJ_TRIGGER_MODE, &nMin, &nMax);
+	for (i = 0; i < g_nTriggerMethod; i++)
+	{
+		pComboBox->AddString(g_szTriggerMethod[i]);
+	}
+	if (nMax == KSJ_TRIGGER_HIGHLOWFIXFRAMERATE) pComboBox->AddString(_T("High Low Fixed Frame Rate"));
+	KSJ_TRIGGERMETHOD    TriggerMethod;
+	nRet = KSJ_TriggerMethodGet(m_nDeviceCurSel, &TriggerMethod);
+
+	pComboBox->SetCurSel((int)TriggerMethod);
+
 }
 
 void CKSJDemoVCDlg::SetGpioDirection(int nPinIndex)
@@ -1200,4 +1241,46 @@ void CKSJDemoVCDlg::OnEnChangeEditFilter()
 
 	m_wIoFilter = GetDlgItemInt(IDC_EDIT_FILTER);
 	KSJ_GpioFilterSet(m_nDeviceCurSel, m_wIoFilter);
+}
+
+
+void CKSJDemoVCDlg::OnCbnSelchangeComboTimeout()
+{
+	if (m_nDeviceCurSel == -1)    return;
+
+	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TIMEOUT);
+	int nIndex = pComboBox->GetCurSel();
+	if (nIndex == CB_ERR)    return;
+
+	KSJ_CaptureSetTimeOut(m_nDeviceCurSel, g_nTimeOut[nIndex]);
+}
+
+
+void CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMode()
+{
+	if (m_nDeviceCurSel == -1)    return;
+	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_MODE);
+	int nIndex = pComboBox->GetCurSel();
+	if (nIndex == CB_ERR)    return;
+
+	int nRet = KSJ_TriggerModeSet(m_nDeviceCurSel, (KSJ_TRIGGERMODE)nIndex);
+	ShowErrorInfo(nRet);
+}
+
+
+void CKSJDemoVCDlg::OnCbnSelchangeComboTriggerMethod()
+{
+	if (m_nDeviceCurSel == -1)    return;
+
+	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_TRIGGER_METHOD);
+	int nIndex = pComboBox->GetCurSel();
+	if (nIndex == CB_ERR)    return;
+
+	int nRet = KSJ_TriggerMethodSet(m_nDeviceCurSel, (KSJ_TRIGGERMETHOD)nIndex);
+	ShowErrorInfo(nRet);
+
+	KSJ_TRIGGERMETHOD    TriggerMethod;
+	nRet = KSJ_TriggerMethodGet(m_nDeviceCurSel, &TriggerMethod);
+
+	pComboBox->SetCurSel((int)TriggerMethod);
 }

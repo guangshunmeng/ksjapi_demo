@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BB9B5357-154F-43D3-AB53-11DCAF88957D}</ProjectGuid>
+    <ProjectGuid>{4BA123BB-2814-4D64-AB51-E5C65887DF1D}</ProjectGuid>
     <RootNamespace>KSJDemoVC</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <SccProjectName>SAK</SccProjectName>

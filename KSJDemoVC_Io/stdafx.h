@@ -55,6 +55,20 @@ typedef unsigned *PBEGINTHREADEX_ID;
 #pragma comment( lib, "..\\KSJApi.Lib\\KSJApi.lib" )
 #endif
 #endif
+static TCHAR* g_szTimeOut[] =
+{
+	_T("Default 8S"),
+	_T("Infinite"),
+	_T("500mS"),
+	_T("1S"),
+	_T("2S"),
+	_T("5S"),
+};
+
+static int    g_nTimeOut[] =
+{
+	8000, 0xFFFFFFFF, 500, 1000, 2000, 5000
+};
 
 
 
