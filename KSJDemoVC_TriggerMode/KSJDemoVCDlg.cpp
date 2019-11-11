@@ -615,11 +615,11 @@ void CKSJDemoVCDlg::Capture()
 	nRet = KSJ_CaptureRgbData(m_nDeviceCurSel, pImageData);
 	// ShowErrorInfo(nRet);
 	PostMessage(WM_SHOW_ERROR_INFO, nRet, 0);
-	if (nRet != RET_SUCCESS)
-	{
-		PostMessage(WM_UPDATE_SNAP_STATIC, NULL, FALSE);
-		goto CAPTURE_RETURN;
-	}
+	//if (nRet != RET_SUCCESS)
+	//{
+	//	PostMessage(WM_UPDATE_SNAP_STATIC, NULL, FALSE);
+	//	goto CAPTURE_RETURN;
+	//}
 
 
 	LARGE_INTEGER    counterEnd;

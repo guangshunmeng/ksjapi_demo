@@ -77,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d|x64'">
@@ -87,7 +87,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\$(ProjectName).Lib\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>C:\VSTEMP\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IntDir>C:\VSTEMP\$(TargetName)InDir\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='r|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -116,7 +116,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\KSJApi.bin\$(TargetName)$(TargetExt)</Command>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='d|x64'">
@@ -239,7 +239,6 @@
     <ResourceCompile Include="KSJDemoVC.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\KSJDemoVC.ico" />
     <None Include="res\KSJDemoVC.rc2" />
   </ItemGroup>
   <ItemGroup>

@@ -657,7 +657,7 @@ void CKSJDemoVCDlg::StartCaptureThread(BOOL bStart)
 			SetEvent(m_hCaptureThreadExitEvent);
 		}
 
-		if (WAIT_OBJECT_0 != WaitForSingleObject(m_hCaptureThread, 5000))
+		if (WAIT_OBJECT_0 != WaitForSingleObject(m_hCaptureThread, 1000))
 			return;
 
 		CloseHandle(m_hCaptureThread);
