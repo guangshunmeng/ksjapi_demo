@@ -20,7 +20,7 @@ const TCHAR * g_szDeviceType[] =
 	_T("xxxxxxx UC1000C(MRNN)"),
 	_T("xxxxxxx UC900C(MRYN)"),
 	_T("xxxxxxx UC1000C(MRYN)"),
-	_T("Elanus2 UC130C(MRYY)"),
+	_T("Elanus2 UC120C(MRYYO)"),
 	_T("Elanus2 UC130M(MRYY)"),
 	_T("xxxxxxx UD140C(SRNN)"),
 	_T("xxxxxxx UD140M(SRNN)"),
