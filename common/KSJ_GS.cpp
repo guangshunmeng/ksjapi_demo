@@ -83,7 +83,7 @@ const TCHAR * g_szDeviceType[] =
 	_T("xxxxxx MU3C501C(MRYYO)"),
 	_T("xxxxxx MU3C501M(MRYYO)"),
 	_T("Jelly2 MUC120C(MGYYO)"),
-	_T("Jelly2 MUC120M(MRYYO)"),
+	_T("Jelly2 MUC120M(MGYYO)"),
 	_T("xxxxxx MU3E131C(EGYY)"),
 	_T("xxxxxx MU3E131M(EGYY)"),
 	_T("xxxxxx MU3E201C(EGYYO)"),

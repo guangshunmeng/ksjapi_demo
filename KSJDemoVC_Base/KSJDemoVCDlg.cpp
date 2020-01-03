@@ -543,7 +543,7 @@ void CKSJDemoVCDlg::Capture()//采集函数
 	int sample;
 
 	int nRet = KSJ_CaptureGetSizeExEx(m_nDeviceCurSel, &nCaptureWidth, &nCaptureHeight, &nCaptureBitCount, &sample);//获取图像宽高位
-	//ShowErrorInfo(nRet);
+	ShowErrorInfo(nRet);
 
 	BYTE    *pImageData = new BYTE[nCaptureWidth * nCaptureHeight * (nCaptureBitCount >> 3)];//动态分配保存图像矩阵的数组
 
@@ -561,7 +561,7 @@ void CKSJDemoVCDlg::Capture()//采集函数
 		nRet = KSJ_CaptureRawData(m_nDeviceCurSel, pImageData);//采集黑白图像
 	}
 	
-	//ShowErrorInfo(nRet);
+	ShowErrorInfo(nRet);
 	if (nRet != RET_SUCCESS)
 	{
 		PostMessage(WM_UPDATE_SNAP_STATIC, NULL, FALSE);
@@ -589,7 +589,7 @@ void CKSJDemoVCDlg::Capture()//采集函数
 		sprintf_s(szFileName, _T("capture-%04d-%02d-%02d-%02d-%02d-%02d-%03d-%05d.jpg"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds, (int)fElapse);
 		KSJ_HelperSaveToJpg(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount, 90,  szFileName);//存bmp格式图片
 #else
-		sprintf_s(szFileName, _T("d:\\capture-%04d-%02d-%02d-%02d-%02d-%02d-%03d-%05d.bmp"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds, (int)fElapse);
+		sprintf_s(szFileName, _T("capture-%04d-%02d-%02d-%02d-%02d-%02d-%03d-%05d.bmp"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds, (int)fElapse);
 		KSJ_HelperSaveToBmp(pImageData, nCaptureWidth, nCaptureHeight, nCaptureBitCount, szFileName);//存jpg格式图片
 #endif
 	}
